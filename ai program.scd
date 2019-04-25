@@ -289,9 +289,9 @@ a.setn(\ringtimes, Array.rand(4, 0.02, 0.4) );
 
 play({ Klang.ar(`[ Array.rand(3, 432, 543)!2, nil, nil ], 1, 0) * 0.05 });
 
-~klangarray1 = Array.rand(4, (-20), 20);
-~klangarray2 = Array.rand(4, (-20), 20);
-~klangarray3 = Array.rand(4, (-20), 20);
+~klangarray1 = Array.rand(4, 0, 20);
+~klangarray2 = Array.rand(4, 0, 20);
+~klangarray3 = Array.rand(4, 0, 20);
 
 SynthDef(\synth1, {arg freq = 432;
 	var sig;
