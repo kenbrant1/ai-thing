@@ -289,23 +289,23 @@ a.setn(\ringtimes, Array.rand(4, 0.02, 0.4) );
 
 /*play({ Klang.ar(`[ Array.rand(3, 432, 543)!2, nil, nil ], 1, 0) * 0.05 });*/
 
-~klangarray1 = Array.rand(4, 0, 20);
-~klangarray2 = Array.rand(4, 0, 20);
-~klangarray3 = Array.rand(4, 0, 20);
+~klangarray1 = Array.rand(3, 0, 20);
+~klangarray2 = Array.rand(3, 0, 20);
+~klangarray3 = Array.rand(3, 0, 20);
 
 SynthDef(\synth1, {arg freq = 432;
 	var sig;
-    sig = DynKlang.ar(`[ ~klangarray1+freq, nil, nil ], 1, 0) * 0.05;
+	sig = DynKlang.ar(`[ [freq]++~klangarray1+freq, nil, nil ], 1, 0) * 0.05;
     Out.ar(0, sig!2);
 }).add;
 SynthDef(\synth2, {arg freq = 432;
 	var sig;
-    sig = DynKlang.ar(`[ ~klangarray2+freq, nil, nil ], 1, 0) * 0.05;
+    sig = DynKlang.ar(`[ [freq]++~klangarray2+freq, nil, nil ], 1, 0) * 0.05;
     Out.ar(0, sig!2);
 }).add;
 SynthDef(\synth3, {arg freq = 432;
 	var sig;
-    sig = DynKlang.ar(`[ ~klangarray3+freq, nil, nil ], 1, 0) * 0.05;
+    sig = DynKlang.ar(`[ [freq]++~klangarray3+freq, nil, nil ], 1, 0) * 0.05;
     Out.ar(0, sig!2);
 }).add;
 
@@ -319,7 +319,7 @@ SynthDef(\synth3, {arg freq = 432;
 /*
 Things to do:
 
-- Set one defined freq for synthdef
+- Set one defined freq for dynklang synthdef.. not just different ones. Though, adding into the array the freq, like I did just now. That might work.
 - Find way to set a random seed(s) for WHOLE algorithm, so it sounds EXACTLY the same when played
 
 */
