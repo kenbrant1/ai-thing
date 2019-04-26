@@ -287,7 +287,7 @@ a.setn(\ringtimes, Array.rand(4, 0.02, 0.4) );
 
 */
 
-play({ Klang.ar(`[ Array.rand(3, 432, 543)!2, nil, nil ], 1, 0) * 0.05 });
+/*play({ Klang.ar(`[ Array.rand(3, 432, 543)!2, nil, nil ], 1, 0) * 0.05 });*/
 
 ~klangarray1 = Array.rand(4, 0, 20);
 ~klangarray2 = Array.rand(4, 0, 20);
@@ -315,6 +315,14 @@ SynthDef(\synth3, {arg freq = 432;
 ~aisynth1 = Synth(\synth1);
 ~aisynth2 = Synth(\synth2);
 ~aisynth3 = Synth(\synth3);
+
+/*
+Things to do:
+
+- Set one defined freq for synthdef
+- Find way to set a random seed(s) for WHOLE algorithm, so it sounds EXACTLY the same when played
+
+*/
 
 
 		/*
