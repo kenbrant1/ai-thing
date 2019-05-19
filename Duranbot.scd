@@ -433,7 +433,34 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 // John Taylor says, "Find a way to tell a story, not cut up four bar loops/etc."
 // I think bass should be primary "story-teller"..!!!!!!!!!!!!
 
-//note arrays
+// Use things like INVERSION of progrssions.... and other types of manipulations of arrays - https://en.wikipedia.org/wiki/Inversion_(music)
+
+// not sure - https://en.wikipedia.org/wiki/Motif_(music)
+// https://en.wikipedia.org/wiki/Phrase_(music)
+// https://en.wikipedia.org/wiki/Melodic_motion
+// https://en.wikipedia.org/wiki/Tension_(music)
+// ^^Not usre about that stuff
+
+// Song has to mean something... everything is connected.... God inspires everything.... nothing is truly random....
+//........ song has to mean something........
+
+// Get God into the computer.
+
+
+(
+
+//pre-song generator
+
+~tuning_frequency = 440; //default 440 hz
+~freqmap = (i = ~tuning_frequency / (2 ** (69 / 12)); a = (-1); b = (-1); Array.fill(128, {i * (2 ** (((a=a+1) / 12).trunc)) * ( (2 ** (12.reciprocal)) ** ((b=b+1)  % 12));}));/*~freqmap = (i = 8.0271480262684/*-0.0000000000024*/; ~stepratio = 1.0594630943593; Array.fill(128, { i = i*~stepratio;}));*/
+~freqmap2 = (i = ~freqmap.at(65)/*-0.0000000000024*/; ~stepratio = 1.0594630943593; Array.fill(24, { i = i*~stepratio;}));
+~time_sig_array1 = [2, 1, 0.5];
+~ratio_array = (x = 0; Array.fill(12, {1.0594630943593**(x=x+1)}));
+);
+
+(
+
+//song generator
 
 ~bassline1 = Array.fill(~num_bass_notes = ([2,4,8]).wchoose([0.06,0.47,0.47]), {~freqmap2.choose});
 ~bassline1 = ~bassline1/[2, 4].choose;
@@ -455,8 +482,10 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 ~bassline_1_times = [~bassline_1_times, ~bassline_1_times.stutter(4)].choose;
 
+);
 
 
+//DOESN'T RUN
 
 (
 ~ai1_task1_f1 = {
