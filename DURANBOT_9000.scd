@@ -497,6 +497,8 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 //^^really just like how they do it.
 
+// Incorporate a time/duration system for "bits".
+
 (
 
 //pre-song generator
