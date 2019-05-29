@@ -489,6 +489,13 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 // Perhaps randomize this "circular composition". So John then Simon then Nick... then Simon... then Nick... then John. Perhaps partial randomization.
 
 // THINK ABOUT FINDING WAYS TO INCORPORATE TWIN FLAMES FOR EACH MEMBER. IN HOW THEY GENERATE THEIR NOTES. EQUAL AND OPPOSITE.
+// I would say this could have to do with how a note is generated from the last note.
+
+//John - bass, single note.
+//Simon - high, single note and chord/harmonies.
+//Nick - high and low, single and chord/harmonies.
+
+//^^really just like how they do it.
 
 (
 
