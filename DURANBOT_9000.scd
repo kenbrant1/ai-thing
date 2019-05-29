@@ -448,13 +448,37 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 // Get God into the computer.
 
-// Twin Flames - Bass/treble... dual.... treble reacting to bass..... and then you have multiple pars of twin flames.
+// Twin Flames - Bass/treble... dual.... treble reacting to bass..... and then you have multiple pairs of twin flames.
 
 // ORRR... make it like the band Duran Duran.... but have a twin flame interaction *going on*.... and that interation only somehow produces *one note*...
 //.... and then you do that for each member of Duran Duran.....  and somehow develop an interaction between each band member.
 
 // Make the dual bass/treble like a twin flame relationship. Male/Female Twin Flame.
 
+
+// Make total of 6 notes being played...... 2 for each band member, Nick, John, Simon...... I guess add in beat for Rodger maybe at later date....
+// ... and maybe guitar at later date..... but right now just 3 memebers....
+
+// All band members work out what notes are played.....
+
+// Possibility - have the whole band thing.... and have equal and opposite dual notes for each band member. I guess dim 5th being equal and opposite.
+// Example: John would play bass part... accompanying dim 5th higher.... also possibly make the dim 5th higher part lower in volume.
+
+// or not.... maybe find a way to use the equal and opposite in a different way..... like how a note is generated.
+
+//CORRECTION - dim 5th may not be "equal and opposite". Find out what is "equal and opposite", and how that would be applied.
+
+// Way for band member interaction - Someone creates note... the someone else does.... then someone else.... Example: Nick creates note, then
+// John bases his not off Nick's... then Simon off John's.... AND THEN Nick bases off Simon..... in a circle. Can intailly start with anyone.
+
+// Nick would work in chords (or not - can depend) and multiple parts.... John and Simon 1 note.... Simon can have harmonies
+
+// DO NOT MAKE IT WHERE EACH MEMBER WORKS OFF JUST ONE MEMBER. DO IT LIKE CIRCLE. You can add rests and stuff to give parts identity.
+// Each member works off of each other note by note, bit by bit. In a circle.
+
+//^^^This is the way to do it.
+
+// Find out way to base a new note off of last note.
 
 (
 
