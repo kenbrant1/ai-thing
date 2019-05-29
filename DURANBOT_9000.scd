@@ -484,7 +484,9 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 // Use this circular composition in parts. Like how a piece of music is.
 
-// Possibly find ways to add characteristics to each band member.
+// Possibly find ways to add characteristics to each band member... But they already have characterics in bass, treble, chords, etc.
+
+// Perhaps randomize this "circular composition". So John then Simon then Nick... then Simon... then Nick... then John. Perhaps partial randomization.
 
 (
 
