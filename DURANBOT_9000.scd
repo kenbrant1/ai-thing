@@ -484,6 +484,8 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 // Use this circular composition in parts. Like how a piece of music is.
 
+// Possibly find ways to add characteristics to each band member.
+
 (
 
 //pre-song generator
