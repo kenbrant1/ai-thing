@@ -482,6 +482,8 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 // Figure out way to develop durations for notes..... I would see it more as choosing to continue on, rest, or change. Again, with CIRCULAR COMPOSITION.
 
+// Use this circular composition in parts. Like how a piece of music is.
+
 (
 
 //pre-song generator
