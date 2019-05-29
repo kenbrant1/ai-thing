@@ -478,7 +478,9 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 //^^^This is the way to do it.
 
-// Find out way to base a new note off of last note.
+// Find out way to base a new note off of last note.... Perhaps randomly.... using a set of possible ratios....
+
+// Figure out way to develop durations for notes..... I would see it more as choosing to continue on, rest, or change. Again, with CIRCULAR COMPOSITION.
 
 (
 
