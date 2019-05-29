@@ -499,6 +499,9 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 // Incorporate a time/duration system for "bits".
 
+// I would say that a bit is a certian precise and exact ... defined.... size. A bit might be 0.1 or 0.2 seconds long or something.
+// Or a bit would be the shortest note duration in the song.
+
 (
 
 //pre-song generator
