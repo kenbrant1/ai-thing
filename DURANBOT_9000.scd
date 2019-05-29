@@ -348,6 +348,8 @@ Things to do:
 
 /*
 
+Hello. I am DURANBOT 9000. But you can just call me DURANBOT... or anything you want, really.
+
 To enhance the creativity of this AI... please consider providing it with some personal creative inspiration of yours by entering three number values
 into the three fields below, values being anywhere between 0 and 9999999999999, and click "submit". Consider writing down the
 three values you gave it to be able to replicate exactly the music made by this AI in this specific instance at a later date.
@@ -445,6 +447,13 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 //........ song has to mean something........
 
 // Get God into the computer.
+
+// Twin Flames - Bass/treble... dual.... treble reacting to bass..... and then you have multiple pars of twin flames.
+
+// ORRR... make it like the band Duran Duran.... but have a twin flame interaction *going on*.... and that interation only somehow produces *one note*...
+//.... and then you do that for each member of Duran Duran.....  and somehow develop an interaction between each band member.
+
+// Make the dual bass/treble like a twin flame relationship. Male/Female Twin Flame.
 
 
 (
