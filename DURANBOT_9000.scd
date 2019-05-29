@@ -38,6 +38,63 @@ go. Find a way to randomize this maybe..... Or to repeat the process. Be it for 
 - more
 */
 
+~numer_calc_function = {
+
+		//numerology caclulator function
+
+		//Counts the number of each letter (example: "~string_20_letter_22") in each numerology string ("~numer_string_20")
+		//result is "~string_1_letter_1", onwards
+
+	/*~numer_string_1 = "John Taylor";
+	~numer_string_2 = "Nick Rhodes";
+	~numer_string_3 = "Simon Le Bon";*/
+
+		3.do(y=0; {("numer_string_"++(y=y+1)++"_ascii").asSymbol.envirPut(("numer_string_"++(y)).asSymbol.envirGet.asString.ascii;);});
+		3.do(y=0; {if(("numer_string_"++(y=y+1)).asSymbol.envirGet == nil, {("numer_string_"++(y)).asSymbol.envirPut("".asString;)});});
+		3.do(y=0; {if(("numer_string_"++(y=y+1)++"_ascii").asSymbol.envirGet == nil, {("numer_string_"++(y)++"_ascii").asSymbol.envirPut("".asString.ascii;)});});
+		3.do(y=0; {
+			("numer_string_"++(y=y+1)++"_value").asSymbol.envirPut(0);
+			26.do(x = 0; {
+				("string_"++(y)++"_letter_"++(x=x+1)).asSymbol.envirPut(0);
+			});
+			9.do(x = 0; {
+				("string_"++(y)++"_number_"++(x=x+1)).asSymbol.envirPut(0);
+			});
+		});
+
+		3.do(y = 1; {
+			26.do(x = 0; {("string_"++(y)++"_letter_"++(x=x+1)).asSymbol.envirPut(
+				("numer_string_"++(y)++"_ascii").asSymbol.envirGet.count({ arg item; (item == (97+(x-1))) or: (item == (65+(x-1)));});
+			)});
+			9.do(x = 0; {("string_"++(y)++"_number_"++(x=x+1)).asSymbol.envirPut(
+				("numer_string_"++(y)++"_ascii").asSymbol.envirGet.count({ arg item; (item == (49+(x-1)));});
+			)});
+			y=y+1;
+		});
+
+		//adds all letters in each string.... resulting in (ex: ~numer_string_16_value)
+
+		3.do(y=1; {
+			26.do(x = 0; {
+				("numer_string_"++(y)++"_value").asSymbol.envirPut(("numer_string_"++(y)++"_value").asSymbol.envirGet + ((x=x+1)*("string_"++(y)++"_letter_"++(x)).asSymbol.envirGet;));
+				/*~numer_string_1_value = ~numer_string_1_value + ((x=x+1)*~string_1_letter_1);*/
+			});
+			9.do(x = 0; {
+				("numer_string_"++(y)++"_value").asSymbol.envirPut(("numer_string_"++(y)++"_value").asSymbol.envirGet + ((x=x+1)*("string_"++(y)++"_number_"++(x)).asSymbol.envirGet;));
+				/*example.... ~numer_string_1_value = ~numer_string_1_value + ((x=x+1)*~string_1_number_1);*/
+			});
+			y=y+1;
+		});
+
+		//find digital root of all "~numer_string_x_value"'s
+
+		3.do(x = 0; {if(("numer_string_"++(x=x+1)++"_value").asSymbol.envirGet != 0, {("numer_string_"++(x)++"_value").asSymbol.envirPut(1 + ((("numer_string_"++(x)++"_value").asSymbol.envirGet - 1) % 9));});});
+
+
+	};
+
+/*~numer_string_1_value;*/
+
 (
 
 ~set_notes_and_times_func = {
@@ -502,6 +559,11 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 // I would say that a bit is a certian precise and exact ... defined.... size. A bit might be 0.1 or 0.2 seconds long or something.
 // Or a bit would be the shortest note duration in the song.
 
+// Use names of band members numerology values to cycle the circular composition. With their twin flame counter part subtracting value from it...
+//.... as to manipulate the weights in the choosing of their bits.
+
+// Do not need time signature. Just use bit system.
+
 (
 
 //pre-song generator
@@ -516,6 +578,168 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 (
 
 //song generator
+
+~bass_numerology = (0..~numer_string_1_value);
+~keys_numerology = (0..~numer_string_2_value);
+~vocal_numerology = (0..~numer_string_3_value);
+
+~instrument_array = ["bass", "keys", "vocal"];
+~instrument_1 = ~instrument_array.removeAt(([0,1,2]).wchoose([0.4,0.4,0.2]));
+~instrument_2 = ~instrument_array.removeAt(([0,1]).wchoose(case{~instrument_1 == "bass"}{[0.4,0.2]}{~instrument_1 == "keys"}{[0.4,0.2]}{~instrument_1 == "vocal"}{[0.4,0.4]};));
+~instrument_3 = ~instrument_array.removeAt(0);
+
+
+~numer_string_1_value -
+
+~bass_line = ;
+
+~keyboard_line = ;
+
+~vocal_line = ;
+
+~freqmap2.choose;
+
+~instrument_1_array_part_1 = [];
+~instrument_2_array_part_1 = [];
+~instrument_3_array_part_1 = [];
+
+y = (-1);
+
+~part_1 = 1.do({
+
+	1.do({
+
+		~instrument_1_array_part_1.add(
+
+			case
+			{~instrument_1 == "bass"}{~instrument_1_freq = ~freqmap2.choose/4}
+			{~instrument_1 == "keys"}{~instrument_1_freq = ~freqmap2.choose}
+			{~instrument_1 == "vocal"}{~instrument_1_freq = ~freqmap2.choose};
+		);
+
+		~instrument_2_array_part_1.add(
+
+			case
+			{~instrument_2 == "bass"}{
+				[
+					(~instrument_2_freq = ~instrument_1_freq*[(~ratio_array.at(~bass_numerology.wrapAt(y=y+1))), (~ratio_array.at(~bass_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_1 == "bass"}{4}{~instrument_1 == "vocal"}{1};),
+					(~instrument_2_freq = ~instrument_2_freq; y=y+1;),
+					(~instrument_2_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_2 == "keys"}{
+				[
+					(~instrument_2_freq = ~instrument_1_freq*[(~ratio_array.at(~keys_numerology.wrapAt(y=y+1))), (~ratio_array.at(~keys_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_1 == "bass"}{4}{~instrument_1 == "vocal"}{1};),
+					(~instrument_2_freq = ~instrument_2_freq; y=y+1;),
+					(~instrument_2_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_2 == "vocal"}{
+				[
+					(~instrument_2_freq = ~instrument_1_freq*[(~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))), (~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_1 == "bass"}{4}{~instrument_1 == "vocal"}{1};),
+					(~instrument_2_freq = ~instrument_2_freq; y=y+1;),
+					(~instrument_2_freq = 0; y=y+1;)
+				].choose};
+		);
+
+		~instrument_3_array_part_1.add(
+
+			case
+			{~instrument_3 == "bass"}{
+				[
+					(~instrument_3_freq = ~instrument_2_freq*[(~ratio_array.at(~bass_numerology.wrapAt(y=y+1))), (~ratio_array.at(~bass_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_2 == "bass"}{4}{~instrument_2 == "vocal"}{1};),
+					(~instrument_3_freq = ~instrument_3_freq; y=y+1;),
+					(~instrument_3_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_3 == "keys"}{
+				[
+					(~instrument_3_freq = ~instrument_2_freq*[(~ratio_array.at(~keys_numerology.wrapAt(y=y+1))), (~ratio_array.at(~keys_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_2 == "bass"}{4}{~instrument_2 == "vocal"}{1};),
+					(~instrument_3_freq = ~instrument_3_freq; y=y+1;),
+					(~instrument_3_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_3 == "vocal"}{
+				[
+					(~instrument_3_freq = ~instrument_2_freq*[(~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))), (~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_2 == "bass"}{4}{~instrument_2 == "vocal"}{1};),
+					(~instrument_3_freq = ~instrument_3_freq; y=y+1;),
+					(~instrument_3_freq = 0; y=y+1;)
+				].choose};
+		);
+
+	});
+
+	63.do({
+
+		~instrument_1_array_part_1.add(
+
+			case
+			{~instrument_1 == "bass"}{
+				[
+					(~instrument_1_freq = ~instrument_3_freq*[(~ratio_array.at(~bass_numerology.wrapAt(y=y+1))), (~ratio_array.at(~bass_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_3 == "bass"}{4}{~instrument_3 == "vocal"}{1};),
+					(~instrument_1_freq = ~instrument_1_freq; y=y+1;),
+					(~instrument_1_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_1 == "keys"}{
+				[
+					(~instrument_1_freq = ~instrument_3_freq*[(~ratio_array.at(~keys_numerology.wrapAt(y=y+1))), (~ratio_array.at(~keys_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_3 == "bass"}{4}{~instrument_3 == "vocal"}{1};),
+					(~instrument_1_freq = ~instrument_1_freq; y=y+1;),
+					(~instrument_1_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_1 == "vocal"}{
+				[
+					(~instrument_1_freq = ~instrument_2_freq*[(~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))), (~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_3 == "bass"}{4}{~instrument_3 == "vocal"}{1};),
+					(~instrument_1_freq = ~instrument_1_freq; y=y+1;),
+					(~instrument_1_freq = 0; y=y+1;)
+				].choose};
+		);
+
+		~instrument_2_array_part_1.add(
+
+			case
+			{~instrument_2 == "bass"}{
+				[
+					(~instrument_2_freq = ~instrument_1_freq*[(~ratio_array.at(~bass_numerology.wrapAt(y=y+1))), (~ratio_array.at(~bass_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_1 == "bass"}{4}{~instrument_1 == "vocal"}{1};),
+					(~instrument_2_freq = ~instrument_2_freq; y=y+1;),
+					(~instrument_2_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_2 == "keys"}{
+				[
+					(~instrument_2_freq = ~instrument_1_freq*[(~ratio_array.at(~keys_numerology.wrapAt(y=y+1))), (~ratio_array.at(~keys_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_1 == "bass"}{4}{~instrument_1 == "vocal"}{1};),
+					(~instrument_2_freq = ~instrument_2_freq; y=y+1;),
+					(~instrument_2_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_2 == "vocal"}{
+				[
+					(~instrument_2_freq = ~instrument_1_freq*[(~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))), (~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_1 == "bass"}{4}{~instrument_1 == "vocal"}{1};),
+					(~instrument_2_freq = ~instrument_2_freq; y=y+1;),
+					(~instrument_2_freq = 0; y=y+1;)
+				].choose};
+		);
+
+		~instrument_3_array_part_1.add(
+
+			case
+			{~instrument_3 == "bass"}{
+				[
+					(~instrument_3_freq = ~instrument_2_freq*[(~ratio_array.at(~bass_numerology.wrapAt(y=y+1))), (~ratio_array.at(~bass_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_2 == "bass"}{4}{~instrument_2 == "vocal"}{1};),
+					(~instrument_3_freq = ~instrument_3_freq; y=y+1;),
+					(~instrument_3_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_3 == "keys"}{
+				[
+					(~instrument_3_freq = ~instrument_2_freq*[(~ratio_array.at(~keys_numerology.wrapAt(y=y+1))), (~ratio_array.at(~keys_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_2 == "bass"}{4}{~instrument_2 == "vocal"}{1};),
+					(~instrument_3_freq = ~instrument_3_freq; y=y+1;),
+					(~instrument_3_freq = 0; y=y+1;)
+				].choose}
+			{~instrument_3 == "vocal"}{
+				[
+					(~instrument_3_freq = ~instrument_2_freq*[(~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))), (~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))).reciprocal].choose*case{~instrument_2 == "bass"}{4}{~instrument_2 == "vocal"}{1};),
+					(~instrument_3_freq = ~instrument_3_freq; y=y+1;),
+					(~instrument_3_freq = 0; y=y+1;)
+				].choose};
+		);
+
+	});
+});
+
+
 
 ~bassline1 = Array.fill(~num_bass_notes = ([2,4,8]).wchoose([0.06,0.47,0.47]), {~freqmap2.choose});
 ~bassline1 = ~bassline1/[2, 4].choose;
