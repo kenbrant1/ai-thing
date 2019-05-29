@@ -488,6 +488,8 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 // Perhaps randomize this "circular composition". So John then Simon then Nick... then Simon... then Nick... then John. Perhaps partial randomization.
 
+// THINK ABOUT FINDING WAYS TO INCORPORATE TWIN FLAMES FOR EACH MEMBER. IN HOW THEY GENERATE THEIR NOTES. EQUAL AND OPPOSITE.
+
 (
 
 //pre-song generator
