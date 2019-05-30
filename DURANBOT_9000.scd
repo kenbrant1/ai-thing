@@ -564,6 +564,8 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 // Do not need time signature. Just use bit system.
 
+// Use names of band member's numerology numbers for a random seed. Combine all numbers. Randomize how numbers are combined using another random seed.
+
 (
 
 //pre-song generator
