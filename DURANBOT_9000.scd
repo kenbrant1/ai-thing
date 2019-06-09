@@ -45,6 +45,7 @@ go. Find a way to randomize this maybe..... Or to repeat the process. Be it for 
 	//Counts the number of each letter (example: "~string_20_letter_22") in each numerology string ("~numer_string_20")
 	//result is "~string_1_letter_1", onwards
 
+
 	~numer_string_1 = "John Taylor";
 	~numer_string_2 = "Nick Rhodes";
 	~numer_string_3 = "Simon Le Bon";
@@ -565,10 +566,72 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 // Do not need time signature. Just use bit system.
 
 // Use names of band member's numerology numbers for a random seed. Combine all numbers. Randomize how numbers are combined using another random seed.
+// make default names Duran Duran.
+
+(
 
 (
 
 //pre-song generator
+
+~numer_calc_function = {
+
+	//numerology caclulator function
+
+	//Counts the number of each letter (example: "~string_20_letter_22") in each numerology string ("~numer_string_20")
+	//result is "~string_1_letter_1", onwards
+
+
+	~numer_string_1 = "John Taylor";
+	~numer_string_2 = "Nick Rhodes";
+	~numer_string_3 = "Simon Le Bon";
+
+	3.do(y=0; {("numer_string_"++(y=y+1)++"_ascii").asSymbol.envirPut(("numer_string_"++(y)).asSymbol.envirGet.asString.ascii;);});
+	3.do(y=0; {if(("numer_string_"++(y=y+1)).asSymbol.envirGet == nil, {("numer_string_"++(y)).asSymbol.envirPut("".asString;)});});
+	3.do(y=0; {if(("numer_string_"++(y=y+1)++"_ascii").asSymbol.envirGet == nil, {("numer_string_"++(y)++"_ascii").asSymbol.envirPut("".asString.ascii;)});});
+	3.do(y=0; {
+		("numer_string_"++(y=y+1)++"_value").asSymbol.envirPut(0);
+		26.do(x = 0; {
+			("string_"++(y)++"_letter_"++(x=x+1)).asSymbol.envirPut(0);
+		});
+		9.do(x = 0; {
+			("string_"++(y)++"_number_"++(x=x+1)).asSymbol.envirPut(0);
+		});
+	});
+
+	3.do(y = 1; {
+		26.do(x = 0; {("string_"++(y)++"_letter_"++(x=x+1)).asSymbol.envirPut(
+			("numer_string_"++(y)++"_ascii").asSymbol.envirGet.count({ arg item; (item == (97+(x-1))) or: (item == (65+(x-1)));});
+		)});
+		9.do(x = 0; {("string_"++(y)++"_number_"++(x=x+1)).asSymbol.envirPut(
+			("numer_string_"++(y)++"_ascii").asSymbol.envirGet.count({ arg item; (item == (49+(x-1)));});
+		)});
+		y=y+1;
+	});
+
+	//adds all letters in each string.... resulting in (ex: ~numer_string_16_value)
+
+	3.do(y=1; {
+		26.do(x = 0; {
+			("numer_string_"++(y)++"_value").asSymbol.envirPut(("numer_string_"++(y)++"_value").asSymbol.envirGet + ((x=x+1)*("string_"++(y)++"_letter_"++(x)).asSymbol.envirGet;));
+			/*~numer_string_1_value = ~numer_string_1_value + ((x=x+1)*~string_1_letter_1);*/
+		});
+		9.do(x = 0; {
+			("numer_string_"++(y)++"_value").asSymbol.envirPut(("numer_string_"++(y)++"_value").asSymbol.envirGet + ((x=x+1)*("string_"++(y)++"_number_"++(x)).asSymbol.envirGet;));
+			/*example.... ~numer_string_1_value = ~numer_string_1_value + ((x=x+1)*~string_1_number_1);*/
+		});
+		y=y+1;
+	});
+
+	//find digital root of all "~numer_string_x_value"'s
+
+	3.do(x = 0; {if(("numer_string_"++(x=x+1)++"_value").asSymbol.envirGet != 0, {("numer_string_"++(x)++"_value").asSymbol.envirPut(1 + ((("numer_string_"++(x)++"_value").asSymbol.envirGet - 1) % 9));});});
+
+
+};
+
+/*~numer_string_1_value;*/
+
 
 ~tuning_frequency = 440; //default 440 hz
 ~freqmap = (i = ~tuning_frequency / (2 ** (69 / 12)); a = (-1); b = (-1); Array.fill(128, {i * (2 ** (((a=a+1) / 12).trunc)) * ( (2 ** (12.reciprocal)) ** ((b=b+1)  % 12));}));/*~freqmap = (i = 8.0271480262684/*-0.0000000000024*/; ~stepratio = 1.0594630943593; Array.fill(128, { i = i*~stepratio;}));*/
@@ -616,38 +679,38 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 			{~instrument_1 == "bass"}{
 				([
 					(~instrument_1_freq = ~instrument_3_freq
-						*[(~ratio_array.at(~bass_numerology.wrapAt(y=y+1))), (~ratio_array.at(~bass_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_1_freq > 1396.9129257322}{~instrument_1_freq = ~instrument_1_freq/2}
 					{~instrument_1_freq < 233.08188075905}{~instrument_1_freq = ~instrument_1_freq*2}
 					{(~instrument_1_freq >= 233.08188075905) and: (~instrument_1_freq <= 1396.9129257322)}{~instrument_1_freq = ~instrument_1_freq};
 					/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
-					(y=y+1; ~instrument_1_freq = ~instrument_1_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])}
 			{~instrument_1 == "keys"}{
 				([
 					(~instrument_1_freq = ~instrument_3_freq
-						*[(~ratio_array.at(~keys_numerology.wrapAt(y=y+1))), (~ratio_array.at(~keys_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_1_freq > 1396.9129257322}{~instrument_1_freq = ~instrument_1_freq/2}
 					{~instrument_1_freq < 233.08188075905}{~instrument_1_freq = ~instrument_1_freq*2}
 					{(~instrument_1_freq >= 233.08188075905) and: (~instrument_1_freq <= 1396.9129257322)}{~instrument_1_freq = ~instrument_1_freq};
 					/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
-					(y=y+1; ~instrument_1_freq = ~instrument_1_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])}
 			{~instrument_1 == "vocal"}{
 				([
 					(~instrument_1_freq = ~instrument_3_freq
-						*[(~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))), (~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_1_freq > 1396.9129257322}{~instrument_1_freq = ~instrument_1_freq/2}
 					{~instrument_1_freq < 233.08188075905}{~instrument_1_freq = ~instrument_1_freq*2}
 					{(~instrument_1_freq >= 233.08188075905) and: (~instrument_1_freq <= 1396.9129257322)}{~instrument_1_freq = ~instrument_1_freq};
 					/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
-					(y=y+1; ~instrument_1_freq = ~instrument_1_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])};
 	));
 };
@@ -661,38 +724,38 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 			{~instrument_2 == "bass"}{
 				([
 					(~instrument_2_freq = ~instrument_1_freq
-						*[(~ratio_array.at(~bass_numerology.wrapAt(y=y+1))), (~ratio_array.at(~bass_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_2_freq > 1396.9129257322}{~instrument_2_freq = ~instrument_2_freq/2}
 					{~instrument_2_freq < 233.08188075905}{~instrument_2_freq = ~instrument_2_freq*2}
 					{(~instrument_2_freq >= 233.08188075905) and: (~instrument_2_freq <= 1396.9129257322)}{~instrument_2_freq = ~instrument_2_freq};
 					/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
-					(y=y+1; ~instrument_2_freq = ~instrument_2_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])}
 			{~instrument_2 == "keys"}{
 				([
 					(~instrument_2_freq = ~instrument_1_freq
-						*[(~ratio_array.at(~keys_numerology.wrapAt(y=y+1))), (~ratio_array.at(~keys_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_2_freq > 1396.9129257322}{~instrument_2_freq = ~instrument_2_freq/2}
 					{~instrument_2_freq < 233.08188075905}{~instrument_2_freq = ~instrument_2_freq*2}
 					{(~instrument_2_freq >= 233.08188075905) and: (~instrument_2_freq <= 1396.9129257322)}{~instrument_2_freq = ~instrument_2_freq};
 					/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
-					(y=y+1; ~instrument_2_freq = ~instrument_2_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])}
 			{~instrument_2 == "vocal"}{
 				([
 					(~instrument_2_freq = ~instrument_1_freq
-						*[(~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))), (~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_2_freq > 1396.9129257322}{~instrument_2_freq = ~instrument_2_freq/2}
 					{~instrument_2_freq < 233.08188075905}{~instrument_2_freq = ~instrument_2_freq*2}
 					{(~instrument_2_freq >= 233.08188075905) and: (~instrument_2_freq <= 1396.9129257322)}{~instrument_2_freq = ~instrument_2_freq};
 					/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
-					(y=y+1; ~instrument_2_freq = ~instrument_2_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])};
 	));
 };
@@ -706,67 +769,128 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 			{~instrument_3 == "bass"}{
 				([
 					(~instrument_3_freq = ~instrument_2_freq
-						*[(~ratio_array.at(~bass_numerology.wrapAt(y=y+1))), (~ratio_array.at(~bass_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_3_freq > 1396.9129257322}{~instrument_3_freq = ~instrument_3_freq/2}
 					{~instrument_3_freq < 233.08188075905}{~instrument_3_freq = ~instrument_3_freq*2}
 					{(~instrument_3_freq >= 233.08188075905) and: (~instrument_3_freq <= 1396.9129257322)}{~instrument_3_freq = ~instrument_3_freq};
 					/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
-					(y=y+1; ~instrument_3_freq = ~instrument_3_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])}
 			{~instrument_3 == "keys"}{
 				([
 					(~instrument_3_freq = ~instrument_2_freq
-						*[(~ratio_array.at(~keys_numerology.wrapAt(y=y+1))), (~ratio_array.at(~keys_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_3_freq > 1396.9129257322}{~instrument_3_freq = ~instrument_3_freq/2}
 					{~instrument_3_freq < 233.08188075905}{~instrument_3_freq = ~instrument_3_freq*2}
 					{(~instrument_3_freq >= 233.08188075905) and: (~instrument_3_freq <= 1396.9129257322)}{~instrument_3_freq = ~instrument_3_freq};
 					/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
-					(y=y+1; ~instrument_3_freq = ~instrument_3_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])}
 			{~instrument_3 == "vocal"}{
 				([
 					(~instrument_3_freq = ~instrument_2_freq
-						*[(~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))), (~ratio_array.at(~vocal_numerology.wrapAt(y=y+1))).reciprocal].choose);
+						*[(~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
 					case
 					{~instrument_3_freq > 1396.9129257322}{~instrument_3_freq = ~instrument_3_freq/2}
 					{~instrument_3_freq < 233.08188075905}{~instrument_3_freq = ~instrument_3_freq*2}
 					{(~instrument_3_freq >= 233.08188075905) and: (~instrument_3_freq <= 1396.9129257322)}{~instrument_3_freq = ~instrument_3_freq};
 					/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
-					(y=y+1; ~instrument_3_freq = ~instrument_3_freq;),
-					(y=y+1; 0;)
+					(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
+					(~numerology_step=~numerology_step+1; 0;)
 			]).wchoose([0.7,0.2,0.1])};
 	));
 };
 
+);
 
-y = (-1);
 
-~part_1 = 1.do({~part_num = 1;
+//Piece creation in parts. Only reason to have parts is to determine length of piece.
 
-	1.do({
+(
 
-		~instrument_1_array_starting_func.value;
+~create_piece_function = {
 
-		~instrument_2_array_func.value;
+	~part_bit_size = 64;
 
-		~instrument_3_array_func.value;
+	~max_number_of_parts = 8; //max 8 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
+
+	~number_of_parts_in_piece = ((~max_number_of_parts-1).linrand+1-9).neg;
+
+	~create_piece_routine = Routine({
+
+		//part 1
+
+		1.do({~part_num = 1;
+
+			1.do({
+
+				~instrument_1_array_starting_func.value;
+
+				~instrument_2_array_func.value;
+
+				~instrument_3_array_func.value;
+
+				1.wait;
+
+			});
+
+			(~part_bit_size-1).do({
+
+				~instrument_1_array_func.value;
+
+				~instrument_2_array_func.value;
+
+				~instrument_3_array_func.value;
+
+				0.1.wait;
+
+			});
+		});
+
+		//rest of parts
+
+		z = 1;
+		(~number_of_parts_in_piece-1).do({
+
+			1.do({~part_num = z=z+1;
+
+				~part_bit_size.do({
+
+					~instrument_1_array_func.value;
+
+					~instrument_2_array_func.value;
+
+					~instrument_3_array_func.value;
+
+					0.1.wait;
+
+				});
+			});
+
+		});
+
+		"Piece Creation Is Finsihed".postln;
 
 	});
 
-	63.do({
+	~create_piece_routine.play;
+};
 
-		~instrument_1_array_func.value;
+~create_piece_function.value;
 
-		~instrument_2_array_func.value;
+);
 
-		~instrument_3_array_func.value;
+/*~create_piece_routine.isPlaying*/
 
-	});
-});
+
+);
+
+//MAKE SURE ALL CODE ***WORKS*** AND DOES WHAT IT'S SUPPOSED TO DO!!!
+
 
 ~instrument_1_array_part_1;
 ~instrument_2_array_part_1;
