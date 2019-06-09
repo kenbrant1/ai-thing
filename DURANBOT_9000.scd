@@ -820,6 +820,8 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 	~number_of_parts_in_piece = ((~max_number_of_parts-1).linrand+1-9).neg;
 
+	~numerology_step = (-1);
+
 	~create_piece_routine = Routine({
 
 		//part 1
