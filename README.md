@@ -1,1 +1,1 @@
-Main file is titled - "duranbot_9000.scd"
+Main file is titled - "DURANBOT_9000.scd"
