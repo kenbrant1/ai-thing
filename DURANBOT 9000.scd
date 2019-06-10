@@ -797,8 +797,8 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 	~part_bit_size = 64;
 	~bit_duration = 0.1;
-	~max_number_of_parts = 8; //max 8 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
-	~number_of_parts_in_piece = ((~max_number_of_parts-1).linrand+1-9).neg;
+	~max_number_of_parts = 12; //max 8 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
+	~number_of_parts_in_piece = (~max_number_of_parts.linrand - ~max_number_of_parts).neg;
 	~numerology_step = (-1);
 	~create_piece_routine = Routine({
 
