@@ -38,64 +38,6 @@ go. Find a way to randomize this maybe..... Or to repeat the process. Be it for 
 - more
 */
 
-~numer_calc_function = {
-
-	//numerology caclulator function
-
-	//Counts the number of each letter (example: "~string_20_letter_22") in each numerology string ("~numer_string_20")
-	//result is "~string_1_letter_1", onwards
-
-
-	~numer_string_1 = "John Taylor";
-	~numer_string_2 = "Nick Rhodes";
-	~numer_string_3 = "Simon Le Bon";
-
-	3.do(y=0; {("numer_string_"++(y=y+1)++"_ascii").asSymbol.envirPut(("numer_string_"++(y)).asSymbol.envirGet.asString.ascii;);});
-	3.do(y=0; {if(("numer_string_"++(y=y+1)).asSymbol.envirGet == nil, {("numer_string_"++(y)).asSymbol.envirPut("".asString;)});});
-	3.do(y=0; {if(("numer_string_"++(y=y+1)++"_ascii").asSymbol.envirGet == nil, {("numer_string_"++(y)++"_ascii").asSymbol.envirPut("".asString.ascii;)});});
-	3.do(y=0; {
-		("numer_string_"++(y=y+1)++"_value").asSymbol.envirPut(0);
-		26.do(x = 0; {
-			("string_"++(y)++"_letter_"++(x=x+1)).asSymbol.envirPut(0);
-		});
-		9.do(x = 0; {
-			("string_"++(y)++"_number_"++(x=x+1)).asSymbol.envirPut(0);
-		});
-	});
-
-	3.do(y = 1; {
-		26.do(x = 0; {("string_"++(y)++"_letter_"++(x=x+1)).asSymbol.envirPut(
-			("numer_string_"++(y)++"_ascii").asSymbol.envirGet.count({ arg item; (item == (97+(x-1))) or: (item == (65+(x-1)));});
-		)});
-		9.do(x = 0; {("string_"++(y)++"_number_"++(x=x+1)).asSymbol.envirPut(
-			("numer_string_"++(y)++"_ascii").asSymbol.envirGet.count({ arg item; (item == (49+(x-1)));});
-		)});
-		y=y+1;
-	});
-
-	//adds all letters in each string.... resulting in (ex: ~numer_string_16_value)
-
-	3.do(y=1; {
-		26.do(x = 0; {
-			("numer_string_"++(y)++"_value").asSymbol.envirPut(("numer_string_"++(y)++"_value").asSymbol.envirGet + ((x=x+1)*("string_"++(y)++"_letter_"++(x)).asSymbol.envirGet;));
-			/*~numer_string_1_value = ~numer_string_1_value + ((x=x+1)*~string_1_letter_1);*/
-		});
-		9.do(x = 0; {
-			("numer_string_"++(y)++"_value").asSymbol.envirPut(("numer_string_"++(y)++"_value").asSymbol.envirGet + ((x=x+1)*("string_"++(y)++"_number_"++(x)).asSymbol.envirGet;));
-			/*example.... ~numer_string_1_value = ~numer_string_1_value + ((x=x+1)*~string_1_number_1);*/
-		});
-		y=y+1;
-	});
-
-	//find digital root of all "~numer_string_x_value"'s
-
-	3.do(x = 0; {if(("numer_string_"++(x=x+1)++"_value").asSymbol.envirGet != 0, {("numer_string_"++(x)++"_value").asSymbol.envirPut(1 + ((("numer_string_"++(x)++"_value").asSymbol.envirGet - 1) % 9));});});
-
-
-};
-
-/*~numer_string_1_value;*/
-
 (
 
 ~set_notes_and_times_func = {
@@ -574,6 +516,45 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 //pre-song generator
 
+~klangarray1 = Array.rand(3, 0, 20);
+	~klangarray2 = Array.rand(3, 0, 20);
+	~klangarray3 = Array.rand(3, 0, 20);
+	~klangarray4 = Array.rand(3, 0, 20);
+
+	SynthDef(\synth1, {arg freq = 432, freq1 = 60, amp = 0.1, detun = 1.006, ffreq = 800, rq = 1, gt = 1;
+		var sig;
+		sig = Mix(DynKlang.ar(`[ [freq]++~klangarray1+freq, nil, nil ], 1, 0) * 0.05);
+		sig = RLPF.ar(sig, ffreq, rq);
+		sig = sig * EnvGen.kr(
+			Env.adsr(0.01, 0.1, 0.6, 0.1),
+			gt
+		);
+
+		Out.ar(0, sig!2);
+	}).add;
+	SynthDef(\synth2, {arg freq = 432, freq1 = 60, amp = 0.1, detun = 1.006, ffreq = 800, rq = 1, gt = 1;
+		var sig;
+		sig = Mix(DynKlang.ar(`[ [freq]++~klangarray2+freq, nil, nil ], 1, 0) * 0.05);
+		sig = RLPF.ar(sig, ffreq, rq);
+		sig = sig * EnvGen.kr(
+			Env.adsr(0.01, 0.1, 0.6, 0.1),
+			gt
+		);
+
+		Out.ar(0, sig!2);
+	}).add;
+	SynthDef(\synth3, {arg freq = 432, freq1 = 60, amp = 0.1, detun = 1.006, ffreq = 800, rq = 1, gt = 1;
+		var sig;
+		sig = Mix(DynKlang.ar(`[ [freq]++~klangarray3+freq, nil, nil ], 1, 0) * 0.05);
+		sig = RLPF.ar(sig, ffreq, rq);
+		sig = sig * EnvGen.kr(
+			Env.adsr(0.01, 0.1, 0.6, 0.1),
+			gt
+		);
+
+		Out.ar(0, sig!2);
+	}).add;
+
 ~numer_calc_function = {
 
 	//numerology caclulator function
@@ -687,7 +668,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])}
+			]).wchoose([0.45,0.45,0.1])}
 			{~instrument_1 == "keys"}{
 				([
 					(~instrument_1_freq = ~instrument_3_freq
@@ -699,7 +680,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])}
+			]).wchoose([0.45,0.45,0.1])}
 			{~instrument_1 == "vocal"}{
 				([
 					(~instrument_1_freq = ~instrument_3_freq
@@ -711,7 +692,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])};
+			]).wchoose([0.45,0.45,0.1])};
 	));
 };
 
@@ -732,7 +713,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])}
+			]).wchoose([0.45,0.45,0.1])}
 			{~instrument_2 == "keys"}{
 				([
 					(~instrument_2_freq = ~instrument_1_freq
@@ -744,7 +725,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])}
+			]).wchoose([0.45,0.45,0.1])}
 			{~instrument_2 == "vocal"}{
 				([
 					(~instrument_2_freq = ~instrument_1_freq
@@ -756,7 +737,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])};
+			]).wchoose([0.45,0.45,0.1])};
 	));
 };
 
@@ -777,7 +758,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])}
+			]).wchoose([0.45,0.45,0.1])}
 			{~instrument_3 == "keys"}{
 				([
 					(~instrument_3_freq = ~instrument_2_freq
@@ -789,7 +770,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])}
+			]).wchoose([0.45,0.45,0.1])}
 			{~instrument_3 == "vocal"}{
 				([
 					(~instrument_3_freq = ~instrument_2_freq
@@ -801,7 +782,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 					/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
 					(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
 					(~numerology_step=~numerology_step+1; 0;)
-			]).wchoose([0.7,0.2,0.1])};
+			]).wchoose([0.45,0.45,0.1])};
 	));
 };
 
@@ -815,13 +796,10 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 ~create_piece_function = {
 
 	~part_bit_size = 64;
-
+	~bit_duration = 0.1;
 	~max_number_of_parts = 8; //max 8 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
-
 	~number_of_parts_in_piece = ((~max_number_of_parts-1).linrand+1-9).neg;
-
 	~numerology_step = (-1);
-
 	~create_piece_routine = Routine({
 
 		//part 1
@@ -836,7 +814,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 				~instrument_3_array_func.value;
 
-				1.wait;
+				0.02.wait;
 
 			});
 
@@ -848,7 +826,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 				~instrument_3_array_func.value;
 
-				0.1.wait;
+				0.02.wait;
 
 			});
 		});
@@ -868,7 +846,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 
 					~instrument_3_array_func.value;
 
-					0.1.wait;
+					0.02.wait;
 
 				});
 			});
@@ -889,7 +867,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 /*~create_piece_routine.isPlaying*/
 
 
-);
+
 
 //MAKE SURE ALL CODE ***WORKS*** AND DOES WHAT IT'S SUPPOSED TO DO!!!
 
@@ -897,6 +875,157 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 ~instrument_1_array_part_1;
 ~instrument_2_array_part_1;
 ~instrument_3_array_part_1;
+
+//create pseq arrays function
+
+(
+~create_pseq_arrays_func = {
+
+	1.do({
+
+		~instrument_1_full_pseq_array = [];
+		~instrument_2_full_pseq_array = [];
+		~instrument_3_full_pseq_array = [];
+
+		x = 0;
+		~number_of_parts_in_piece.do({~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.add(("instrument_1_array_part_"++(x=x+1)).asSymbol.envirGet);});
+		~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.flatten;
+
+		x = 0;
+		~number_of_parts_in_piece.do({~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.add(("instrument_2_array_part_"++(x=x+1)).asSymbol.envirGet);});
+		~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.flatten;
+
+		x = 0;
+		~number_of_parts_in_piece.do({~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.add(("instrument_3_array_part_"++(x=x+1)).asSymbol.envirGet);});
+		~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.flatten;
+
+	});
+};
+
+~create_pseq_arrays_func.value;
+);
+
+
+(
+~duranbot_routine = Routine({x = 0;
+
+	1.do({
+
+		s.makeBundle(s.latency, {
+			~duranbotsynth1 = Synth(\synth1, [freq: ~instrument_1_full_pseq_array.at(x)]);
+			~duranbotsynth2 = Synth(\synth2, [freq: ~instrument_2_full_pseq_array.at(x)]);
+			~duranbotsynth3 = Synth(\synth3, [freq: ~instrument_3_full_pseq_array.at(x)]);
+				/*~aisynth4 = Synth(\synth4);*/
+			});
+
+			~bit_duration.wait;
+
+		});
+
+		(~instrument_1_full_pseq_array.size-1).do({
+
+			s.makeBundle(s.latency, {
+				~duranbotsynth1.set(\freq, ~instrument_1_full_pseq_array.at(x=x+1).postln);
+				~duranbotsynth2.set(\freq, ~instrument_2_full_pseq_array.at(x).postln/2);
+				~duranbotsynth3.set(\freq, ~instrument_3_full_pseq_array.at(x).postln);
+
+			});
+
+			~bit_duration.wait;
+
+		});
+
+	~duranbotsynth1.free;
+	~duranbotsynth2.free;
+	~duranbotsynth3.free;
+	~duranbot_routine.stop;
+	Server.freeAll;
+
+	});
+
+
+~duranbot_routine.play;
+);
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+~duranbot_routine = Routine({x = 0;
+
+	1.do({
+
+		~f1 = ~instrument_1_full_pseq_array.at(x);
+		~f2 = ~instrument_2_full_pseq_array.at(x);
+		~f3 = ~instrument_3_full_pseq_array.at(x);
+		s.makeBundle(s.latency, {~synthopen.value;});
+
+		~bit_duration.wait;
+
+		});
+
+		(~instrument_1_full_pseq_array.size-1).do({
+
+		~f1 = ~instrument_1_full_pseq_array.at(x=x+1);
+		~f2 = ~instrument_2_full_pseq_array.at(x);
+		~f3 = ~instrument_3_full_pseq_array.at(x);
+		~synthflow.value;
+		s.makeBundle(s.latency, {~synthflow.value;});
+
+			~bit_duration.wait;
+
+		});
+
+	});
+
+
+~duranbot_routine.play;
+
+// sound example
+
+SynthDef(\cfstring1, { arg i_out, freq = 360, gate = 1, pan, amp=0.1;
+    var out, eg, fc, osc, a, b, w;
+    fc = LinExp.kr(LFNoise1.kr(Rand(0.25, 0.4)), -1, 1, 500, 2000);
+    osc = Mix.fill(8, {LFSaw.ar(freq * [Rand(0.99, 1.01), Rand(0.99, 1.01)], 0, amp) }).distort * 0.2;
+    eg = EnvGen.kr(Env.asr(1, 1, 1), gate, doneAction: Done.freeSelf);
+    out = eg * RLPF.ar(osc, fc, 0.1);
+    #a, b = out;
+    Out.ar(i_out, Mix.ar(PanAz.ar(4, [a, b], [pan, pan+0.3])));
+}).add;
+
+(
+var a, b, c;
+a = Pbind(\instrument, \cfstring1, \freq, Pseq(~instrument_1_full_pseq_array, inf), \dur, ~bit_duration);
+b = Pbind(\instrument, \cfstring1, \freq, Pseq(~instrument_2_full_pseq_array, inf), \dur, ~bit_duration);
+c = Pbind(\instrument, \cfstring1, \freq, Pseq(~instrument_3_full_pseq_array, inf), \dur, ~bit_duration);
+Ppar([ a, b, c ]).play;
+);
+
+
+
+
 
 
 ~bassline1 = Array.fill(~num_bass_notes = ([2,4,8]).wchoose([0.06,0.47,0.47]), {~freqmap2.choose});
@@ -1086,7 +1215,7 @@ nil; 1.wait;
 /*~f2 = [~f2, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
 case
 {l1 == 1}{[0.45,0.45,0.1]}
-{l1 == 0}{[0.7,0.2,0.1]};
+{l1 == 0}{[0.45,0.45,0.1]};
 );
 ~aisynth2.set(\freq, ~f2); (~f2+" 2").postln;
 (~ai1_task1_f1_time_array.at(~yt1)).wait;
@@ -1119,7 +1248,7 @@ if(rs == 0, {r = 1}, {r = ~ratio_array.choose});
 ~f2 = [~f2, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
 case
 {l1 == 1}{[0.45,0.45,0.1]}
-{l1 == 0}{[0.7,0.2,0.1]};
+{l1 == 0}{[0.45,0.45,0.1]};
 );
 (~f2+" 2_1").postln;
 ~f3 = [~f3, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
@@ -1149,7 +1278,7 @@ s.makeBundle(s.latency, {
 ~f2 = [~f2, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
 case
 {l1 == 1}{[0.45,0.45,0.1]}
-{l1 == 0}{[0.7,0.2,0.1]};
+{l1 == 0}{[0.45,0.45,0.1]};
 );
 (~f2+" 2_2").postln;
 ~f3 = [~f3, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
@@ -1527,7 +1656,7 @@ nil,
 ~f2 = [~f2, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
 case
 {l1 == 1}{[0.45,0.45,0.1]}
-{l1 == 0}{[0.7,0.2,0.1]};
+{l1 == 0}{[0.45,0.45,0.1]};
 );
 (~f2+" 2").postln;
 ~f3 = [~f3, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
@@ -1560,7 +1689,7 @@ if(rs == 0, {r = 1}, {r = ~ratio_array.choose});
 ~f2 = [~f2, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
 case
 {l1 == 1}{[0.45,0.45,0.1]}
-{l1 == 0}{[0.7,0.2,0.1]};
+{l1 == 0}{[0.45,0.45,0.1]};
 );
 (~f2+" 2_1").postln;
 ~f3 = [~f3, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
@@ -1590,7 +1719,7 @@ s.makeBundle(s.latency, {
 ~f2 = [~f2, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
 case
 {l1 == 1}{[0.45,0.45,0.1]}
-{l1 == 0}{[0.7,0.2,0.1]};
+{l1 == 0}{[0.45,0.45,0.1]};
 );
 (~f2+" 2_2").postln;
 ~f3 = [~f3, /*~f1*[~ratio_array.choose, ~ratio_array.choose.reciprocal].choose*/~f_note_change_array.choose, 0].wchoose(
@@ -1647,7 +1776,7 @@ case
 if(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet > 1396.9129257322, {("instrument_"++(~instrument_num)++"_freq").asSymbol.envirPut(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet/2);});),
 (y=y+1; ("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet;)),
 (y=y+1; 0;)
-]).wchoose([0.7,0.2,0.1])}
+]).wchoose([0.45,0.45,0.1])}
 {("instrument_"++(~instrument_num)).asSymbol.envirGet == "keys"}{
 ([
 ((("instrument_"++(~instrument_num)++"_freq").asSymbol.envirPut(("instrument_"++(if(~instrument_num != 1, {~instrument_num-1}, {~instrument_num+2});)++"_freq").asSymbol.envirGet
@@ -1659,7 +1788,7 @@ if(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet > 1396.91292573
 if(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet > 1396.9129257322, {("instrument_"++(~instrument_num)++"_freq").asSymbol.envirPut(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet/2);});),
 (y=y+1; ("instrument_"++(~instrument_num)++"_freq").asSymbol.envirPut(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet;)),
 (y=y+1; 0;)
-]).wchoose([0.7,0.2,0.1])}
+]).wchoose([0.45,0.45,0.1])}
 {("instrument_"++(~instrument_num)).asSymbol.envirGet == "vocal"}{
 ([
 ((("instrument_"++(~instrument_num)++"_freq").asSymbol.envirPut(("instrument_"++(if(~instrument_num != 1, {~instrument_num-1}, {~instrument_num+2});)++"_freq").asSymbol.envirGet
@@ -1671,7 +1800,7 @@ if(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet > 1396.91292573
 if(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet > 1396.9129257322, {("instrument_"++(~instrument_num)++"_freq").asSymbol.envirPut(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet/2);});),
 (y=y+1; ("instrument_"++(~instrument_num)++"_freq").asSymbol.envirPut(("instrument_"++(~instrument_num)++"_freq").asSymbol.envirGet;)),
 (y=y+1; 0;)
-]).wchoose([0.7,0.2,0.1])}
+]).wchoose([0.45,0.45,0.1])}
 ));
 };*/
 
