@@ -518,6 +518,7 @@ thisThread.randSeed = ~thisthreadrandseed_routine;
 // figure out way to get program to write it's own code to save the information input into it... and how it goes about that. And how it utlizes that info
 //as inspiration.
 
+(
 
 (
 
@@ -563,78 +564,11 @@ SynthDef(\synth3, {arg freq = 432, freq1 = 60, amp = 0.1, detun = 1.006, ffreq =
 }).add;
 
 
-~dbase_string_map = "Sound of Thunder";
+~num_numerology_calc = 3;
 
-~dbase_string = "I've been in this grass here for the last ten hours
-My clothes are dirty but my mouth isn't dry
-How does it happen does it fly through the air
-Woah I gave up asking days away I gave up asking days away
-
-And now I'm lying here waiting for the sound of thunder
-Waiting for the sound of thunder
-
-Here I am I'm a dotted line cut in through corners stick me through your door
-I'm the man who stepped off the path
-Am I just lying here that's what I was made for
-
-And now my eyes are closing but I still feel the land
-Leaning out for the touch of my hand
-The world spins so fast that I might fly off
-The world spins so fast that I might fly off
-The world spins so fast that I might fly off
-
-Waiting for the sound of thunder
-I'm waiting for the sound of thunder
-
-
-
-
-;".replace(" ", "");
-~dbase_string = ~dbase_string.replace("\n", "");
-
-
-~enter_database_func = {
-
-	h = File.new(Document.current.dir++"/duranbot_database/duranbot_inspiration_database.scd", "a+");
-	h.write("\n\n"++~dbase_string.asString; );
-	h.close;
-
-	~numer_string_1 = ~dbase_string;
-	~num_numerology_calc = 1;
-	~numer_calc_function.value;
-
-	h = File.new(Document.current.dir++"/duranbot_database/duranbot_dna.scd", "a+");
-	h.write(~numer_string_1_value.asString; );
-	h.close;
-
-	h = File.new(Document.current.dir++"/duranbot_database/duranbot_inspiration_database_map.scd", "a+");
-	h.write("\n\n"++~dbase_string_map.asString; );
-	h.close;
-
-};
-
-/*~enter_database_func.value;*/
-
-
-
-
-(
-	w = Window.new.front;
-	~a = TextField(w, Rect(10, 10, 150, 20));
-	~a.string = "hi there";
-	~a.action = {arg field;
-		~b = field.value; /*~b = ~b.string.asString.replace(" ", "");*/ ~b.postln;
-
-
-	};
-)
-
-
-
-(
-
-
-~num_numerology_calc = 1;
+~numer_string_1 = "John Taylor";
+~numer_string_2 = "Nick Rhodes";
+~numer_string_3 = "Simon Le Bon";
 
 ~numer_calc_function = {
 
@@ -881,7 +815,6 @@ I'm waiting for the sound of thunder
 ~create_piece_function = {
 
 	~part_bit_size = 64;
-	~bit_duration = 0.1;
 	~max_number_of_parts = 12; //max 12 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
 	~number_of_parts_in_piece = (~max_number_of_parts.linrand - ~max_number_of_parts).neg;
 	~numerology_step = (-1);
@@ -952,6 +885,9 @@ I'm waiting for the sound of thunder
 /*~create_piece_routine.isPlaying*/
 
 
+);
+
+
 
 
 //MAKE SURE ALL CODE ***WORKS*** AND DOES WHAT IT'S SUPPOSED TO DO!!!
@@ -992,14 +928,14 @@ I'm waiting for the sound of thunder
 
 
 (
-~duranbot_routine = Routine({x = 0;
+~duranbot_routine = Routine({x = 0; ~bit_duration = 0.3;
 
 	1.do({
 
 		s.makeBundle(s.latency, {
-			~duranbotsynth1 = Synth(\synth1, [freq: ~instrument_1_full_pseq_array.at(x)]);
-			~duranbotsynth2 = Synth(\synth2, [freq: ~instrument_2_full_pseq_array.at(x)]);
-			~duranbotsynth3 = Synth(\synth3, [freq: ~instrument_3_full_pseq_array.at(x)]);
+			~duranbotsynth1 = Synth(\help_PlayBuf, [freq: ~instrument_1_full_pseq_array.at(x)]);
+			~duranbotsynth2 = Synth(\help_PlayBuf, [freq: ~instrument_2_full_pseq_array.at(x)]);
+			~duranbotsynth3 = Synth(\help_PlayBuf, [freq: ~instrument_3_full_pseq_array.at(x)]);
 			/*~aisynth4 = Synth(\synth4);*/
 		});
 
@@ -1050,6 +986,128 @@ I'm waiting for the sound of thunder
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+~dbase_string_map = "Vertigo (Do The Demolition)";
+
+~dbase_string = "Hey guys, turn it up to get sleazy.
+Twist it in a vice
+Nobody said it was easy.
+Just use your naked eyes, oh.
+How to see and how to hide it.
+How to save it. Well, maybe. Maybe. Maybe.
+You can take it and eat it, and chew your life supply.
+
+Where's the real life in your illusion?
+On the dark side your power's in confusion.
+Do the dance. Do the demolition.
+And lose the chance to hear when you don't listen.
+
+Don't you feel edgy?
+Bite your lips and bleed.
+Conversation is empty;
+Abandoned in the freeze.
+Freedom is your condemnation.
+Free to say well, maybe. Maybe. Maybe. Maybe.
+You can take it or leave it.
+Just need a little hit tonight.
+
+Where's the real life in your illusion?
+On the dark of power in confusion.
+Do the dance. Do the demolition.
+Don't lose the chance to hear 'cause you don't listen.
+
+Maybe. Maybe. Maybe you can try to believe it.
+Just need a little help tonight.
+
+Where's the real life in your illusion?
+On the dark side of power in confusion.
+Do the dance. Do the demolition.
+And lose the chance to hear when you don't listen.
+
+Where's the real life in your illusion?
+On the dark side of power in confusion.
+Do the dance. Do the demolition.
+And lose the chance to hear when you don't listen.
+
+Hear it when you listen.
+You don't hear when you don't listen.
+
+
+
+
+;".replace(" ", "");
+~dbase_string = ~dbase_string.replace("\n", "");
+
+
+~enter_database_func = {
+
+	h = File.new(Document.current.dir++"/duranbot_database/duranbot_inspiration_database.scd", "a+");
+	h.write("\n\n"++~dbase_string.asString; );
+	h.close;
+
+	~numer_string_1 = ~dbase_string;
+	~num_numerology_calc = 1;
+	~numer_calc_function.value;
+
+	h = File.new(Document.current.dir++"/duranbot_database/duranbot_dna.scd", "a+");
+	h.write(~numer_string_1_value.asString; );
+	h.close;
+
+	h = File.new(Document.current.dir++"/duranbot_database/duranbot_inspiration_database_map.scd", "a+");
+	h.write("\n\n"++~dbase_string_map.asString; );
+	h.close;
+
+};
+
+/*~enter_database_func.value;*/
+
+
+
+
+(
+	w = Window.new.front;
+	~a = TextField(w, Rect(10, 10, 150, 20));
+	~a.string = "hi there";
+	~a.action = {arg field;
+		~b = field.value; /*~b = ~b.string.asString.replace(" ", "");*/ ~b.postln;
+
+
+	};
+);
+
+
+// https://freewavesamples.com/alesis-sanctuary-qcard-promenade-c3
+
+b = Buffer.read(s, Document.current.dir++"/duranbot_database/samples/Alesis-Sanctuary-QCard-Promenade-C3-loop5.wav");
+
+
+x = SynthDef(\help_PlayBuf, {| out = 0, bufnum = 0, freq = 1 |
+    Out.ar(out,
+		(PlayBuf.ar(1, bufnum, BufRateScale.kr(bufnum)*freq, startPos: 0, loop: 1))!2
+    )
+}).play(s, [\out, 0, \bufnum, b]);
+
+
+
+SynthDef(\help_PlayBuf, {| out = 0, bufnum = 0 |
+    Out.ar(out,
+		(PlayBuf.ar(1, bufnum, BufRateScale.kr(bufnum), startPos: 0, loop: 1))!2
+    )
+}).add;
+
+
+x.set(\freq, 1);
 
 
 
