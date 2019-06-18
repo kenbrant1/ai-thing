@@ -554,8 +554,8 @@ ifsdf";
 								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet.neg].choose);
 							x = [x, x.reciprocal].choose;);
 						);
-						if(~ratio_x == (~ratio_array.size-1), {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*[~ratio_array.at(5), ~ratio_array.at(5).reciprocal].choose;);});
-						case
+						/*if(~ratio_x == (~ratio_array.size-1), {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*[~ratio_array.at(5), ~ratio_array.at(5).reciprocal].choose;);});
+						*/case
 						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 1396.9129257322}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet/2)}
 						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 233.08188075905}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*2)}
 						{(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet >= 233.08188075905) and: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet <= 1396.9129257322)}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;)};
