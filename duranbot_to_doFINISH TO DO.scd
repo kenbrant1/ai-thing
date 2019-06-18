@@ -131,3 +131,10 @@
 // find way to implement dna into composition
 
 // make instrumentalist base new bit on both previous instrumentalists, not just the last one.
+
+
+
+// MAKE COMPOSITION LIKE *************************CLOCK WORK************************........... Like your WATCH!!!!!!!!!!....... MAKE IT
+// MATHEMATICAL!!!!!!!!!!!!!!!
+
+//..... Like a clock... or watch...... make it conscious.

@@ -263,17 +263,7 @@ above, and click on "Evaluate File".
 		playbutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/5.1063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["play piece",Color.white,Color.black],["stop piece",Color.white,Color.black]]).action_({arg button;
 			if(button.value == 1, {
 				~run_piece_func.value;
-				~pausebutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/3.063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["pause piece",Color.white,Color.black],["resume",Color.white,Color.black]]).action_({arg button;
-					if(button.value == 1, {
-						~duranbot_routine.pause;
-						s.makeBundle(s.latency, {
-							~duranbotsynth1.set(\freq, 0);
-							~duranbotsynth2.set(\freq, 0);
-							~duranbotsynth3.set(\freq, 0);
-						});
-					}, {~duranbot_routine.resume;});
-				});
-				~pausebutton.font = Font(size: ~firstviewboundsWIDTH/48);
+				~pausebuttonfunc.value;
 			}, {
 				~duranbotsynth1.free;
 				~duranbotsynth2.free;
@@ -286,6 +276,22 @@ above, and click on "Evaluate File".
 		});
 		playbutton.font = Font(size: ~firstviewboundsWIDTH/48);
 		/*};*/
+
+		~pausebuttonfunc = {~pausebutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/3.063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["pause piece",Color.white,Color.black],["resume",Color.white,Color.black]]).action_({arg button;
+					if(button.value == 1, {
+						~duranbot_routine.pause;
+						s.makeBundle(s.latency, {
+							~duranbotsynth1.set(\freq, 0);
+							~duranbotsynth2.set(\freq, 0);
+							~duranbotsynth3.set(\freq, 0);
+						});
+					}, {~duranbot_routine.resume;});
+				});
+
+				~pausebutton.font = Font(size: ~firstviewboundsWIDTH/48);
+		};
+
+		if(~duranbot_routine.isPlaying == true, {playbutton.value = 1; ~pausebuttonfunc.value;}, {playbutton.value = 0});
 
 		newrandomseedsbutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/5.1428571428571, ~firstviewboundsHEIGHT/21.85)).states_([["new random seeds",Color.white,Color.black],["new random seeds",Color.white,Color.black]]).action_({arg button;
 			~randseed_1_backup = ~randseed_1;
