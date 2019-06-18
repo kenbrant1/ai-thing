@@ -525,7 +525,7 @@ ifsdf";
 				~dna_x = (-1);
 				~dna_index_choice_func = {~dna_array.at(if(~dna_x < (~dna_array.size-1), {~dna_x=~dna_x+1;}, {~dna_x = 0}))};
 				~dna_index_choice = ~dna_index_choice_func.value;
-				~dna_clock_y = 0;
+				~bit_clock_y = 0;
 				~ratio_x = 0;
 
 				~instrument_1_array_starting_func = {
@@ -543,31 +543,29 @@ ifsdf";
 					if(~instrument_3_freq == nil, {~instrument_3_freq = ~instrument_1_freq;});
 				};
 
+				~bit_clock_y = ~bit_clock_y + 1;
+				~ratio_x = ~ratio_x + 1;
 
 				~inst_clock_func = {
 
-					~put1 = if(~dna_clock_y == ~dna_index_choice.asInteger, {
-						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
-							("instrument_"++(case{~inst_num==1}{3}{~inst_num==2}{1}{~inst_num==3}{2};)++"_freq").asSymbol.envirGet
-							*(x = ~ratio_array.wrapAt(~ratio_x+[
-								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet,
-								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet.neg].choose);
-							x = [x, x.reciprocal].choose;);
-						);
-						if(~ratio_x == (~ratio_array.size-1), {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*[~ratio_array.at(5), ~ratio_array.at(5).reciprocal].choose;);});
-						case
-						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 1396.9129257322}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet/2)}
-						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 233.08188075905}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*2)}
-						{(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet >= 233.08188075905) and: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet <= 1396.9129257322)}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;)};
-						("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
+					if(~bit_clock_y == ~dna_index_choice.asInteger, {
+						~put1 = ([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(case{~inst_num==1}{3}{~inst_num==2}{1}{~inst_num==3}{2};)++"_freq").asSymbol.envirGet*[~ratio_array.at(~ratio_x), ~ratio_array.at(~ratio_x).reciprocal].choose;);
+							~bit_clock_y = 0;
+							~dna_index_choice = ~dna_index_choice_func.value;
+							if(~ratio_x == (~ratio_array.size-1), {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*[~ratio_array.at(5), ~ratio_array.at(5).reciprocal].choose;);});
+							case
+							{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 1396.9129257322}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet/2)}
+							{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 233.08188075905}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*2)}
+							{(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet >= 233.08188075905) and: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet <= 1396.9129257322)}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;)};
 						),
 						("~instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;),
 						(0)
 						]).wchoose([0.45,0.45,0.1]);
-					},
-					{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;});
+					});
+					if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
 					~put1.value;
 				};
+
 
 				~instrument_1_array_func = {
 					("instrument_1_array_part_"++(~part_num)).asSymbol.envirPut(
@@ -611,7 +609,7 @@ ifsdf";
 					thisThread.randSeed = ~randseed_2;
 
 					~part_bit_size = 64;
-					~max_number_of_parts = 200; //max 120 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
+					~max_number_of_parts = 12; //max 12 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
 					~number_of_parts_in_piece = (~max_number_of_parts.linrand - ~max_number_of_parts).neg;
 					~numerology_step = (-1);
 					~create_piece_routine = Routine({
@@ -624,15 +622,14 @@ ifsdf";
 
 							1.do({
 
-								~dna_clock_y = ~dna_clock_y + 1;
+								~bit_clock_y = ~bit_clock_y + 1;
 								~ratio_x = ~ratio_x + 1;
 
 								~instrument_1_array_starting_func.value;
-								~instrument_2_array_func.value;
-								~instrument_3_array_func.value;
 
-								if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-								if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+								~instrument_2_array_func.value;
+
+								~instrument_3_array_func.value;
 
 								0.0005.wait;
 
@@ -640,15 +637,14 @@ ifsdf";
 
 							(~part_bit_size-1).do({
 
-								~dna_clock_y = ~dna_clock_y + 1;
+								~bit_clock_y = ~bit_clock_y + 1;
 								~ratio_x = ~ratio_x + 1;
 
 								~instrument_1_array_func.value;
-								~instrument_2_array_func.value;
-								~instrument_3_array_func.value;
 
-								if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-								if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+								~instrument_2_array_func.value;
+
+								~instrument_3_array_func.value;
 
 								0.0005.wait;
 
@@ -664,15 +660,11 @@ ifsdf";
 
 								~part_bit_size.do({
 
-									~dna_clock_y = ~dna_clock_y + 1;
-									~ratio_x = ~ratio_x + 1;
-
 									~instrument_1_array_func.value;
-									~instrument_2_array_func.value;
-									~instrument_3_array_func.value;
 
-									if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-									if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+									~instrument_2_array_func.value;
+
+									~instrument_3_array_func.value;
 
 									0.0005.wait;
 
@@ -801,7 +793,7 @@ ifsdf";
 			~duranbotsynth1.set(\freq, 2);
 			*/
 
-			~duranbot_routine = Task({x = 0; ~bit_duration = 0.1;
+			~duranbot_routine = Task({x = 0; ~bit_duration = 0.3;
 
 				1.do({
 
@@ -827,7 +819,7 @@ ifsdf";
 
 					s.makeBundle(s.latency, {
 						~duranbotsynth1.set(\freq, ~instrument_1_full_pseq_array.at(x=x+1).postln);
-						~duranbotsynth2.set(\freq, ~instrument_2_full_pseq_array.at(x).postln);
+						~duranbotsynth2.set(\freq, ~instrument_2_full_pseq_array.at(x).postln/2);
 						~duranbotsynth3.set(\freq, ~instrument_3_full_pseq_array.at(x).postln);
 
 					});

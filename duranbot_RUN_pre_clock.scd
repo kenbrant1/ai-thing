@@ -521,12 +521,11 @@ ifsdf";
 				~instrument_2_array_part_1 = [];
 				~instrument_3_array_part_1 = [];
 
-				~dna_array = (x = File.readAllString(Document.current.dir++"/duranbot_dna.scd"); x = x.separate;);
-				~dna_x = (-1);
-				~dna_index_choice_func = {~dna_array.at(if(~dna_x < (~dna_array.size-1), {~dna_x=~dna_x+1;}, {~dna_x = 0}))};
-				~dna_index_choice = ~dna_index_choice_func.value;
-				~dna_clock_y = 0;
-				~ratio_x = 0;
+
+
+				//12 seconds.. am/pm.... cycle trough chromatic scale..... each note triggered by steps in DNA..... each note plays until next trigger.
+				// something different would happen at am/pm shift.... probably  devil's interval? at 12, the "clock" shifts devil's
+				// interval..... but retains the DNA step progress.
 
 				~instrument_1_array_starting_func = {
 
@@ -534,69 +533,150 @@ ifsdf";
 						("instrument_1_array_part_"++(~part_num)).asSymbol.envirGet.add(
 
 							case
-							{~instrument_1 == "bass"}{~instrument_1_freq = ~freqmap2.choose}
+							{~instrument_1 == "bass"}{~instrument_1_freq = ~freqmap2.choose/4}
 							{~instrument_1 == "keys"}{~instrument_1_freq = ~freqmap2.choose}
 							{~instrument_1 == "vocal"}{~instrument_1_freq = ~freqmap2.choose};
 						)
 					);
-					if(~instrument_2_freq == nil, {~instrument_2_freq = ~instrument_1_freq;});
-					if(~instrument_3_freq == nil, {~instrument_3_freq = ~instrument_1_freq;});
-				};
-
-
-				~inst_clock_func = {
-
-					~put1 = if(~dna_clock_y == ~dna_index_choice.asInteger, {
-						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
-							("instrument_"++(case{~inst_num==1}{3}{~inst_num==2}{1}{~inst_num==3}{2};)++"_freq").asSymbol.envirGet
-							*(x = ~ratio_array.wrapAt(~ratio_x+[
-								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet,
-								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet.neg].choose);
-							x = [x, x.reciprocal].choose;);
-						);
-						if(~ratio_x == (~ratio_array.size-1), {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*[~ratio_array.at(5), ~ratio_array.at(5).reciprocal].choose;);});
-						case
-						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 1396.9129257322}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet/2)}
-						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 233.08188075905}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*2)}
-						{(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet >= 233.08188075905) and: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet <= 1396.9129257322)}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;)};
-						("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
-						),
-						("~instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;),
-						(0)
-						]).wchoose([0.45,0.45,0.1]);
-					},
-					{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;});
-					~put1.value;
 				};
 
 				~instrument_1_array_func = {
+
 					("instrument_1_array_part_"++(~part_num)).asSymbol.envirPut(
 						("instrument_1_array_part_"++(~part_num)).asSymbol.envirGet.add(
+
 							case
-							{~instrument_1 == "bass"}{~inst_num = 1; ~inst_clock_func.value;}
-							{~instrument_1 == "keys"}{~inst_num = 1; ~inst_clock_func.value;}
-							{~instrument_1 == "vocal"}{~inst_num = 1; ~inst_clock_func.value;};
+							{~instrument_1 == "bass"}{
+								([
+									(~instrument_1_freq = ~instrument_3_freq
+										*[
+											(~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))),
+											(~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal
+
+									].choose);
+									case
+									{~instrument_1_freq > 1396.9129257322}{~instrument_1_freq = ~instrument_1_freq/2}
+									{~instrument_1_freq < 233.08188075905}{~instrument_1_freq = ~instrument_1_freq*2}
+									{(~instrument_1_freq >= 233.08188075905) and: (~instrument_1_freq <= 1396.9129257322)}{~instrument_1_freq = ~instrument_1_freq};
+									/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])}
+							{~instrument_1 == "keys"}{
+								([
+									(~instrument_1_freq = ~instrument_3_freq
+										*[(~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
+									case
+									{~instrument_1_freq > 1396.9129257322}{~instrument_1_freq = ~instrument_1_freq/2}
+									{~instrument_1_freq < 233.08188075905}{~instrument_1_freq = ~instrument_1_freq*2}
+									{(~instrument_1_freq >= 233.08188075905) and: (~instrument_1_freq <= 1396.9129257322)}{~instrument_1_freq = ~instrument_1_freq};
+									/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])}
+							{~instrument_1 == "vocal"}{
+								([
+									(~instrument_1_freq = ~instrument_3_freq
+										*[(~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
+									case
+									{~instrument_1_freq > 1396.9129257322}{~instrument_1_freq = ~instrument_1_freq/2}
+									{~instrument_1_freq < 233.08188075905}{~instrument_1_freq = ~instrument_1_freq*2}
+									{(~instrument_1_freq >= 233.08188075905) and: (~instrument_1_freq <= 1396.9129257322)}{~instrument_1_freq = ~instrument_1_freq};
+									/*(x = Routine({inf.do({if(~instrument_1_freq > 1396.9129257322, {~instrument_1_freq = ~instrument_1_freq/2}, {x.stop;})})}); x.play; ~instrument_1_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_1_freq = ~instrument_1_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])};
 					));
 				};
 
 				~instrument_2_array_func = {
+
 					("instrument_2_array_part_"++(~part_num)).asSymbol.envirPut(
 						("instrument_2_array_part_"++(~part_num)).asSymbol.envirGet.add(
+
 							case
-							{~instrument_2 == "bass"}{~inst_num = 2; ~inst_clock_func.value;}
-							{~instrument_2 == "keys"}{~inst_num = 2; ~inst_clock_func.value;}
-							{~instrument_2 == "vocal"}{~inst_num = 2; ~inst_clock_func.value;};
+							{~instrument_2 == "bass"}{
+								([
+									(~instrument_2_freq = ~instrument_1_freq
+										*[(~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
+									case
+									{~instrument_2_freq > 1396.9129257322}{~instrument_2_freq = ~instrument_2_freq/2}
+									{~instrument_2_freq < 233.08188075905}{~instrument_2_freq = ~instrument_2_freq*2}
+									{(~instrument_2_freq >= 233.08188075905) and: (~instrument_2_freq <= 1396.9129257322)}{~instrument_2_freq = ~instrument_2_freq};
+									/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])}
+							{~instrument_2 == "keys"}{
+								([
+									(~instrument_2_freq = ~instrument_1_freq
+										*[(~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
+									case
+									{~instrument_2_freq > 1396.9129257322}{~instrument_2_freq = ~instrument_2_freq/2}
+									{~instrument_2_freq < 233.08188075905}{~instrument_2_freq = ~instrument_2_freq*2}
+									{(~instrument_2_freq >= 233.08188075905) and: (~instrument_2_freq <= 1396.9129257322)}{~instrument_2_freq = ~instrument_2_freq};
+									/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])}
+							{~instrument_2 == "vocal"}{
+								([
+									(~instrument_2_freq = ~instrument_1_freq
+										*[(~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
+									case
+									{~instrument_2_freq > 1396.9129257322}{~instrument_2_freq = ~instrument_2_freq/2}
+									{~instrument_2_freq < 233.08188075905}{~instrument_2_freq = ~instrument_2_freq*2}
+									{(~instrument_2_freq >= 233.08188075905) and: (~instrument_2_freq <= 1396.9129257322)}{~instrument_2_freq = ~instrument_2_freq};
+									/*(x = Routine({inf.do({if(~instrument_2_freq > 1396.9129257322, {~instrument_2_freq = ~instrument_2_freq/2}, {x.stop;})})}); x.play; ~instrument_2_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_2_freq = ~instrument_2_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])};
 					));
 				};
 
 				~instrument_3_array_func = {
+
+					/*~instrument_3_array_part_1*/
 					("instrument_3_array_part_"++(~part_num)).asSymbol.envirPut(
 						("instrument_3_array_part_"++(~part_num)).asSymbol.envirGet.add(
 
 							case
-							{~instrument_3 == "bass"}{~inst_num = 3; ~inst_clock_func.value;}
-							{~instrument_3 == "keys"}{~inst_num = 3; ~inst_clock_func.value;}
-							{~instrument_3 == "vocal"}{~inst_num = 3; ~inst_clock_func.value;};
+							{~instrument_3 == "bass"}{
+								([
+									(~instrument_3_freq = ~instrument_2_freq
+										*[(~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~bass_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
+									case
+									{~instrument_3_freq > 1396.9129257322}{~instrument_3_freq = ~instrument_3_freq/2}
+									{~instrument_3_freq < 233.08188075905}{~instrument_3_freq = ~instrument_3_freq*2}
+									{(~instrument_3_freq >= 233.08188075905) and: (~instrument_3_freq <= 1396.9129257322)}{~instrument_3_freq = ~instrument_3_freq};
+									/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])}
+							{~instrument_3 == "keys"}{
+								([
+									(~instrument_3_freq = ~instrument_2_freq
+										*[(~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~keys_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
+									case
+									{~instrument_3_freq > 1396.9129257322}{~instrument_3_freq = ~instrument_3_freq/2}
+									{~instrument_3_freq < 233.08188075905}{~instrument_3_freq = ~instrument_3_freq*2}
+									{(~instrument_3_freq >= 233.08188075905) and: (~instrument_3_freq <= 1396.9129257322)}{~instrument_3_freq = ~instrument_3_freq};
+									/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])}
+							{~instrument_3 == "vocal"}{
+								([
+									(~instrument_3_freq = ~instrument_2_freq
+										*[(~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))), (~ratio_array.at(~vocal_numerology.wrapAt(~numerology_step=~numerology_step+1))).reciprocal].choose);
+									case
+									{~instrument_3_freq > 1396.9129257322}{~instrument_3_freq = ~instrument_3_freq/2}
+									{~instrument_3_freq < 233.08188075905}{~instrument_3_freq = ~instrument_3_freq*2}
+									{(~instrument_3_freq >= 233.08188075905) and: (~instrument_3_freq <= 1396.9129257322)}{~instrument_3_freq = ~instrument_3_freq};
+									/*(x = Routine({inf.do({if(~instrument_3_freq > 1396.9129257322, {~instrument_3_freq = ~instrument_3_freq/2}, {x.stop;})})}); x.play; ~instrument_3_freq.value;)*/,
+									(~numerology_step=~numerology_step+1; ~instrument_3_freq = ~instrument_3_freq;),
+									(~numerology_step=~numerology_step+1; 0;)
+							]).wchoose([0.45,0.45,0.1])};
 					));
 				};
 
@@ -611,7 +691,7 @@ ifsdf";
 					thisThread.randSeed = ~randseed_2;
 
 					~part_bit_size = 64;
-					~max_number_of_parts = 200; //max 120 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
+					~max_number_of_parts = 12; //max 12 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
 					~number_of_parts_in_piece = (~max_number_of_parts.linrand - ~max_number_of_parts).neg;
 					~numerology_step = (-1);
 					~create_piece_routine = Routine({
@@ -624,15 +704,11 @@ ifsdf";
 
 							1.do({
 
-								~dna_clock_y = ~dna_clock_y + 1;
-								~ratio_x = ~ratio_x + 1;
-
 								~instrument_1_array_starting_func.value;
-								~instrument_2_array_func.value;
-								~instrument_3_array_func.value;
 
-								if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-								if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+								~instrument_2_array_func.value;
+
+								~instrument_3_array_func.value;
 
 								0.0005.wait;
 
@@ -640,15 +716,11 @@ ifsdf";
 
 							(~part_bit_size-1).do({
 
-								~dna_clock_y = ~dna_clock_y + 1;
-								~ratio_x = ~ratio_x + 1;
-
 								~instrument_1_array_func.value;
-								~instrument_2_array_func.value;
-								~instrument_3_array_func.value;
 
-								if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-								if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+								~instrument_2_array_func.value;
+
+								~instrument_3_array_func.value;
 
 								0.0005.wait;
 
@@ -664,15 +736,11 @@ ifsdf";
 
 								~part_bit_size.do({
 
-									~dna_clock_y = ~dna_clock_y + 1;
-									~ratio_x = ~ratio_x + 1;
-
 									~instrument_1_array_func.value;
-									~instrument_2_array_func.value;
-									~instrument_3_array_func.value;
 
-									if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-									if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+									~instrument_2_array_func.value;
+
+									~instrument_3_array_func.value;
 
 									0.0005.wait;
 
@@ -801,7 +869,7 @@ ifsdf";
 			~duranbotsynth1.set(\freq, 2);
 			*/
 
-			~duranbot_routine = Task({x = 0; ~bit_duration = 0.1;
+			~duranbot_routine = Task({x = 0; ~bit_duration = 0.3;
 
 				1.do({
 
@@ -827,7 +895,7 @@ ifsdf";
 
 					s.makeBundle(s.latency, {
 						~duranbotsynth1.set(\freq, ~instrument_1_full_pseq_array.at(x=x+1).postln);
-						~duranbotsynth2.set(\freq, ~instrument_2_full_pseq_array.at(x).postln);
+						~duranbotsynth2.set(\freq, ~instrument_2_full_pseq_array.at(x).postln/2);
 						~duranbotsynth3.set(\freq, ~instrument_3_full_pseq_array.at(x).postln);
 
 					});
