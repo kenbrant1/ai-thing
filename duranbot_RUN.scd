@@ -15,7 +15,7 @@ above, and click on "Evaluate File".
 
 ~duranbot_GUI_func = {
 
-	var w, firstview, firstviewtext1, firstviewtext2, firstviewtext3, firstviewtext4, firstviewnextbutton, mainview, mainviewtext, maincolor, randseedEZText1, randseedEZText2, randseedEZText3, randseed_1_make, randseed_2_make, randseed_3_make, randseedviewtext1,randseedviewtext2,
+	var w, /*~firstview,*/ firstviewtext1, firstviewtext2, firstviewtext3, firstviewtext4, firstviewnextbutton, mainview, mainviewtext, maincolor, randseedEZText1, randseedEZText2, randseedEZText3, randseed_1_make, randseed_2_make, randseed_3_make, randseedviewtext1,randseedviewtext2,
 	randseedviewtext3, numerologynameEZText1, numerologynameEZText2, numerologynameEZText3, numerologynameviewtext1, numerologynameviewtext2, numerologynameviewtext3,
 	generatepiecebutton, playbutton;
 	w = Window("Duranbot 9000",
@@ -26,21 +26,21 @@ above, and click on "Evaluate File".
 
 	~front_page_func = {
 
-		firstview = View(w, Rect(0, 0, w.bounds.width, w.bounds.height));
+		~firstview = View(w, Rect(0, 0, w.bounds.width, w.bounds.height));
 		/*view.clearOnRefresh = false;*/
-		firstview.background = maincolor;
-		~firstviewboundsWIDTH = firstview.bounds.width;
-		~firstviewboundsHEIGHT = firstview.bounds.height;
+		~firstview.background = maincolor;
+		~firstviewboundsWIDTH = ~firstview.bounds.width;
+		~firstviewboundsHEIGHT = ~firstview.bounds.height;
 
 
-		firstviewtext1 = StaticText(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/3.4774535809019));
+		firstviewtext1 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/3.4774535809019));
 		firstviewtext1.background=maincolor;
 		firstviewtext1.string = "Hello. This is Duranbot 9000. \n\nTo enhance the creativity of this AI bot... please consider providing it with some personal creative inspiration of yours by entering 3 number values into the 3 fields below, numerical values up to 8 digits long, and hit Enter. Consider writing down the 3 values you gave it to be able to replicate exactly the music made by this AI in this specific instance at a later date - although they will still be saved in the "++"duranbot_saved_random _seeds.scd".quote++" file, accessible on the next page.";
 		firstviewtext1.align = \topLeft;
 		firstviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
 
 
-		randseedEZText1 = TextField(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/3, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedEZText1 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/3, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedEZText1.string = "random seed 1";
 		randseedEZText1.background_(Color.black);
 		randseedEZText1.stringColor_(Color.white);
@@ -58,7 +58,7 @@ above, and click on "Evaluate File".
 			});
 		};
 
-		randseedEZText2 = TextField(firstview, Rect(~firstviewboundsWIDTH/3.7894736842105, ~firstviewboundsHEIGHT/3, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedEZText2 = TextField(~firstview, Rect(~firstviewboundsWIDTH/3.7894736842105, ~firstviewboundsHEIGHT/3, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedEZText2.string = "random seed 2";
 		randseedEZText2.background_(Color.black);
 		randseedEZText2.stringColor_(Color.white);
@@ -76,7 +76,7 @@ above, and click on "Evaluate File".
 			});
 		};
 
-		randseedEZText3 = TextField(firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/3, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedEZText3 = TextField(~firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/3, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedEZText3.string = "random seed 3";
 		randseedEZText3.background_(Color.black);
 		randseedEZText3.stringColor_(Color.white);
@@ -94,19 +94,19 @@ above, and click on "Evaluate File".
 			});
 		};
 
-		randseedviewtext1 = TextField(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedviewtext1 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedviewtext1.background=maincolor;
 		randseedviewtext1.string = if(~randseed_1 != nil, {~randseed_1.asString++" entered"}, {"number not entered"});
 		randseedviewtext1.align = \topLeft;
 		randseedviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		randseedviewtext2 = TextField(firstview, Rect(~firstviewboundsWIDTH/3.7894736842105,~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedviewtext2 = TextField(~firstview, Rect(~firstviewboundsWIDTH/3.7894736842105,~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedviewtext2.background=maincolor;
 		randseedviewtext2.string = if(~randseed_2 != nil, {~randseed_2.asString++" entered"}, {"number not entered"});
 		randseedviewtext2.align = \topLeft;
 		randseedviewtext2.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		randseedviewtext3 = TextField(firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedviewtext3 = TextField(~firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedviewtext3.background=maincolor;
 		randseedviewtext3.string = if(~randseed_3 != nil, {~randseed_3.asString++" entered"}, {"number not entered"});
 		randseedviewtext3.align = \topLeft;
@@ -114,7 +114,7 @@ above, and click on "Evaluate File".
 
 
 
-		firstviewtext2 = StaticText(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/2.0743670886076, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/3.4774535809019));
+		firstviewtext2 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/2.0743670886076, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/3.4774535809019));
 		firstviewtext2.background=maincolor;
 		firstviewtext2.string = "Also, you can change the names of the instrumentalists for further customization, utilizing numerology of the names to help generate a piece. Current defaults are shown.";
 		firstviewtext2.align = \topLeft;
@@ -124,7 +124,7 @@ above, and click on "Evaluate File".
 		~numer_calc_function.value;
 
 
-		numerologynameEZText1 = TextField(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.6764705882353, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameEZText1 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.6764705882353, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameEZText1.string = "bass";
 		numerologynameEZText1.background_(Color.black);
 		numerologynameEZText1.stringColor_(Color.white);
@@ -135,7 +135,7 @@ above, and click on "Evaluate File".
 			~numer_calc_function.value;
 		};
 
-		numerologynameEZText2 = TextField(firstview, Rect(~firstviewboundsWIDTH/3.7894736842105, ~firstviewboundsHEIGHT/1.6764705882353, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameEZText2 = TextField(~firstview, Rect(~firstviewboundsWIDTH/3.7894736842105, ~firstviewboundsHEIGHT/1.6764705882353, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameEZText2.string = "keyboards";
 		numerologynameEZText2.background_(Color.black);
 		numerologynameEZText2.stringColor_(Color.white);
@@ -146,7 +146,7 @@ above, and click on "Evaluate File".
 			~numer_calc_function.value;
 		};
 
-		numerologynameEZText3 = TextField(firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/1.6764705882353, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameEZText3 = TextField(~firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/1.6764705882353, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameEZText3.string = "vocal";
 		numerologynameEZText3.background_(Color.black);
 		numerologynameEZText3.stringColor_(Color.white);
@@ -158,32 +158,32 @@ above, and click on "Evaluate File".
 		};
 
 
-		numerologynameviewtext1 = TextField(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameviewtext1 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameviewtext1.background=maincolor;
 		numerologynameviewtext1.string = if(~numer_string_1 != nil, {~numer_string_1.asString;}, {"number not entered"});
 		numerologynameviewtext1.align = \topLeft;
 		numerologynameviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		numerologynameviewtext2 = TextField(firstview, Rect(~firstviewboundsWIDTH/3.7894736842105, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameviewtext2 = TextField(~firstview, Rect(~firstviewboundsWIDTH/3.7894736842105, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameviewtext2.background=maincolor;
 		numerologynameviewtext2.string = if(~numer_string_2 != nil, {~numer_string_2.asString;}, {"number not entered"});
 		numerologynameviewtext2.align = \topLeft;
 		numerologynameviewtext2.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		numerologynameviewtext3 = TextField(firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameviewtext3 = TextField(~firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameviewtext3.background=maincolor;
 		numerologynameviewtext3.string = if(~numer_string_3 != nil, {~numer_string_3.asString;}, {"number not entered"});
 		numerologynameviewtext3.align = \topLeft;
 		numerologynameviewtext3.font = Font(size: ~firstviewboundsWIDTH/48);
 
 
-		firstviewtext3 = StaticText(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.3215725806452, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
+		firstviewtext3 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.3215725806452, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
 		firstviewtext3.background=maincolor;
 		firstviewtext3.string = "Or you can do none of that, and just click on "++"next".quote++" below! Which you have to do either way :P lol :)";
 		firstviewtext3.align = \topLeft;
 		firstviewtext3.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		firstviewnextbutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/1.2, ~firstviewboundsHEIGHT/1.2116451016636, ~firstviewboundsWIDTH/12, ~firstviewboundsHEIGHT/10.925)).states_([["next",Color.white,Color.black],["next",Color.white,Color.black]]).action_({arg button;
+		firstviewnextbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.2, ~firstviewboundsHEIGHT/1.2116451016636, ~firstviewboundsWIDTH/12, ~firstviewboundsHEIGHT/10.925)).states_([["next",Color.white,Color.black],["next",Color.white,Color.black]]).action_({arg button;
 
 			if(~randseed_1 == nil, {~randseed_1 =  99999999.rand;});
 			if(~randseed_2 == nil, {~randseed_2 =  99999999.rand;});
@@ -199,7 +199,7 @@ above, and click on "Evaluate File".
 
 	};
 
-	// randseedEZText1 = NumberBox(firstview, Rect(10, w.bounds.height/3-20+20, 150, 20));
+	// randseedEZText1 = NumberBox(~firstview, Rect(10, w.bounds.height/3-20+20, 150, 20));
 	// /*randseedEZText1.clipHi(99999999);*/
 	// randseedEZText1.action = {~randseed_1 = randseedEZText1.value; ~randseed_1.postln;};
 
@@ -211,56 +211,52 @@ above, and click on "Evaluate File".
 
 	~main_page_func = {var arrow, newrandomseedsbutton, reversenewrandomseedsbutton, currentrandomseedstrext, playnil, see_saved_seeds_file_button;
 
-		firstview.close;
+		~firstview.close;
 
-		firstview = View(w, Rect(0, 0, w.bounds.width, w.bounds.height));
+		~firstview = View(w, Rect(0, 0, w.bounds.width, w.bounds.height));
 		/*view.clearOnRefresh = false;*/
-		firstview.background = maincolor;
-		~firstviewboundsWIDTH = firstview.bounds.width;
-		~firstviewboundsHEIGHT = firstview.bounds.height;
+		~firstview.background = maincolor;
+		~firstviewboundsWIDTH = ~firstview.bounds.width;
+		~firstviewboundsHEIGHT = ~firstview.bounds.height;
 
-		firstviewtext1 = StaticText(firstview, Rect(~firstviewboundsWIDTH/2.2857142857143, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85));
+		firstviewtext1 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/2.2857142857143, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85));
 		firstviewtext1.background=maincolor;
 		firstviewtext1.string = "Main Page";
 		firstviewtext1.align = \topLeft;
 		firstviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		firstviewtext2 = Button.new(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/16, ~firstviewboundsHEIGHT/21.85)).states_([["back",Color.white,Color.black],["back",Color.white,Color.black]]).action_({arg button;
-			firstview.close;
+		firstviewtext2 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/16, ~firstviewboundsHEIGHT/21.85)).states_([["back",Color.white,Color.black],["back",Color.white,Color.black]]).action_({arg button;
+			~firstview.close;
 			~front_page_func.value;
 		});
 		firstviewtext2.background=Color.grey;
 		firstviewtext2.string = "back";
 		firstviewtext2.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		firstviewtext3 = Button.new(firstview, Rect(~firstviewboundsWIDTH/1.3584905660377, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/4, ~firstviewboundsHEIGHT/21.85)).states_([["click here for instructions",Color.white,Color.black],["click here for instructions",Color.white,Color.black]]).action_({arg button;
+		firstviewtext3 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.3584905660377, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/4, ~firstviewboundsHEIGHT/21.85)).states_([["click here for instructions",Color.white,Color.black],["click here for instructions",Color.white,Color.black]]).action_({arg button;
 			~instructions_page_func.value;
 
 		});
 		firstviewtext3.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		generatepiecebutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/6.5454545454545, ~firstviewboundsHEIGHT/21.85)).states_([["generate piece",Color.white,Color.black],["generate piece",Color.white,Color.black]]).action_({arg button;
+		generatepiecebutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/6.5454545454545, ~firstviewboundsHEIGHT/21.85)).states_([["generate piece",Color.white,Color.black],["generate piece",Color.white,Color.black]]).action_({arg button;
 			var piecegenerated;
-			if((~duranbot_routine == nil) or: (~duranbot_routine.isPlaying == false), {playbutton.string = "please wait"});
+			~piecegenerated = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsWIDTH/7.5, ~firstviewboundsWIDTH/6.2608695652174, ~firstviewboundsWIDTH/36));
+			~piecegenerated.background=maincolor;
+			~piecegenerated.string = "please wait";
+			if(~piece_created == "true", {~playbutton.close; ~arrow.close;});
 			~piece_generator_func.value;
-			if((~duranbot_routine == nil) or: (~duranbot_routine.isPlaying == false), {playbutton.string = "play piece"});
-			piecegenerated = StaticText(firstview, Rect(10, 70+20, 115, 20));
-			piecegenerated.background=maincolor;
-			piecegenerated.string = "piece generated";
-			AppClock.sched(3, {piecegenerated.close});
 
 		});
 		generatepiecebutton.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		arrow = StaticText(firstview, Rect(~firstviewboundsWIDTH/5.9016393442623, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/36, ~firstviewboundsHEIGHT/21.85));
-		arrow.background=maincolor;
-		arrow.string = "-->";
-		arrow.font = Font(size: ~firstviewboundsWIDTH/48);
 
 		/*if(playnil == nil, {nil}, {*/
 		/*~play_visible_func = {
 		~play_visible_func_verify*/
-		playbutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/5.1063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["play piece",Color.white,Color.black],["stop piece",Color.white,Color.black]]).action_({arg button;
+
+		~playbutton_func = {
+			~playbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/5.1063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["play piece",Color.white,Color.black],["stop piece",Color.white,Color.black]]).action_({arg button;
 			if(button.value == 1, {
 				~run_piece_func.value;
 				~pausebuttonfunc.value;
@@ -274,10 +270,19 @@ above, and click on "Evaluate File".
 			});
 
 		});
-		playbutton.font = Font(size: ~firstviewboundsWIDTH/48);
-		/*};*/
+		~playbutton.font = Font(size: ~firstviewboundsWIDTH/48);
+			/*};*/
+			~arrow = StaticText(~firstview, Rect(~firstviewboundsWIDTH/5.9016393442623, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/36, ~firstviewboundsHEIGHT/21.85));
+			~arrow.background=maincolor;
+			~arrow.string = "---";
+			~arrow.font = Font(size: ~firstviewboundsWIDTH/48);
+		};
 
-		~pausebuttonfunc = {~pausebutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/3.063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["pause piece",Color.white,Color.black],["resume",Color.white,Color.black]]).action_({arg button;
+		~playbutton_func.value;
+
+		if(~piece_created == nil, {~playbutton.close; ~arrow.close;});
+
+		~pausebuttonfunc = {~pausebutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/3.063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["pause piece",Color.white,Color.black],["resume",Color.white,Color.black]]).action_({arg button;
 					if(button.value == 1, {
 						~duranbot_routine.pause;
 						s.makeBundle(s.latency, {
@@ -291,9 +296,9 @@ above, and click on "Evaluate File".
 				~pausebutton.font = Font(size: ~firstviewboundsWIDTH/48);
 		};
 
-		if(~duranbot_routine.isPlaying == true, {playbutton.value = 1; ~pausebuttonfunc.value;}, {playbutton.value = 0});
+		if(~duranbot_routine.isPlaying == true, {~playbutton.value = 1; ~pausebuttonfunc.value;}, {~playbutton.value = 0});
 
-		newrandomseedsbutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/5.1428571428571, ~firstviewboundsHEIGHT/21.85)).states_([["new random seeds",Color.white,Color.black],["new random seeds",Color.white,Color.black]]).action_({arg button;
+		newrandomseedsbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/5.1428571428571, ~firstviewboundsHEIGHT/21.85)).states_([["new random seeds",Color.white,Color.black],["new random seeds",Color.white,Color.black]]).action_({arg button;
 			~randseed_1_backup = ~randseed_1;
 			~randseed_2_backup = ~randseed_2;
 			~randseed_3_backup = ~randseed_3;
@@ -313,7 +318,7 @@ above, and click on "Evaluate File".
 		});
 		newrandomseedsbutton.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		reversenewrandomseedsbutton = Button.new(firstview, Rect(~firstviewboundsWIDTH/1.1059907834101, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/12, ~firstviewboundsHEIGHT/21.85)).states_([["reverse",Color.white,Color.black],["reverse",Color.white,Color.black]]).action_({arg button;
+		reversenewrandomseedsbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.1059907834101, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/12, ~firstviewboundsHEIGHT/21.85)).states_([["reverse",Color.white,Color.black],["reverse",Color.white,Color.black]]).action_({arg button;
 			~randseed_1_backup2 = ~randseed_1;
 			~randseed_2_backup2 = ~randseed_2;
 			~randseed_3_backup2 = ~randseed_3;
@@ -337,7 +342,7 @@ above, and click on "Evaluate File".
 		});
 		reversenewrandomseedsbutton.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		currentrandomseedstrext = StaticText(firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/4.6, ~firstviewboundsWIDTH/4, ~firstviewboundsHEIGHT/3.6416666666667));
+		currentrandomseedstrext = StaticText(~firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/4.6, ~firstviewboundsWIDTH/4, ~firstviewboundsHEIGHT/3.6416666666667));
 		currentrandomseedstrext.background=maincolor;
 		currentrandomseedstrext.string ="Current random seeds:\n"++
 		"randseed 1 - "++~randseed_1++"\n"++
@@ -346,9 +351,9 @@ above, and click on "Evaluate File".
 		"\n(also posted in post window)"++"\n"++
 		"*make sure to hit "++"generate piece".quote++" to generate a new piece based on the new seeds";
 		currentrandomseedstrext.align = \topLeft;
-		currentrandomseedstrext.font = Font(size: ~firstviewboundsWIDTH/55.384615384615);
+		currentrandomseedstrext.font = Font(size: ~firstviewboundsWIDTH/58.384615384615);
 
-		see_saved_seeds_file_button = Button.new(firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/1.9422222222222, ~firstviewboundsWIDTH/4, ~firstviewboundsHEIGHT/21.85)).states_([["see saved random seeds",Color.white,Color.black],["see saved random seeds",Color.white,Color.black]]).action_({arg button;
+		see_saved_seeds_file_button = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/1.9422222222222, ~firstviewboundsWIDTH/4, ~firstviewboundsHEIGHT/21.85)).states_([["see saved random seeds",Color.white,Color.black],["see saved random seeds",Color.white,Color.black]]).action_({arg button;
 
 			h = Document.open(Document.current.dir++"/duranbot_saved_random_seeds.scd");
 
@@ -359,38 +364,38 @@ above, and click on "Evaluate File".
 
 	~instructions_page_func = {
 
-		firstview.close;
+		~firstview.close;
 
-		firstview = View(w, Rect(0, 0, w.bounds.width, w.bounds.height));
+		~firstview = View(w, Rect(0, 0, w.bounds.width, w.bounds.height));
 		/*view.clearOnRefresh = false;*/
-		firstview.background = maincolor;
-		~firstviewboundsWIDTH = firstview.bounds.width;
-		~firstviewboundsHEIGHT = firstview.bounds.height;
+		~firstview.background = maincolor;
+		~firstviewboundsWIDTH = ~firstview.bounds.width;
+		~firstviewboundsHEIGHT = ~firstview.bounds.height;
 
-		firstviewtext1 = StaticText(firstview, Rect(~firstviewboundsWIDTH/2.2857142857143, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85));
+		firstviewtext1 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/2.2857142857143, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85));
 		firstviewtext1.background=maincolor;
 		firstviewtext1.string = "Instructions";
 		firstviewtext1.align = \topLeft;
 		firstviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		firstviewtext2 = Button.new(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/16, ~firstviewboundsHEIGHT/21.85)).states_([["back",Color.white,Color.black],["back",Color.white,Color.black]]).action_({arg button;
-			firstview.close;
+		firstviewtext2 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/16, ~firstviewboundsHEIGHT/21.85)).states_([["back",Color.white,Color.black],["back",Color.white,Color.black]]).action_({arg button;
+			~firstview.close;
 			~main_page_func.value;
 		});
 		firstviewtext2.background=Color.grey;
 		firstviewtext2.string = "back";
 		firstviewtext2.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		firstviewtext3 = StaticText(firstview, Rect(~firstviewboundsWIDTH/1.5652173913043, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/2.88, ~firstviewboundsHEIGHT/4.37));
+		firstviewtext3 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/1.5652173913043, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/2.88, ~firstviewboundsHEIGHT/4.37));
 		firstviewtext3.background=maincolor;
 		firstviewtext3.string = "*Important Note*... You can kill all sounds and processes by hitting "++"cmd/ctrl - period".quote++"on your keyboard. In case things get out of hand. ;)";
 		firstviewtext3.align = \topLeft;
 		firstviewtext3.font = Font(size: ~firstviewboundsWIDTH/65.454545454545);
 
-		firstviewtext4 = StaticText(firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/0.54625));
+		firstviewtext4 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/0.54625));
 		firstviewtext4.background=maincolor;
 		firstviewtext4.string =
-		"Play a Duranbot piece by clicking the "++"generate piece".quote++"  button on the Main Page, and then by clicking the "++"play piece".quote++"  button. Once random seeds are input into the program on the front page (the very first page of this program), you can only generate a song once using the same random seeds. If you click on the "++"generate piece".quote++"  button more than once without inputting new random seeds the same piece will always be generated. To generate a new piece, you can go back to the first page and input new random seeds, or you can click the "++"new random seeds".quote++"  button across from the "++"play piece".quote++"  button on the main page.
+		"Play a Duranbot piece by clicking the "++"generate piece".quote++"  button on the Main Page, and then by clicking the "++"play piece".quote++"  button. Once random seeds are input into the program on the front page (the very first page of this program), you can only generate a song once using the same random seeds. If you click on the "++"generate piece".quote++"  button more than once without inputting new random seeds the same piece will always be generated. To generate a new piece, you can go back to the first page and input new random seeds, or you can click the "++"new random seeds".quote++"  button across from the "++"generate piece".quote++"  button on the right side of the main page.
 
 ifsdf";
 		firstviewtext4.align = \topLeft;
@@ -548,7 +553,14 @@ ifsdf";
 
 					~put1 = if(~dna_clock_y == ~dna_index_choice.asInteger, {
 						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
-							("instrument_"++(case{~inst_num==1}{3}{~inst_num==2}{1}{~inst_num==3}{2};)++"_freq").asSymbol.envirGet
+							("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet
+							/*((a = (("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet
+								- ("instrument_"++((1..3).wrapAt(~inst_num-3))++"_freq").asSymbol.envirGet)/2);
+							if(a.isNegative == true, {a = a.neg});
+							a = (SortedList[
+								("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet,
+								("instrument_"++((1..3).wrapAt(~inst_num-3))++"_freq").asSymbol.envirGet
+							].at(0)) + a)*/
 							*(x = ~ratio_array.wrapAt(~ratio_x+[
 								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet,
 								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet.neg].choose);
@@ -603,6 +615,8 @@ ifsdf";
 			);
 
 			//Piece creation in parts. Only reason to have parts is to determine length of piece.
+
+			/*SortedList[~randseed_1, ~randseed_2, ~randseed_3];*/
 
 			(
 
@@ -707,6 +721,12 @@ ifsdf";
 									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.flatten;
 
 									"pseq arrays created".postln;
+									if(~piece_created == nil, {~piece_created = "true";});
+									AppClock.sched(0, {
+										~playbutton_func.value;
+										~piecegenerated.string = "piece generated";
+										AppClock.sched(3, {~piecegenerated.close});
+									});
 
 								});
 							};
