@@ -16,7 +16,7 @@ above, and click on "Evaluate File".
 	var w, /*~firstview,*/ firstviewtext1, firstviewtext2, firstviewtext3, firstviewtext4, firstviewnextbutton, mainview, mainviewtext, maincolor, randseedEZText1, randseedEZText2, randseedEZText3, randseed_1_make, randseed_2_make, randseed_3_make, randseedviewtext1,randseedviewtext2,
 	randseedviewtext3, numerologynameEZText1, numerologynameEZText2, numerologynameEZText3, numerologynameviewtext1, numerologynameviewtext2, numerologynameviewtext3,
 	generatepiecebutton, playbutton;
-	w = Window("duranduranbot 9000",
+	w = Window("DuranDuranbot",
 		Rect(Window.availableBounds.width/4, Window.availableBounds.height/4, Window.availableBounds.width/2, Window.availableBounds.height/2),
 		resizable: true, border:true);
 
@@ -500,9 +500,12 @@ ifsdf";
 
 				~tuning_frequency = 440; //default 440 hz
 				~freqmap = (i = ~tuning_frequency / (2 ** (69 / 12)); a = (-1); b = (-1); Array.fill(128, {i * (2 ** (((a=a+1) / 12).trunc)) * ( (2 ** (12.reciprocal)) ** ((b=b+1)  % 12));}));/*~freqmap = (i = 8.0271480262684/*-0.0000000000024*/; ~stepratio = 1.0594630943593; Array.fill(128, { i = i*~stepratio;}));*/
-				~freqmap2 = (i = ~freqmap.at(58)/*-0.0000000000024*/; ~stepratio = 1.0594630943593; Array.fill(24, { i = i*~stepratio;}));
+				~freqmap = ~freqmap.cpsmidi;
+				/*~freqmap2 = (i = ~freqmap.at(58)/*-0.0000000000024*/; ~stepratio = 1.0594630943593; Array.fill(24, { i = i*~stepratio;}));*/
+				~freqmap2 = (n = 57; Array.fill(24, { i = ~freqmap.at(n=n+1);}));
 				~time_sig_array1 = [2, 1, 0.5];
-				~ratio_array = (x = 0; Array.fill(12, {1.0594630943593**(x=x+1)}));
+				/*~ratio_array = (x = 0; Array.fill(12, {1.0594630943593**(x=x+1)}));*/
+				~midi_ratio_array = (1..12);
 
 
 				//song generator
@@ -529,7 +532,7 @@ ifsdf";
 				~dna_index_choice_func = {~dna_array.at(if(~dna_x < (~dna_array.size-1), {~dna_x=~dna_x+1;}, {~dna_x = 0}))};
 				~dna_index_choice = ~dna_index_choice_func.value;
 				~dna_clock_y = 0;
-				~ratio_x = 0;
+				~midi_ratio_x = 0;
 
 				~instrument_1_array_starting_func = {
 
@@ -546,29 +549,30 @@ ifsdf";
 					if(~instrument_3_freq == nil, {~instrument_3_freq = ~instrument_1_freq;});
 				};
 
-
 				~inst_clock_func = {
 
 					~put1 = if(~dna_clock_y == ~dna_index_choice.asInteger, {
-						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
-							("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet
-							/*((a = (("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet
-								- ("instrument_"++((1..3).wrapAt(~inst_num-3))++"_freq").asSymbol.envirGet)/2);
+						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(/*
+							("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet*/
+							a = (("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet
+								- ("instrument_"++((1..3).wrapAt(~inst_num-3))++"_freq").asSymbol.envirGet)/2;
 							if(a.isNegative == true, {a = a.neg});
-							a = (SortedList[
+							a = a.round;
+							n = (SortedList[
 								("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet,
 								("instrument_"++((1..3).wrapAt(~inst_num-3))++"_freq").asSymbol.envirGet
-							].at(0)) + a)*/
-							*(x = ~ratio_array.wrapAt(~ratio_x+[
+							]);
+							a = n.at((n.size/2).round-1) + a;
+							a = a + (x = ~midi_ratio_array.wrapAt(~midi_ratio_x+[
 								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet,
 								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet.neg].choose);
-							x = [x, x.reciprocal].choose;);
+							x = [x, x.neg].choose;);
 						);
-						/*if(~ratio_x == (~ratio_array.size-1), {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*[~ratio_array.at(5), ~ratio_array.at(5).reciprocal].choose;);});
+						/*if(~midi_ratio_x == (~midi_ratio_array.size-1), {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*[~midi_ratio_array.at(5), ~midi_ratio_array.at(5).reciprocal].choose;);});
 						*/case
-						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 1396.9129257322}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet/2)}
-						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 233.08188075905}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*2)}
-						{(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet >= 233.08188075905) and: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet <= 1396.9129257322)}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;)};
+						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 89}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet-12)}
+						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 58}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet+12)}
+						{(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet >= 58) and: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet <= 89)}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;)};
 						("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
 						),
 						("~instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;),
@@ -623,6 +627,7 @@ ifsdf";
 					thisThread.randSeed = ~randseed_2;
 
 					~part_bit_size = 64;
+					~bit_duration = rrand(0.05, 0.3);
 					~max_number_of_parts = 200; //max 120 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
 					~number_of_parts_in_piece = (~max_number_of_parts.linrand - ~max_number_of_parts).neg;
 					~numerology_step = (-1);
@@ -637,14 +642,14 @@ ifsdf";
 							1.do({
 
 								~dna_clock_y = ~dna_clock_y + 1;
-								~ratio_x = ~ratio_x + 1;
+								~midi_ratio_x = ~midi_ratio_x + 1;
 
 								~instrument_1_array_starting_func.value;
 								~instrument_2_array_func.value;
 								~instrument_3_array_func.value;
 
 								if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-								if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+								if(~midi_ratio_x == (~midi_ratio_array.size-1), {~midi_ratio_x = 0});
 
 								0.0005.wait;
 
@@ -653,14 +658,14 @@ ifsdf";
 							(~part_bit_size-1).do({
 
 								~dna_clock_y = ~dna_clock_y + 1;
-								~ratio_x = ~ratio_x + 1;
+								~midi_ratio_x = ~midi_ratio_x + 1;
 
 								~instrument_1_array_func.value;
 								~instrument_2_array_func.value;
 								~instrument_3_array_func.value;
 
 								if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-								if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+								if(~midi_ratio_x == (~midi_ratio_array.size-1), {~midi_ratio_x = 0});
 
 								0.0005.wait;
 
@@ -677,14 +682,14 @@ ifsdf";
 								~part_bit_size.do({
 
 									~dna_clock_y = ~dna_clock_y + 1;
-									~ratio_x = ~ratio_x + 1;
+									~midi_ratio_x = ~midi_ratio_x + 1;
 
 									~instrument_1_array_func.value;
 									~instrument_2_array_func.value;
 									~instrument_3_array_func.value;
 
 									if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
-									if(~ratio_x == (~ratio_array.size-1), {~ratio_x = 0});
+									if(~midi_ratio_x == (~midi_ratio_array.size-1), {~midi_ratio_x = 0});
 
 									0.0005.wait;
 
@@ -709,14 +714,17 @@ ifsdf";
 									x = 0;
 									~number_of_parts_in_piece.do({~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.add(("instrument_1_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.flatten;
+									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.midicps;
 
 									x = 0;
 									~number_of_parts_in_piece.do({~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.add(("instrument_2_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.flatten;
+									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.midicps;
 
 									x = 0;
 									~number_of_parts_in_piece.do({~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.add(("instrument_3_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.flatten;
+									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.midicps;
 
 									"pseq arrays created".postln;
 									if(~piece_created == nil, {~piece_created = "true";});
@@ -819,7 +827,7 @@ ifsdf";
 			~duranduranbotsynth1.set(\freq, 2);
 			*/
 
-			~duranduranbot_routine = Task({x = 0; ~bit_duration = 0.1;
+			~duranduranbot_routine = Task({x = 0;
 
 				1.do({
 
