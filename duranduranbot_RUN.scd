@@ -540,6 +540,14 @@ ifsdf";
 
 				~inst_clock_func = {
 
+					//What this part does -
+					//Takes all instrument midi notes, adds them, then subtracts current instrument midi note from that.
+					//Then divides that sum by the total number of instruments minus current instrument.
+					//Then rounds the dividend.
+					//Then adds: the current "~midi_ratio_x" value plus the numerology value of name of intrumentalist... made positive or negative.
+
+					//If it doesn't do what is stated above, it either stays on current note, or makes note 0 hz.
+
 					~put1 = if(~dna_clock_y == ~dna_index_choice.asInteger, {
 						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
 							~number_of_instruments.do(x = 0; y = 0; {y = y + (("instrument_"++(x=x+1)++"_freq").asSymbol.envirGet)});
