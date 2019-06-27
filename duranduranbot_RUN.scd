@@ -544,16 +544,24 @@ ifsdf";
 				if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 
+
+				/*~instrument_1_freq = 45;
+				~instrument_2_freq = 65;
+				~instrument_3_freq = 35;
+
+				45+65+35/3*/
+
+
+
 				~inst_clock_func = {
 
 					//What this part does -
 
-					//*IF* a single digit in the duranduranbot DNA has iterated the number of times of that single digit during piece composition.... (Find duranduranbot DNA in this file (highlight the code in between the arrows and press "cmd/ctrl - enter": < Document.open(Document.current.dir++"/duranduranbot_dna.scd"); >))
+					//*IF* a single digit in the duranduranbot DNA has iterated the number of times of that single digit during piece composition.... (Find duranduranbot DNA in this file (highlight the code in between the arrows and press "cmd/ctrl - enter": < Document.open(Document.current.dir++"/duranduranbot_dna.scd"); >) - Do not edit the DNA file manually.)
 
 					//To create next "bit" in compositiion for the current instrument....
 
-					//Takes midi notes of all instruments, adds them, then subtracts current instrument midi note from that.
-					//Then divides that sum by the total number of instruments minus current instrument.
+					//Takes midi notes of all instruments, adds them, then divides that sum by the total number of instruments.
 					//Then rounds the dividend.
 					//Then adds: the current "~midi_ratio_x" value plus the numerology value of name of intrumentalist... made positive or negative.
 
@@ -563,8 +571,7 @@ ifsdf";
 						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
 							~number_of_instruments.do(x = 0; y = 0; {y = y + (("instrument_"++(x=x+1)++"_freq").asSymbol.envirGet)});
 							a = y;
-							a = a - ("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
-							a = a/(~number_of_instruments-1);
+							a = a/(~number_of_instruments);
 							a = a.round;
 							a = a + (x = ~midi_ratio_array.wrapAt(~midi_ratio_x+[
 								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet,
