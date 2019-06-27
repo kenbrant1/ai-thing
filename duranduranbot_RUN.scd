@@ -255,20 +255,20 @@ above, and click on "Evaluate File".
 
 		~playbutton_func = {
 			~playbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/5.1063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["play piece",Color.white,Color.black],["stop piece",Color.white,Color.black]]).action_({arg button;
-			if(button.value == 1, {
-				~run_piece_func.value;
-				~pausebuttonfunc.value;
-			}, {
-				~duranduranbotsynth1.free;
-				~duranduranbotsynth2.free;
-				~duranduranbotsynth3.free;
-				~duranduranbot_routine.stop;
-				Server.freeAll;
-				~pausebutton.close;
-			});
+				if(button.value == 1, {
+					~run_piece_func.value;
+					~pausebuttonfunc.value;
+				}, {
+					~duranduranbotsynth1.free;
+					~duranduranbotsynth2.free;
+					~duranduranbotsynth3.free;
+					~duranduranbot_routine.stop;
+					Server.freeAll;
+					~pausebutton.close;
+				});
 
-		});
-		~playbutton.font = Font(size: ~firstviewboundsWIDTH/48);
+			});
+			~playbutton.font = Font(size: ~firstviewboundsWIDTH/48);
 			/*};*/
 			~arrow = StaticText(~firstview, Rect(~firstviewboundsWIDTH/5.9016393442623, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/36, ~firstviewboundsHEIGHT/21.85));
 			~arrow.background=maincolor;
@@ -281,17 +281,17 @@ above, and click on "Evaluate File".
 		if(~piece_created == nil, {~playbutton.close; ~arrow.close;});
 
 		~pausebuttonfunc = {~pausebutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/3.063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["pause piece",Color.white,Color.black],["resume",Color.white,Color.black]]).action_({arg button;
-					if(button.value == 1, {
-						~duranduranbot_routine.pause;
-						s.makeBundle(s.latency, {
-							~duranduranbotsynth1.set(\freq, 0);
-							~duranduranbotsynth2.set(\freq, 0);
-							~duranduranbotsynth3.set(\freq, 0);
-						});
-					}, {~duranduranbot_routine.resume;});
+			if(button.value == 1, {
+				~duranduranbot_routine.pause;
+				s.makeBundle(s.latency, {
+					~duranduranbotsynth1.set(\freq, 0);
+					~duranduranbotsynth2.set(\freq, 0);
+					~duranduranbotsynth3.set(\freq, 0);
 				});
+			}, {~duranduranbot_routine.resume;});
+		});
 
-				~pausebutton.font = Font(size: ~firstviewboundsWIDTH/48);
+		~pausebutton.font = Font(size: ~firstviewboundsWIDTH/48);
 		};
 
 		if(~duranduranbot_routine.isPlaying == true, {~playbutton.value = 1; ~pausebuttonfunc.value;}, {~playbutton.value = 0});
@@ -534,35 +534,19 @@ ifsdf";
 				~dna_clock_y = 0;
 				~midi_ratio_x = 0;
 
-				~instrument_1_array_starting_func = {
 
-					("instrument_1_array_part_"++(~part_num)).asSymbol.envirPut(
-						("instrument_1_array_part_"++(~part_num)).asSymbol.envirGet.add(
+				if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
-							case
-							{~instrument_1 == "bass"}{~instrument_1_freq = ~freqmap2.choose}
-							{~instrument_1 == "keys"}{~instrument_1_freq = ~freqmap2.choose}
-							{~instrument_1 == "vocal"}{~instrument_1_freq = ~freqmap2.choose};
-						)
-					);
-					if(~instrument_2_freq == nil, {~instrument_2_freq = ~instrument_1_freq;});
-					if(~instrument_3_freq == nil, {~instrument_3_freq = ~instrument_1_freq;});
-				};
 
 				~inst_clock_func = {
 
 					~put1 = if(~dna_clock_y == ~dna_index_choice.asInteger, {
-						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(/*
-							("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet*/
-							a = (("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet
-								- ("instrument_"++((1..3).wrapAt(~inst_num-3))++"_freq").asSymbol.envirGet)/2;
-							if(a.isNegative == true, {a = a.neg});
+						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
+							~number_of_instruments.do(x = 0; y = 0; {y = y + (("instrument_"++(x=x+1)++"_freq").asSymbol.envirGet)});
+							a = y;
+							a = a - ("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
+							a = a/(~number_of_instruments-1);
 							a = a.round;
-							n = (SortedList[
-								("instrument_"++((1..3).wrapAt(~inst_num-2))++"_freq").asSymbol.envirGet,
-								("instrument_"++((1..3).wrapAt(~inst_num-3))++"_freq").asSymbol.envirGet
-							]);
-							a = n.at((n.size/2).round-1) + a;
 							a = a + (x = ~midi_ratio_array.wrapAt(~midi_ratio_x+[
 								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet,
 								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet.neg].choose);
@@ -581,6 +565,21 @@ ifsdf";
 					},
 					{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;});
 					~put1.value;
+				};
+
+				~instrument_1_array_starting_func = {
+
+					("instrument_1_array_part_"++(~part_num)).asSymbol.envirPut(
+						("instrument_1_array_part_"++(~part_num)).asSymbol.envirGet.add(
+
+							case
+							{~instrument_1 == "bass"}{~instrument_1_freq = ~freqmap2.choose}
+							{~instrument_1 == "keys"}{~instrument_1_freq = ~freqmap2.choose}
+							{~instrument_1 == "vocal"}{~instrument_1_freq = ~freqmap2.choose};
+						)
+					);
+					if(~instrument_2_freq == nil, {~instrument_2_freq = ~instrument_1_freq;});
+					if(~instrument_3_freq == nil, {~instrument_3_freq = ~instrument_1_freq;});
 				};
 
 				~instrument_1_array_func = {
@@ -618,8 +617,6 @@ ifsdf";
 
 			//Piece creation in parts. Only reason to have parts is to determine length of piece.
 
-			/*SortedList[~randseed_1, ~randseed_2, ~randseed_3];*/
-
 			(
 
 				~create_piece_function = {
@@ -651,6 +648,10 @@ ifsdf";
 								if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
 								if(~midi_ratio_x == (~midi_ratio_array.size-1), {~midi_ratio_x = 0});
 
+								/*~instrument_1_freq.postln;
+								~instrument_2_freq.postln;
+								~instrument_3_freq.postln;*/
+
 								0.0005.wait;
 
 							});
@@ -666,6 +667,10 @@ ifsdf";
 
 								if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
 								if(~midi_ratio_x == (~midi_ratio_array.size-1), {~midi_ratio_x = 0});
+
+								/*~instrument_1_freq.postln;
+								~instrument_2_freq.postln;
+								~instrument_3_freq.postln;*/
 
 								0.0005.wait;
 
@@ -705,6 +710,8 @@ ifsdf";
 						(
 							~create_pseq_arrays_func = {
 
+								h = 0.midicps;
+
 								1.do({
 
 									~instrument_1_full_pseq_array = [];
@@ -715,16 +722,19 @@ ifsdf";
 									~number_of_parts_in_piece.do({~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.add(("instrument_1_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.flatten;
 									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.midicps;
+									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.replace(h, 0);
 
 									x = 0;
 									~number_of_parts_in_piece.do({~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.add(("instrument_2_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.flatten;
 									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.midicps;
+									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.replace(h, 0);
 
 									x = 0;
 									~number_of_parts_in_piece.do({~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.add(("instrument_3_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.flatten;
 									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.midicps;
+									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.replace(h, 0);
 
 									"pseq arrays created".postln;
 									if(~piece_created == nil, {~piece_created = "true";});
@@ -969,122 +979,122 @@ if(Server.default.serverRunning == false, {s.boot; s.waitForBoot({~duranduranbot
 (Platform.userConfigDir +/+ "sc_ide_conf.yaml").openDocument;
 
 IDE:
-  editor:
-    blinkDuration: 600
-    disableBlinkingCursor: false
-    font:
-      antialias: 2
-      family: Courier 10 Pitch
-      size: 9
-    highlightBracketContents: true
-    highlightCurrentLine: false
-    inactiveEditorFadeAlpha: 64
-    indentWidth: 4
-    insertMatchingTokens: false
-    lineWrap: false
-    spaceIndent: false
-    stepForwardEvaluation: false
-    theme: My old theme
-    themes:
-      My old theme:
-        built-in: !textFormat
-          color: "#6b6bbf"
-          italic: false
-        char: !textFormat
-          color: "#92d38e"
-          italic: false
-        class: !textFormat
-          color: "#6066d2"
-          italic: false
-        comment: !textFormat
-          color: "#bf5454"
-          italic: false
-        currentLine: !textFormat
-          color: "#000000"
-          background: "#f4f4f4"
-          italic: false
-        env-var: !textFormat
-          color: "#8c654f"
-          italic: false
-        evaluatedCode: !textFormat
-          color: "#000000"
-          background: "#f8a200"
-        keyword: !textFormat
-          color: "#676fe6"
-          bold: true
-          italic: false
-        lineNumbers: !textFormat
-          color: "#6f6f6f"
-          background: "#000000"
-          italic: false
-        matchingBrackets: !textFormat
-          color: "#ff0000"
-          bold: true
-        mismatchedBrackets: !textFormat
-          color: "#ffffff"
-          background: "#960000"
-          italic: false
-        number: !textFormat
-          color: "#9d43a7"
-          italic: false
-        postwindowemphasis: !textFormat
-          color: "#edd400"
-          bold: true
-          italic: false
-        postwindowerror: !textFormat
-          color: "#d11c24"
-          italic: false
-        postwindowsuccess: !textFormat
-          color: "#738a05"
-          italic: false
-        postwindowtext: !textFormat
-          color: "#ffffff"
-          italic: false
-        postwindowwarning: !textFormat
-          color: "#a57706"
-          italic: false
-        primitive: !textFormat
-          color: "#3333bf"
-          italic: false
-        searchResult: !textFormat
-          color: "#7f7f7f"
-          background: "#783b23"
-        selection: !textFormat
-          {}
-        string: !textFormat
-          color: "#bababa"
-          italic: false
-        symbol: !textFormat
-          color: "#87c87e"
-          italic: false
-        text: !textFormat
-          color: "#ffffff"
-          background: "#000000"
-        whitespace: !textFormat
-          color: "#7f7f7f"
-          italic: false
-    useComboBox: false
-    useComboBoxWhenSplitting: false
-  interpreter:
-    autoStart: true
-    configFile: ""
-    runtimeDir: ""
-    standalone: false
-  mainWindow:
-    detached: !QVariantMap
-      documents-dock: ""
-      help-dock: AQHZ0MsAAgAAAAAAdAAAAI8AAAKzAAADBAAAAHQAAACtAAACswAAAwQAAAAAAAAAAAWg
-      post-dock: ""
-    geometry: AdnQywACAAAAAAAAAAAAGwAABZ8AAAODAAAAAAAAAC8AAAK/AAAChgAAAAACAAAABaA=
-    state: AAAA/wAAAAD9AAAAAgAAAAAAAAAAAAAAAPwCAAAAAfsAAAAcAGQAbwBjAHUAbQBlAG4AdABzAC0AZABvAGMAawAAAAAA/////wAAAF8A////AAAAAQAAANYAAAMa/AIAAAAC+wAAABIAaABlAGwAcAAtAGQAbwBjAGsAAAAAFgAAAbUAAAATAP////sAAAASAHAAbwBzAHQALQBkAG8AYwBrAQAAABYAAAMaAAAATQD///8AAATJAAADGgAAAAEAAAACAAAAAQAAAAL8AAAAAA==
-  postWindow:
-    lineWrap: false
-    scrollback: 1000
-  recentDocuments: !QVariantList
-    - /home/ken/Documents/duranduranbot/duranduranbot_9000/duranduranbot_9000/duranduranbot_9000_PROGRAM/duranduranbot_RUN.scd
-    - /home/ken/.config/SuperCollider/sc_ide_conf.yaml
-    - /home/ken/Downloads/timewavesynth.scd
-  startWithSession: last
+editor:
+blinkDuration: 600
+disableBlinkingCursor: false
+font:
+antialias: 2
+family: Courier 10 Pitch
+size: 9
+highlightBracketContents: true
+highlightCurrentLine: false
+inactiveEditorFadeAlpha: 64
+indentWidth: 4
+insertMatchingTokens: false
+lineWrap: false
+spaceIndent: false
+stepForwardEvaluation: false
+theme: My old theme
+themes:
+My old theme:
+built-in: !textFormat
+color: "#6b6bbf"
+italic: false
+char: !textFormat
+color: "#92d38e"
+italic: false
+class: !textFormat
+color: "#6066d2"
+italic: false
+comment: !textFormat
+color: "#bf5454"
+italic: false
+currentLine: !textFormat
+color: "#000000"
+background: "#f4f4f4"
+italic: false
+env-var: !textFormat
+color: "#8c654f"
+italic: false
+evaluatedCode: !textFormat
+color: "#000000"
+background: "#f8a200"
+keyword: !textFormat
+color: "#676fe6"
+bold: true
+italic: false
+lineNumbers: !textFormat
+color: "#6f6f6f"
+background: "#000000"
+italic: false
+matchingBrackets: !textFormat
+color: "#ff0000"
+bold: true
+mismatchedBrackets: !textFormat
+color: "#ffffff"
+background: "#960000"
+italic: false
+number: !textFormat
+color: "#9d43a7"
+italic: false
+postwindowemphasis: !textFormat
+color: "#edd400"
+bold: true
+italic: false
+postwindowerror: !textFormat
+color: "#d11c24"
+italic: false
+postwindowsuccess: !textFormat
+color: "#738a05"
+italic: false
+postwindowtext: !textFormat
+color: "#ffffff"
+italic: false
+postwindowwarning: !textFormat
+color: "#a57706"
+italic: false
+primitive: !textFormat
+color: "#3333bf"
+italic: false
+searchResult: !textFormat
+color: "#7f7f7f"
+background: "#783b23"
+selection: !textFormat
+{}
+string: !textFormat
+color: "#bababa"
+italic: false
+symbol: !textFormat
+color: "#87c87e"
+italic: false
+text: !textFormat
+color: "#ffffff"
+background: "#000000"
+whitespace: !textFormat
+color: "#7f7f7f"
+italic: false
+useComboBox: false
+useComboBoxWhenSplitting: false
+interpreter:
+autoStart: true
+configFile: ""
+runtimeDir: ""
+standalone: false
+mainWindow:
+detached: !QVariantMap
+documents-dock: ""
+help-dock: AQHZ0MsAAgAAAAAAdAAAAI8AAAKzAAADBAAAAHQAAACtAAACswAAAwQAAAAAAAAAAAWg
+post-dock: ""
+geometry: AdnQywACAAAAAAAAAAAAGwAABZ8AAAODAAAAAAAAAC8AAAK/AAAChgAAAAACAAAABaA=
+state: AAAA/wAAAAD9AAAAAgAAAAAAAAAAAAAAAPwCAAAAAfsAAAAcAGQAbwBjAHUAbQBlAG4AdABzAC0AZABvAGMAawAAAAAA/////wAAAF8A////AAAAAQAAANYAAAMa/AIAAAAC+wAAABIAaABlAGwAcAAtAGQAbwBjAGsAAAAAFgAAAbUAAAATAP////sAAAASAHAAbwBzAHQALQBkAG8AYwBrAQAAABYAAAMaAAAATQD///8AAATJAAADGgAAAAEAAAACAAAAAQAAAAL8AAAAAA==
+postWindow:
+lineWrap: false
+scrollback: 1000
+recentDocuments: !QVariantList
+- /home/ken/Documents/duranduranbot/duranduranbot_9000/duranduranbot_9000/duranduranbot_9000_PROGRAM/duranduranbot_RUN.scd
+- /home/ken/.config/SuperCollider/sc_ide_conf.yaml
+- /home/ken/Downloads/timewavesynth.scd
+startWithSession: last
 
 
 */
