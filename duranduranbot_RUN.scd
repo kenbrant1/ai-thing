@@ -11,6 +11,8 @@ above, and click on "Evaluate File".
 
 */
 
+// GUI
+
 ~duranduranbot_GUI_func = {
 
 	var w, /*~firstview,*/ firstviewtext1, firstviewtext2, firstviewtext3, firstviewtext4, firstviewnextbutton, mainview, mainviewtext, maincolor, randseedEZText1, randseedEZText2, randseedEZText3, randseed_1_make, randseed_2_make, randseed_3_make, randseedviewtext1,randseedviewtext2,
@@ -403,6 +405,8 @@ ifsdf";
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// NUMEROLOGY CALCULATOR
+
 	~numer_calc_function = {
 
 		if(~num_numerology_calc == nil, {~num_numerology_calc = 3;});
@@ -473,6 +477,8 @@ ifsdf";
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// SAVE RANDOM SEEDS TO FILE
+
 	~save_random_seeds_func = {
 
 		a = Date.getDate;
@@ -493,6 +499,8 @@ ifsdf";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// BUILD/GENERATE/COMPOSE PIECE
+
 	~piece_generator_func = {
 
 		(
@@ -507,8 +515,6 @@ ifsdf";
 				/*~ratio_array = (x = 0; Array.fill(12, {1.0594630943593**(x=x+1)}));*/
 				~midi_ratio_array = (1..12);
 
-
-				//song generator
 
 				thisThread.randSeed = ~randseed_1;
 
@@ -541,12 +547,17 @@ ifsdf";
 				~inst_clock_func = {
 
 					//What this part does -
-					//Takes all instrument midi notes, adds them, then subtracts current instrument midi note from that.
+
+					//*IF* a single digit in the duranduranbot DNA has iterated the number of times of that single digit during piece composition.... (Find duranduranbot DNA in this file (highlight the code in between the arrows and press "cmd/ctrl - enter": < Document.open(Document.current.dir++"/duranduranbot_dna.scd"); >))
+
+					//To create next "bit" in compositiion for the current instrument....
+
+					//Takes midi notes of all instruments, adds them, then subtracts current instrument midi note from that.
 					//Then divides that sum by the total number of instruments minus current instrument.
 					//Then rounds the dividend.
 					//Then adds: the current "~midi_ratio_x" value plus the numerology value of name of intrumentalist... made positive or negative.
 
-					//If it doesn't do what is stated above, it either stays on current note, or makes note 0 hz.
+					//If it doesn't do what is stated above, it chooses to either stay on current note or makes note 0 hz.
 
 					~put1 = if(~dna_clock_y == ~dna_index_choice.asInteger, {
 						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
@@ -567,8 +578,11 @@ ifsdf";
 						{(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet >= 58) and: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet <= 89)}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;)};
 						("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
 						),
+
 						("~instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;),
+
 						(0)
+
 						]).wchoose([0.45,0.45,0.1]);
 					},
 					{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;});
@@ -774,6 +788,8 @@ ifsdf";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// RUN/PLAY PIECE
+
 	~run_piece_func = {
 
 		(
@@ -852,8 +868,8 @@ ifsdf";
 					s.makeBundle(s.latency, {
 
 						~duranduranbotsynth1 = Synth(\synth1, [freq: ~instrument_1_full_pseq_array.at(x)]);
-						~duranduranbotsynth2 = Synth(\synth1, [freq: ~instrument_2_full_pseq_array.at(x)]);
-						~duranduranbotsynth3 = Synth(\synth1, [freq: ~instrument_3_full_pseq_array.at(x)]);
+						~duranduranbotsynth2 = Synth(\synth2, [freq: ~instrument_2_full_pseq_array.at(x)]);
+						~duranduranbotsynth3 = Synth(\synth3, [freq: ~instrument_3_full_pseq_array.at(x)]);
 
 						/*~duranduranbotsynth1 = ~synth.value;
 						~duranduranbotsynth2 = ~synth.value;
@@ -894,6 +910,8 @@ ifsdf";
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// CREATE NEW DNA
 
 	~enter_database_func = {
 
