@@ -13,11 +13,13 @@ above, and click on "Evaluate File".
 
 // GUI
 
+if(~number_of_instruments == nil, {~number_of_instruments = 3;});
+
 ~duranduranbot_GUI_func = {
 
-	var w, /*~firstview,*/ firstviewtext1, firstviewtext2, firstviewtext3, firstviewtext4, firstviewnextbutton, mainview, mainviewtext, maincolor, randseedEZText1, randseedEZText2, randseedEZText3, randseed_1_make, randseed_2_make, randseed_3_make, randseedviewtext1,randseedviewtext2,
+	var w, /*~firstview,*/ firstviewtext1, firstviewtext2, firstviewtext3, firstviewtext4, firstviewtext5, firstviewtext6, firstviewnextbutton, mainview, mainviewtext, maincolor, randseedEZText1, randseedEZText2, randseedEZText3, randseed_1_make, randseed_2_make, randseed_3_make, randseedviewtext1,randseedviewtext2,
 	randseedviewtext3, numerologynameEZText1, numerologynameEZText2, numerologynameEZText3, numerologynameviewtext1, numerologynameviewtext2, numerologynameviewtext3,
-	generatepiecebutton, playbutton;
+	generatepiecebutton, playbutton, enterdatabasebutton;
 	w = Window("DuranDuranbot",
 		Rect(Window.availableBounds.width/4, Window.availableBounds.height/4, Window.availableBounds.width/2, Window.availableBounds.height/2),
 		resizable: true, border:true);
@@ -52,7 +54,7 @@ above, and click on "Evaluate File".
 			if(randseed_1_make.size > 8, {randseed_1_make = nil; randseedEZText1.string = "must be 8 digits or less";}, {
 				randseed_1_make = randseed_1_make.join.asString.interpret;
 				randseedviewtext1.string = if(randseed_1_make.isNumber == true, {
-					randseed_1_make = randseed_1_make.asFloat; randseed_1_make.postln; ~randseed_1 = randseed_1_make; ~randseed_1.asString++" entered";}, {
+					randseed_1_make = randseed_1_make.asFloat; randseed_1_make.postln; ~randseed_1 = randseed_1_make; ~randseed_1.asString++" entered"; ~save_random_seeds_func.value;}, {
 					randseed_1_make = nil; randseedEZText1.string = "enter numerical value";
 				});
 			});
@@ -70,7 +72,7 @@ above, and click on "Evaluate File".
 			if(randseed_2_make.size > 8, {randseed_2_make = nil; randseedEZText2.string = "must be 8 digits or less";}, {
 				randseed_2_make = randseed_2_make.join.asString.interpret;
 				randseedviewtext2.string = if(randseed_2_make.isNumber == true, {
-					randseed_2_make = randseed_2_make.asFloat; randseed_2_make.postln; ~randseed_2 = randseed_2_make; ~randseed_2.asString++" entered";}, {
+					randseed_2_make = randseed_2_make.asFloat; randseed_2_make.postln; ~randseed_2 = randseed_2_make; ~randseed_2.asString++" entered"; ~save_random_seeds_func.value;}, {
 					randseed_2_make = nil; randseedEZText2.string = "enter numerical value";
 				});
 			});
@@ -88,25 +90,25 @@ above, and click on "Evaluate File".
 			if(randseed_3_make.size > 8, {randseed_3_make = nil; randseedEZText3.string = "must be 8 digits or less";}, {
 				randseed_3_make = randseed_3_make.join.asString.interpret;
 				randseedviewtext3.string = if(randseed_3_make.isNumber == true, {
-					randseed_3_make = randseed_3_make.asFloat; randseed_3_make.postln; ~randseed_3 = randseed_3_make; ~randseed_3.asString++" entered";}, {
+					randseed_3_make = randseed_3_make.asFloat; randseed_3_make.postln; ~randseed_3 = randseed_3_make; ~randseed_3.asString++" entered"; ~save_random_seeds_func.value;}, {
 					randseed_3_make = nil; randseedEZText3.string = "enter numerical value";
 				});
 			});
 		};
 
-		randseedviewtext1 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedviewtext1 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedviewtext1.background=maincolor;
 		randseedviewtext1.string = if(~randseed_1 != nil, {~randseed_1.asString++" entered"}, {"number not entered"});
 		randseedviewtext1.align = \topLeft;
 		randseedviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		randseedviewtext2 = TextField(~firstview, Rect(~firstviewboundsWIDTH/3.7894736842105,~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedviewtext2 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/3.7894736842105,~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedviewtext2.background=maincolor;
 		randseedviewtext2.string = if(~randseed_2 != nil, {~randseed_2.asString++" entered"}, {"number not entered"});
 		randseedviewtext2.align = \topLeft;
 		randseedviewtext2.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		randseedviewtext3 = TextField(~firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		randseedviewtext3 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/2.6063618290258, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		randseedviewtext3.background=maincolor;
 		randseedviewtext3.string = if(~randseed_3 != nil, {~randseed_3.asString++" entered"}, {"number not entered"});
 		randseedviewtext3.align = \topLeft;
@@ -158,19 +160,19 @@ above, and click on "Evaluate File".
 		};
 
 
-		numerologynameviewtext1 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameviewtext1 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameviewtext1.background=maincolor;
 		numerologynameviewtext1.string = if(~numer_string_1 != nil, {~numer_string_1.asString;}, {"number not entered"});
 		numerologynameviewtext1.align = \topLeft;
 		numerologynameviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		numerologynameviewtext2 = TextField(~firstview, Rect(~firstviewboundsWIDTH/3.7894736842105, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameviewtext2 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/3.7894736842105, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameviewtext2.background=maincolor;
 		numerologynameviewtext2.string = if(~numer_string_2 != nil, {~numer_string_2.asString;}, {"number not entered"});
 		numerologynameviewtext2.align = \topLeft;
 		numerologynameviewtext2.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		numerologynameviewtext3 = TextField(~firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
+		numerologynameviewtext3 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/1.8947368421053, ~firstviewboundsHEIGHT/1.5459905660377, ~firstviewboundsWIDTH/4.2352941176471, ~firstviewboundsHEIGHT/21.85));
 		numerologynameviewtext3.background=maincolor;
 		numerologynameviewtext3.string = if(~numer_string_3 != nil, {~numer_string_3.asString;}, {"number not entered"});
 		numerologynameviewtext3.align = \topLeft;
@@ -189,9 +191,7 @@ above, and click on "Evaluate File".
 			if(~randseed_2 == nil, {~randseed_2 =  99999999.rand;});
 			if(~randseed_3 == nil, {~randseed_3 =  99999999.rand;});
 
-			~numer_calc_function.value;
-
-			~save_random_seeds_func.value;
+			if(~startprogram == nil, {~numer_calc_function.value; ~save_random_seeds_func.value; ~startprogram = 1;});
 
 			~main_page_func.value;
 		});
@@ -267,6 +267,7 @@ above, and click on "Evaluate File".
 					~duranduranbot_routine.stop;
 					Server.freeAll;
 					~pausebutton.close;
+					"piece stopped".postln;
 				});
 
 			});
@@ -290,13 +291,20 @@ above, and click on "Evaluate File".
 					~duranduranbotsynth2.set(\freq, 0);
 					~duranduranbotsynth3.set(\freq, 0);
 				});
-			}, {~duranduranbot_routine.resume;});
+				"piece paused".postln;
+			}, {~duranduranbot_routine.resume; "piece resumed".postln;});
 		});
 
 		~pausebutton.font = Font(size: ~firstviewboundsWIDTH/48);
 		};
 
 		if(~duranduranbot_routine.isPlaying == true, {~playbutton.value = 1; ~pausebuttonfunc.value;}, {~playbutton.value = 0});
+
+		enterdatabasebutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.9422222222222 /*~firstviewboundsHEIGHT/6.2428571428571*/, ~firstviewboundsWIDTH/2.7, ~firstviewboundsHEIGHT/21.85)).states_([["input inspiration into DuranDuranbot",Color.white,Color.black],["input inspiration into DuranDuranbot",Color.white,Color.black]]).action_({arg button;
+			~inspiration_page_func.value;
+
+		});
+		enterdatabasebutton.font = Font(size: ~firstviewboundsWIDTH/48);
 
 		newrandomseedsbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/5.1428571428571, ~firstviewboundsHEIGHT/21.85)).states_([["new random seeds",Color.white,Color.black],["new random seeds",Color.white,Color.black]]).action_({arg button;
 			~randseed_1_backup = ~randseed_1;
@@ -395,13 +403,121 @@ above, and click on "Evaluate File".
 		firstviewtext4 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/0.54625));
 		firstviewtext4.background=maincolor;
 		firstviewtext4.string =
-		"Play a DuranDuranbot piece by clicking the "++"generate piece".quote++"  button on the Main Page, and then by clicking the "++"play piece".quote++"  button. Once random seeds are input into the program on the front page (the very first page of this program), you can only generate a song once using the same random seeds. If you click on the "++"generate piece".quote++"  button more than once without inputting new random seeds the same piece will always be generated. To generate a new piece, you can go back to the first page and input new random seeds, or you can click the "++"new random seeds".quote++"  button across from the "++"generate piece".quote++"  button on the right side of the main page.
-
-ifsdf";
+		"Play a DuranDuranbot piece by clicking the "++"generate piece".quote++"  button on the Main Page, and then by clicking the "++"play piece".quote++"  button. Once random seeds are input into the program on the front page (the very first page of this program), you can only generate a song once using the same random seeds. If you click on the "++"generate piece".quote++"  button more than once without inputting new random seeds the same piece will always be generated. To generate a new piece, you can go back to the first page and input new random seeds, or you can click the "++"new random seeds".quote++"  button across from the "++"generate piece".quote++"  button on the right side of the main page. \n\n You can also input "++"inspiration".quote++" into DuranDuranbot by clicking on the "++"input inspiration into DuranDuranbot".quote++" button on the main page.";
 		firstviewtext4.align = \topLeft;
 		firstviewtext4.font = Font(size: ~firstviewboundsWIDTH/51.428571428571);
 
 	};
+
+
+	~inspiration_page_func = {
+
+		~firstview.close;
+
+		~firstview = View(w, Rect(0, 0, w.bounds.width, w.bounds.height));
+		/*view.clearOnRefresh = false;*/
+		~firstview.background = maincolor;
+		~firstviewboundsWIDTH = ~firstview.bounds.width;
+		~firstviewboundsHEIGHT = ~firstview.bounds.height;
+
+		firstviewtext1 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/11.2428571428571, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/2.28));
+		firstviewtext1.background=maincolor;
+		firstviewtext1.string = "Welcome to the DuranDuranbot Inspiration Page. Here you can feed DuranDuranbot anything in the English written langauge to allow DuranDuranbot to use as inspiration to build it's DNA; it's DNA that which drives it's composition process. The more inspiration you give it, the longer and more complex it's DNA will become, and this will affect how it composes music. Enter the passage you want to feed DuranDuranbot in the big text field, and the title of the passage into the small one to catagorize it in the "++"duranduranbot_inspiration_database_map.scd".quote++" file. You can also access the actual DuranDuranbot inspiration database in the "++"duranduranbot_inspiration_database.scd".quote++" file, and it's DNA in the "++"duranduranbot_dna.scd".quote++" file. \n\n When inspiration is entered, just press enter to submit it. Pasting it into the text field is recommended for longer texts.";
+		firstviewtext1.align = \topLeft;
+		firstviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		firstviewtext2 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/16, ~firstviewboundsHEIGHT/21.85)).states_([["back",Color.white,Color.black],["back",Color.white,Color.black]]).action_({arg button;
+			~firstview.close;
+			~main_page_func.value;
+		});
+		firstviewtext2.background=Color.grey;
+		firstviewtext2.string = "back";
+		firstviewtext2.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		randseedEZText1 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.65, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
+		randseedEZText1.string = "-title this inspiration here to catagorize it, then press "++"enter"++" to submit-";
+		randseedEZText1.background_(Color.black);
+		randseedEZText1.stringColor_(Color.white);
+		randseedEZText1.align = \topLeft;
+		randseedEZText1.font = Font(size: ~firstviewboundsWIDTH/48);
+		randseedEZText1.action = {
+			~dbase_string_map = randseedEZText1.value;
+			randseedEZText1.string = ~dbase_string_map.asString;
+
+			h = File.new(Document.current.dir++"/duranduranbot_inspiration_database_map.scd", "a+");
+			h.write("\n"++~dbase_string_map.asString; );
+			h.close;
+			~inspiration_title_entered = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.85, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
+			~inspiration_title_entered.background=maincolor;
+			~inspiration_title_entered.stringColor_(Color.green);
+			~inspiration_title_entered.string = "inspiration title entered";
+			AppClock.sched(3, {~inspiration_title_entered.close;});
+
+		};
+
+		randseedEZText2 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.5, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/7));
+		randseedEZText2.string = "-write and/or copy/paste inspiration here, then press "++"enter"++" to submit-";
+		randseedEZText2.background_(Color.black);
+		randseedEZText2.stringColor_(Color.white);
+		randseedEZText2.align = \topLeft;
+		randseedEZText2.font = Font(size: ~firstviewboundsWIDTH/48);
+		randseedEZText2.action = {
+			~dbase_string = randseedEZText2.value;
+			~dbase_string = ~dbase_string.replace(" ", "");
+			~dbase_string = ~dbase_string.replace("\n", "");
+
+			h = File.new(Document.current.dir++"/duranduranbot_inspiration_database.scd", "a+");
+			h.write("\n"++~dbase_string.asString; );
+			h.close;
+
+			~numer_string_1_backup = ~numer_string_1;
+			~numer_string_1 = ~dbase_string;
+			~num_numerology_calc = 1;
+			~numer_calc_function.value;
+			~numer_string_1 = ~numer_string_1_backup;
+			~num_numerology_calc = ~number_of_instruments;
+
+			h = File.new(Document.current.dir++"/duranduranbot_dna.scd", "a+");
+			h.write("\n"++~numer_string_1_value.asString; );
+			h.close;
+
+			~inspiration_entered = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.85, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
+			~inspiration_entered.background=maincolor;
+			~inspiration_entered.stringColor_(Color.green);
+			~inspiration_entered.string = "inspiration entered";
+			AppClock.sched(3, {~inspiration_entered.close;});
+		};
+
+		firstviewtext3 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.16, ~firstviewboundsWIDTH/3.1, ~firstviewboundsHEIGHT/21.85)).states_([["access inspiration database here",Color.white,Color.black],["access inspiration database here",Color.white,Color.black]]).action_({arg button;
+			Document.open(Document.current.dir++"/duranduranbot_inspiration_database.scd");
+		});
+		firstviewtext3.background=Color.grey;
+		firstviewtext3.string = "access inspiration database here";
+		firstviewtext3.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		firstviewtext4 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.09, ~firstviewboundsWIDTH/2.7, ~firstviewboundsHEIGHT/21.85)).states_([["access inspiration database map here",Color.white,Color.black],["access inspiration database map here",Color.white,Color.black]]).action_({arg button;
+			Document.open(Document.current.dir++"/duranduranbot_inspiration_database_map.scd");
+		});
+		firstviewtext4.background=Color.grey;
+		firstviewtext4.string = "access inspiration database map here";
+		firstviewtext4.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		firstviewtext5 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/2, ~firstviewboundsHEIGHT/1.16, ~firstviewboundsWIDTH/3.1, ~firstviewboundsHEIGHT/21.85)).states_([["access DuranDuranbot DNA here",Color.white,Color.black],["access DuranDuranbot DNA here",Color.white,Color.black]]).action_({arg button;
+			Document.open(Document.current.dir++"/duranduranbot_dna.scd");
+
+		});
+		firstviewtext5.background=Color.grey;
+		firstviewtext5.string = "access DuranDuranbot DNA here";
+		firstviewtext5.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		firstviewtext6 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/2.3657142857143, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/6.5, ~firstviewboundsHEIGHT/21.85));
+		firstviewtext6.background=maincolor;
+		firstviewtext6.string = "Inspiration Page";
+		firstviewtext6.align = \topLeft;
+		firstviewtext6.font = Font(size: ~firstviewboundsWIDTH/48);
+
+	};
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -409,7 +525,7 @@ ifsdf";
 
 	~numer_calc_function = {
 
-		if(~num_numerology_calc == nil, {~num_numerology_calc = 3;});
+		if(~num_numerology_calc == nil, {~num_numerology_calc = ~number_of_instruments;});
 		if(~numer_string_1 == nil, {
 			~numer_string_1 = "John Taylor";
 		});
@@ -533,15 +649,16 @@ ifsdf";
 				~instrument_2_array_part_1 = [];
 				~instrument_3_array_part_1 = [];
 
-				~dna_array = (x = File.readAllString(Document.current.dir++"/duranduranbot_dna.scd"); x = x.separate;);
+				/*~dna_array = (x = File.readAllString(Document.current.dir++"/duranduranbot_dna.scd"); x = x.separate;);*/
+				~dna_array = FileReader.readInterpret(Document.current.dir++"/duranduranbot_dna.scd", true, startRow: 1);
+				~dna_array = ~dna_array.flatten.asInteger;
+				~dna_array = ~dna_array.scramble;
 				~dna_x = (-1);
 				~dna_index_choice_func = {~dna_array.at(if(~dna_x < (~dna_array.size-1), {~dna_x=~dna_x+1;}, {~dna_x = 0}))};
 				~dna_index_choice = ~dna_index_choice_func.value;
 				~dna_clock_y = 0;
 				~midi_ratio_x = 0;
 
-
-				if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 
 
@@ -654,7 +771,7 @@ ifsdf";
 
 					~part_bit_size = 64;
 					~bit_duration = rrand(0.05, 0.3);
-					~max_number_of_parts = 200; //max 120 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
+					~max_number_of_parts = 200; //max 200 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
 					~number_of_parts_in_piece = (~max_number_of_parts.linrand - ~max_number_of_parts).neg;
 					~numerology_step = (-1);
 					~create_piece_routine = Routine({
@@ -868,9 +985,9 @@ ifsdf";
 			~duranduranbotsynth1.set(\freq, 2);
 			*/
 
-			~duranduranbot_routine = Task({x = 0;
+			~duranduranbot_routine = Task({i = 0;
 
-				1.do({
+				1.do({ "piece currently running".postln;
 
 					s.makeBundle(s.latency, {
 
@@ -880,7 +997,7 @@ ifsdf";
 								{~instrument_1 == "bass"}{\synth1}
 								{~instrument_1 == "keys"}{\synth2}
 								{~instrument_1 == "vocal"}{\synth3};
-							), [freq: ~instrument_1_full_pseq_array.at(x)]);
+						), [freq: ~instrument_1_full_pseq_array.at(i)]);
 
 						~duranduranbotsynth2 = Synth(
 							(
@@ -888,7 +1005,7 @@ ifsdf";
 								{~instrument_2 == "bass"}{\synth1}
 								{~instrument_2 == "keys"}{\synth2}
 								{~instrument_2 == "vocal"}{\synth3};
-							), [freq: ~instrument_2_full_pseq_array.at(x)]);
+						), [freq: ~instrument_2_full_pseq_array.at(i)]);
 
 						~duranduranbotsynth3 = Synth(
 							(
@@ -896,7 +1013,7 @@ ifsdf";
 								{~instrument_3 == "bass"}{\synth1}
 								{~instrument_3 == "keys"}{\synth2}
 								{~instrument_3 == "vocal"}{\synth3};
-							), [freq: ~instrument_3_full_pseq_array.at(x)]);
+						), [freq: ~instrument_3_full_pseq_array.at(i)]);
 
 						/*~duranduranbotsynth1 = ~synth.value;
 						~duranduranbotsynth2 = ~synth.value;
@@ -913,9 +1030,9 @@ ifsdf";
 				(~instrument_1_full_pseq_array.size-1).do({
 
 					s.makeBundle(s.latency, {
-						~duranduranbotsynth1.set(\freq, ~instrument_1_full_pseq_array.at(x=x+1).postln);
-						~duranduranbotsynth2.set(\freq, ~instrument_2_full_pseq_array.at(x).postln);
-						~duranduranbotsynth3.set(\freq, ~instrument_3_full_pseq_array.at(x).postln);
+						~duranduranbotsynth1.set(\freq, ~instrument_1_full_pseq_array.at(i=i+1));
+						~duranduranbotsynth2.set(\freq, ~instrument_2_full_pseq_array.at(i));
+						~duranduranbotsynth3.set(\freq, ~instrument_3_full_pseq_array.at(i));
 
 					});
 
@@ -927,6 +1044,7 @@ ifsdf";
 				~duranduranbotsynth2.free;
 				~duranduranbotsynth3.free;
 				~duranduranbot_routine.stop;
+				"piece finished".postln;
 				Server.freeAll;
 
 			});
@@ -936,77 +1054,8 @@ ifsdf";
 		);
 	};
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// CREATE NEW DNA
 
-	~enter_database_func = {
-
-		~dbase_string_map = "Vertigo (Do The Demolition)";
-
-		~dbase_string = "Hey guys, turn it up to get sleazy.
-Twist it in a vice
-Nobody said it was easy.
-Just use your naked eyes, oh.
-How to see and how to hide it.
-How to save it. Well, maybe. Maybe. Maybe.
-You can take it and eat it, and chew your life supply.
-
-Where's the real life in your illusion?
-On the dark side your power's in confusion.
-Do the dance. Do the demolition.
-And lose the chance to hear when you don't listen.
-
-Don't you feel edgy?
-Bite your lips and bleed.
-Conversation is empty;
-Abandoned in the freeze.
-Freedom is your condemnation.
-Free to say well, maybe. Maybe. Maybe. Maybe.
-You can take it or leave it.
-Just need a little hit tonight.
-
-Where's the real life in your illusion?
-On the dark of power in confusion.
-Do the dance. Do the demolition.
-Don't lose the chance to hear 'cause you don't listen.
-
-Maybe. Maybe. Maybe you can try to believe it.
-Just need a little help tonight.
-
-Where's the real life in your illusion?
-On the dark side of power in confusion.
-Do the dance. Do the demolition.
-And lose the chance to hear when you don't listen.
-
-Where's the real life in your illusion?
-On the dark side of power in confusion.
-Do the dance. Do the demolition.
-And lose the chance to hear when you don't listen.
-
-Hear it when you listen.
-You don't hear when you don't listen.
-
-;".replace(" ", "");
-		~dbase_string = ~dbase_string.replace("\n", "");
-
-		h = File.new(Document.current.dir++"/duranduranbot_inspiration_database.scd", "a+");
-		h.write("\n\n"++~dbase_string.asString; );
-		h.close;
-
-		~numer_string_1 = ~dbase_string;
-		~num_numerology_calc = 1;
-		~numer_calc_function.value;
-
-		h = File.new(Document.current.dir++"/duranduranbot_dna.scd", "a+");
-		h.write(~numer_string_1_value.asString; );
-		h.close;
-
-		h = File.new(Document.current.dir++"/duranduranbot_inspiration_database_map.scd", "a+");
-		h.write("\n\n"++~dbase_string_map.asString; );
-		h.close;
-
-	};
 
 
 	w.front;
