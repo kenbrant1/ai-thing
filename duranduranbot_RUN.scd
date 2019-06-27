@@ -874,9 +874,29 @@ ifsdf";
 
 					s.makeBundle(s.latency, {
 
-						~duranduranbotsynth1 = Synth(\synth1, [freq: ~instrument_1_full_pseq_array.at(x)]);
-						~duranduranbotsynth2 = Synth(\synth2, [freq: ~instrument_2_full_pseq_array.at(x)]);
-						~duranduranbotsynth3 = Synth(\synth3, [freq: ~instrument_3_full_pseq_array.at(x)]);
+						~duranduranbotsynth1 = Synth(
+							(
+								case
+								{~instrument_1 == "bass"}{\synth1}
+								{~instrument_1 == "keys"}{\synth2}
+								{~instrument_1 == "vocal"}{\synth3};
+							), [freq: ~instrument_1_full_pseq_array.at(x)]);
+
+						~duranduranbotsynth2 = Synth(
+							(
+								case
+								{~instrument_2 == "bass"}{\synth1}
+								{~instrument_2 == "keys"}{\synth2}
+								{~instrument_2 == "vocal"}{\synth3};
+							), [freq: ~instrument_2_full_pseq_array.at(x)]);
+
+						~duranduranbotsynth3 = Synth(
+							(
+								case
+								{~instrument_3 == "bass"}{\synth1}
+								{~instrument_3 == "keys"}{\synth2}
+								{~instrument_3 == "vocal"}{\synth3};
+							), [freq: ~instrument_3_full_pseq_array.at(x)]);
 
 						/*~duranduranbotsynth1 = ~synth.value;
 						~duranduranbotsynth2 = ~synth.value;
