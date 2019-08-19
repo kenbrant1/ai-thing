@@ -11,6 +11,8 @@ above, and click on "Evaluate File".
 
 */
 
+//GOAL OF THIS MUSIC BOT - to create the musician I want it to be.
+
 // GUI
 
 if(~number_of_instruments == nil, {~number_of_instruments = 3;});
@@ -19,7 +21,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 	var w, /*~firstview,*/ firstviewtext1, firstviewtext2, firstviewtext3, firstviewtext4, firstviewtext5, firstviewtext6, firstviewnextbutton, mainview, mainviewtext, maincolor, randseedEZText1, randseedEZText2, randseedEZText3, randseed_1_make, randseed_2_make, randseed_3_make, randseedviewtext1,randseedviewtext2,
 	randseedviewtext3, numerologynameEZText1, numerologynameEZText2, numerologynameEZText3, numerologynameviewtext1, numerologynameviewtext2, numerologynameviewtext3,
-	generatepiecebutton, playbutton, enterdatabasebutton;
+	generatepiecebutton, playbutton, enterdatabasebutton, recordbutton, songtitletext, songtitlestatictext, piecedurationstatictext, machinelearningbutton, machinelearningtext;
 	w = Window("DuranDuranbot",
 		Rect(Window.availableBounds.width/4, Window.availableBounds.height/4, Window.availableBounds.width/2, Window.availableBounds.height/2),
 		resizable: true, border:true);
@@ -54,7 +56,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 			if(randseed_1_make.size > 8, {randseed_1_make = nil; randseedEZText1.string = "must be 8 digits or less";}, {
 				randseed_1_make = randseed_1_make.join.asString.interpret;
 				randseedviewtext1.string = if(randseed_1_make.isNumber == true, {
-					randseed_1_make = randseed_1_make.asFloat; randseed_1_make.postln; ~randseed_1 = randseed_1_make; ~randseed_1.asString++" entered"; ~save_random_seeds_func.value;}, {
+					randseed_1_make = randseed_1_make.asFloat; randseed_1_make.postln; ~randseed_1 = randseed_1_make; ~save_random_seeds_func.value; ~randseed_1.asString++" entered";}, {
 					randseed_1_make = nil; randseedEZText1.string = "enter numerical value";
 				});
 			});
@@ -72,7 +74,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 			if(randseed_2_make.size > 8, {randseed_2_make = nil; randseedEZText2.string = "must be 8 digits or less";}, {
 				randseed_2_make = randseed_2_make.join.asString.interpret;
 				randseedviewtext2.string = if(randseed_2_make.isNumber == true, {
-					randseed_2_make = randseed_2_make.asFloat; randseed_2_make.postln; ~randseed_2 = randseed_2_make; ~randseed_2.asString++" entered"; ~save_random_seeds_func.value;}, {
+					randseed_2_make = randseed_2_make.asFloat; randseed_2_make.postln; ~randseed_2 = randseed_2_make; ~save_random_seeds_func.value; ~randseed_2.asString++" entered";}, {
 					randseed_2_make = nil; randseedEZText2.string = "enter numerical value";
 				});
 			});
@@ -90,7 +92,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 			if(randseed_3_make.size > 8, {randseed_3_make = nil; randseedEZText3.string = "must be 8 digits or less";}, {
 				randseed_3_make = randseed_3_make.join.asString.interpret;
 				randseedviewtext3.string = if(randseed_3_make.isNumber == true, {
-					randseed_3_make = randseed_3_make.asFloat; randseed_3_make.postln; ~randseed_3 = randseed_3_make; ~randseed_3.asString++" entered"; ~save_random_seeds_func.value;}, {
+					randseed_3_make = randseed_3_make.asFloat; randseed_3_make.postln; ~randseed_3 = randseed_3_make; ~save_random_seeds_func.value; ~randseed_3.asString++" entered";}, {
 					randseed_3_make = nil; randseedEZText3.string = "enter numerical value";
 				});
 			});
@@ -181,7 +183,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 		firstviewtext3 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.3215725806452, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
 		firstviewtext3.background=maincolor;
-		firstviewtext3.string = "Or you can do none of that, and just click on "++"next".quote++" below...";
+		firstviewtext3.string = "Or you can do none of that, and autogenerate all of those things by clicking on "++"next".quote++" below...";
 		firstviewtext3.align = \topLeft;
 		firstviewtext3.font = Font(size: ~firstviewboundsWIDTH/48);
 
@@ -241,15 +243,16 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 		generatepiecebutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/6.5454545454545, ~firstviewboundsHEIGHT/21.85)).states_([["generate piece",Color.white,Color.black],["generate piece",Color.white,Color.black]]).action_({arg button;
 			var piecegenerated;
-			~piecegenerated = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsWIDTH/7.5, ~firstviewboundsWIDTH/6.2608695652174, ~firstviewboundsWIDTH/36));
+			~piecegenerated = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsWIDTH/7.8, ~firstviewboundsWIDTH/6.2608695652174, ~firstviewboundsWIDTH/36));
 			~piecegenerated.background=maincolor;
+			"please wait".postln;
+			~piecegenerated.font = Font(size: ~firstviewboundsWIDTH/55);
 			~piecegenerated.string = "please wait";
 			if(~piece_created == "true", {~playbutton.close; ~arrow.close;});
 			~piece_generator_func.value;
 
 		});
 		generatepiecebutton.font = Font(size: ~firstviewboundsWIDTH/48);
-
 
 		/*if(playnil == nil, {nil}, {*/
 		/*~play_visible_func = {
@@ -258,16 +261,23 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 		~playbutton_func = {
 			~playbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/5.1063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["play piece",Color.white,Color.black],["stop piece",Color.white,Color.black]]).action_({arg button;
 				if(button.value == 1, {
-					~run_piece_func.value;
 					~pausebuttonfunc.value;
+					~run_piece_func.value;
 				}, {
 					~duranduranbotsynth1.free;
 					~duranduranbotsynth2.free;
 					~duranduranbotsynth3.free;
+					~timer_routine.stop;
 					~duranduranbot_routine.stop;
+					q = FileReader.read(Document.current.dir++"/other_program_files/ddbot_machine_learning_on_off.scd");
+					2.do({q = q.at(0)});
+					q = q.asInteger;
+					if(q == 1, {~machine_learning_func.value;});
 					Server.freeAll;
 					~pausebutton.close;
 					"piece stopped".postln;
+					if(~will_record == 1, {s.stopRecording;});
+					~fullpiecedur2 = ~fullpiecedur;
 				});
 
 			});
@@ -285,6 +295,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 		~pausebuttonfunc = {~pausebutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/3.063829787234, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/21.85)).states_([["pause piece",Color.white,Color.black],["resume",Color.white,Color.black]]).action_({arg button;
 			if(button.value == 1, {
+				~timer_routine.pause;
 				~duranduranbot_routine.pause;
 				s.makeBundle(s.latency, {
 					~duranduranbotsynth1.set(\freq, 0);
@@ -292,7 +303,8 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 					~duranduranbotsynth3.set(\freq, 0);
 				});
 				"piece paused".postln;
-			}, {~duranduranbot_routine.resume; "piece resumed".postln;});
+				if(~will_record == 1, {s.pauseRecording;});
+			}, {~timer_routine.resume; ~duranduranbot_routine.resume; "piece resumed".postln; if(~will_record == 1, {s.record;});});
 		});
 
 		~pausebutton.font = Font(size: ~firstviewboundsWIDTH/48);
@@ -300,11 +312,44 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 		if(~duranduranbot_routine.isPlaying == true, {~playbutton.value = 1; ~pausebuttonfunc.value;}, {~playbutton.value = 0});
 
-		enterdatabasebutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.9422222222222 /*~firstviewboundsHEIGHT/6.2428571428571*/, ~firstviewboundsWIDTH/2.7, ~firstviewboundsHEIGHT/21.85)).states_([["input inspiration into DuranDuranbot",Color.white,Color.black],["input inspiration into DuranDuranbot",Color.white,Color.black]]).action_({arg button;
+		recordbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/2.8, ~firstviewboundsWIDTH/9, ~firstviewboundsHEIGHT/21.85)).states_([["record off",Color.white,Color.black],["record on",Color.black,Color.red]]).action_({arg button;
+			if(button.value == 1, {
+				~recordtext.string = "upon pressing "++"play piece".quote++"piece WILL be recorded";
+				~will_record = 1;
+			}, {~recordtext.string = "upon pressing "++"play piece".quote++"piece will NOT be recorded"; ~will_record = 0;});
+
+		});
+		recordbutton.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		~recordtext = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/2.45, ~firstviewboundsWIDTH/2.2, ~firstviewboundsHEIGHT/21.85));
+		~recordtext.background=Color.white;
+		~recordtext.string = "upon pressing "++"play piece".quote++" piece will NOT be recorded";
+		~recordtext.font = Font(size: ~firstviewboundsWIDTH/55);
+
+		if(~will_record == 1, {~recordtext.string = "upon pressing "++"play piece".quote++"piece WILL be recorded"; recordbutton.value = 1;},
+			{~recordtext.string = "upon pressing "++"play piece".quote++"piece will NOT be recorded"; recordbutton.value = 0;});
+
+		/*enterdatabasebutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.9422222222222 /*~firstviewboundsHEIGHT/6.2428571428571*/, ~firstviewboundsWIDTH/2.7, ~firstviewboundsHEIGHT/21.85)).states_([["input inspiration into DuranDuranbot",Color.white,Color.black],["input inspiration into DuranDuranbot",Color.white,Color.black]]).action_({arg button;
 			~inspiration_page_func.value;
 
 		});
 		enterdatabasebutton.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		songtitlestatictext = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.9422222222222 /*~firstviewboundsHEIGHT/6.2428571428571*/, ~firstviewboundsWIDTH/2.7, ~firstviewboundsHEIGHT/21.85));
+		songtitlestatictext.background=Color.white;
+		songtitlestatictext.string = "piece title - ";
+		songtitlestatictext.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		songtitletext = TextField(~firstview, Rect(~firstviewboundsWIDTH/8, ~firstviewboundsHEIGHT/1.9422222222222 /*~firstviewboundsHEIGHT/6.2428571428571*/, ~firstviewboundsWIDTH/2, ~firstviewboundsHEIGHT/21.85));
+		songtitletext.background=Color.black;
+		songtitletext.stringColor=Color.white;
+		songtitletext.string = if(~song_title != nil, {~song_title.asString}, {"~piece title~"});
+		songtitletext.font = Font(size: ~firstviewboundsWIDTH/48);*/
+
+		piecedurationstatictext = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.9422222222222 /*~firstviewboundsHEIGHT/6.2428571428571*/, ~firstviewboundsWIDTH/2.7, ~firstviewboundsHEIGHT/21.85));
+		piecedurationstatictext.background=Color.white;
+		piecedurationstatictext.string = if(~fullpiecedur != nil, {~fullpiecedur}, {"piece length - --:-- mins"});
+		piecedurationstatictext.font = Font(size: ~firstviewboundsWIDTH/48);
 
 		newrandomseedsbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.4173228346457, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/5.1428571428571, ~firstviewboundsHEIGHT/21.85)).states_([["new random seeds",Color.white,Color.black],["new random seeds",Color.white,Color.black]]).action_({arg button;
 			~randseed_1_backup = ~randseed_1;
@@ -326,7 +371,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 		});
 		newrandomseedsbutton.font = Font(size: ~firstviewboundsWIDTH/48);
 
-		reversenewrandomseedsbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.1059907834101, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/12, ~firstviewboundsHEIGHT/21.85)).states_([["reverse",Color.white,Color.black],["reverse",Color.white,Color.black]]).action_({arg button;
+		reversenewrandomseedsbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/1.1059907834101, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/12, ~firstviewboundsHEIGHT/21.85)).states_([["revert",Color.white,Color.black],["revert",Color.white,Color.black]]).action_({arg button;
 			~randseed_1_backup2 = ~randseed_1;
 			~randseed_2_backup2 = ~randseed_2;
 			~randseed_3_backup2 = ~randseed_3;
@@ -368,6 +413,32 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 		});
 		see_saved_seeds_file_button.font = Font(size: ~firstviewboundsWIDTH/48);
+
+
+		machinelearningbutton = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.27, ~firstviewboundsWIDTH/4.3, ~firstviewboundsHEIGHT/21.85)).states_([["machine learning is ON",Color.white,Color.black],["machine learning is OFF",Color.white,Color.black]]).action_({arg button;
+			if(button.value == 1, {
+				g = File(Document.current.dir++"/other_program_files/ddbot_machine_learning_on_off.scd", "w");
+				g.write("0");
+				g.close;
+			}, {
+				g = File(Document.current.dir++"/other_program_files/ddbot_machine_learning_on_off.scd", "w");
+				g.write("1");
+				g.close;
+			});
+
+		});
+		machinelearningbutton.font = Font(size: ~firstviewboundsWIDTH/48);
+
+		machinelearningtext = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.19, ~firstviewboundsWIDTH/2.1, ~firstviewboundsHEIGHT/21.85));
+		machinelearningtext.background=Color.white;
+		machinelearningtext.string = "more info about machine learning on "++"instructions".quote++" page";
+		machinelearningtext.font = Font(size: ~firstviewboundsWIDTH/55);
+
+		q = FileReader.read(Document.current.dir++"/other_program_files/ddbot_machine_learning_on_off.scd");
+		2.do({q = q.at(0)});
+		q = q.asInteger;
+		if(q == 1, {machinelearningbutton.value = 0;});
+
 	};
 
 	~instructions_page_func = {
@@ -403,121 +474,11 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 		firstviewtext4 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/6.2428571428571, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/0.54625));
 		firstviewtext4.background=maincolor;
 		firstviewtext4.string =
-		"Play a DuranDuranbot piece by clicking the "++"generate piece".quote++"  button on the Main Page, and then by clicking the "++"play piece".quote++"  button. Once random seeds are input into the program on the front page (the very first page of this program), you can only generate a song once using the same random seeds. If you click on the "++"generate piece".quote++"  button more than once without inputting new random seeds the same piece will always be generated. To generate a new piece, you can go back to the first page and input new random seeds, or you can click the "++"new random seeds".quote++"  button across from the "++"generate piece".quote++"  button on the right side of the main page. \n\n You can also input "++"inspiration".quote++" into DuranDuranbot by clicking on the "++"input inspiration into DuranDuranbot".quote++" button on the main page.";
+		"Play a DuranDuranbot piece by clicking the "++"generate piece".quote++"  button on the Main Page, and then by clicking the "++"play piece".quote++"  button. Once random seeds are input into the program on the front page (the very first page of this program), you can only generate a song once using the same random seeds. If you click on the "++"generate piece".quote++"  button more than once without inputting new random seeds the same piece will always be generated. To generate a new piece, you can go back to the first page and input new random seeds, or you can click the "++"new random seeds".quote++"  button across from the "++"generate piece".quote++"  button on the right side of the main page. \n\n You can also input "++"inspiration".quote++" into DuranDuranbot by clicking on the "++"input inspiration into DuranDuranbot".quote++" button on the main page.\n\nMachine learning is enabled by default, but you can disable it on the main page. Using the machine learning function allows for DuranDuranbot to learn what you prefer to hear in a piece by how long you listen to that peice.";
 		firstviewtext4.align = \topLeft;
 		firstviewtext4.font = Font(size: ~firstviewboundsWIDTH/51.428571428571);
 
 	};
-
-
-	~inspiration_page_func = {
-
-		~firstview.close;
-
-		~firstview = View(w, Rect(0, 0, w.bounds.width, w.bounds.height));
-		/*view.clearOnRefresh = false;*/
-		~firstview.background = maincolor;
-		~firstviewboundsWIDTH = ~firstview.bounds.width;
-		~firstviewboundsHEIGHT = ~firstview.bounds.height;
-
-		firstviewtext1 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/11.2428571428571, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/2.28));
-		firstviewtext1.background=maincolor;
-		firstviewtext1.string = "Welcome to the DuranDuranbot Inspiration Page. Here you can feed DuranDuranbot anything in the English written langauge to allow DuranDuranbot to use as inspiration to build it's DNA; it's DNA that which drives it's composition process. The more inspiration you give it, the longer and more complex it's DNA will become, and this will affect how it composes music. Enter the passage you want to feed DuranDuranbot in the big text field, and the title of the passage into the small one to catagorize it in the "++"duranduranbot_inspiration_database_map.scd".quote++" file. You can also access the actual DuranDuranbot inspiration database in the "++"duranduranbot_inspiration_database.scd".quote++" file, and it's DNA in the "++"duranduranbot_dna.scd".quote++" file. \n\n When inspiration is entered, just press enter to submit it. Pasting it into the text field is recommended for longer texts.";
-		firstviewtext1.align = \topLeft;
-		firstviewtext1.font = Font(size: ~firstviewboundsWIDTH/48);
-
-		firstviewtext2 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/16, ~firstviewboundsHEIGHT/21.85)).states_([["back",Color.white,Color.black],["back",Color.white,Color.black]]).action_({arg button;
-			~firstview.close;
-			~main_page_func.value;
-		});
-		firstviewtext2.background=Color.grey;
-		firstviewtext2.string = "back";
-		firstviewtext2.font = Font(size: ~firstviewboundsWIDTH/48);
-
-		randseedEZText1 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.65, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
-		randseedEZText1.string = "-title this inspiration here to catagorize it, then press "++"enter"++" to submit-";
-		randseedEZText1.background_(Color.black);
-		randseedEZText1.stringColor_(Color.white);
-		randseedEZText1.align = \topLeft;
-		randseedEZText1.font = Font(size: ~firstviewboundsWIDTH/48);
-		randseedEZText1.action = {
-			~dbase_string_map = randseedEZText1.value;
-			randseedEZText1.string = ~dbase_string_map.asString;
-
-			h = File.new(Document.current.dir++"/duranduranbot_inspiration_database_map.scd", "a+");
-			h.write("\n"++~dbase_string_map.asString; );
-			h.close;
-			~inspiration_title_entered = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.85, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
-			~inspiration_title_entered.background=maincolor;
-			~inspiration_title_entered.stringColor_(Color.green);
-			~inspiration_title_entered.string = "inspiration title entered";
-			AppClock.sched(3, {~inspiration_title_entered.close;});
-
-		};
-
-		randseedEZText2 = TextField(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.5, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/7));
-		randseedEZText2.string = "-write and/or copy/paste inspiration here, then press "++"enter"++" to submit-";
-		randseedEZText2.background_(Color.black);
-		randseedEZText2.stringColor_(Color.white);
-		randseedEZText2.align = \topLeft;
-		randseedEZText2.font = Font(size: ~firstviewboundsWIDTH/48);
-		randseedEZText2.action = {
-			~dbase_string = randseedEZText2.value;
-			~dbase_string = ~dbase_string.replace(" ", "");
-			~dbase_string = ~dbase_string.replace("\n", "");
-
-			h = File.new(Document.current.dir++"/duranduranbot_inspiration_database.scd", "a+");
-			h.write("\n"++~dbase_string.asString; );
-			h.close;
-
-			~numer_string_1_backup = ~numer_string_1;
-			~numer_string_1 = ~dbase_string;
-			~num_numerology_calc = 1;
-			~numer_calc_function.value;
-			~numer_string_1 = ~numer_string_1_backup;
-			~num_numerology_calc = ~number_of_instruments;
-
-			h = File.new(Document.current.dir++"/duranduranbot_dna.scd", "a+");
-			h.write("\n"++~numer_string_1_value.asString; );
-			h.close;
-
-			~inspiration_entered = StaticText(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.85, ~firstviewboundsWIDTH/1.0285714285714, ~firstviewboundsHEIGHT/21.85));
-			~inspiration_entered.background=maincolor;
-			~inspiration_entered.stringColor_(Color.green);
-			~inspiration_entered.string = "inspiration entered";
-			AppClock.sched(3, {~inspiration_entered.close;});
-		};
-
-		firstviewtext3 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.16, ~firstviewboundsWIDTH/3.1, ~firstviewboundsHEIGHT/21.85)).states_([["access inspiration database here",Color.white,Color.black],["access inspiration database here",Color.white,Color.black]]).action_({arg button;
-			Document.open(Document.current.dir++"/duranduranbot_inspiration_database.scd");
-		});
-		firstviewtext3.background=Color.grey;
-		firstviewtext3.string = "access inspiration database here";
-		firstviewtext3.font = Font(size: ~firstviewboundsWIDTH/48);
-
-		firstviewtext4 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/72, ~firstviewboundsHEIGHT/1.09, ~firstviewboundsWIDTH/2.7, ~firstviewboundsHEIGHT/21.85)).states_([["access inspiration database map here",Color.white,Color.black],["access inspiration database map here",Color.white,Color.black]]).action_({arg button;
-			Document.open(Document.current.dir++"/duranduranbot_inspiration_database_map.scd");
-		});
-		firstviewtext4.background=Color.grey;
-		firstviewtext4.string = "access inspiration database map here";
-		firstviewtext4.font = Font(size: ~firstviewboundsWIDTH/48);
-
-		firstviewtext5 = Button.new(~firstview, Rect(~firstviewboundsWIDTH/2, ~firstviewboundsHEIGHT/1.16, ~firstviewboundsWIDTH/3.1, ~firstviewboundsHEIGHT/21.85)).states_([["access DuranDuranbot DNA here",Color.white,Color.black],["access DuranDuranbot DNA here",Color.white,Color.black]]).action_({arg button;
-			Document.open(Document.current.dir++"/duranduranbot_dna.scd");
-
-		});
-		firstviewtext5.background=Color.grey;
-		firstviewtext5.string = "access DuranDuranbot DNA here";
-		firstviewtext5.font = Font(size: ~firstviewboundsWIDTH/48);
-
-		firstviewtext6 = StaticText(~firstview, Rect(~firstviewboundsWIDTH/2.3657142857143, ~firstviewboundsHEIGHT/43.7, ~firstviewboundsWIDTH/6.5, ~firstviewboundsHEIGHT/21.85));
-		firstviewtext6.background=maincolor;
-		firstviewtext6.string = "Inspiration Page";
-		firstviewtext6.align = \topLeft;
-		firstviewtext6.font = Font(size: ~firstviewboundsWIDTH/48);
-
-	};
-
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -571,7 +532,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 			y=y+1;
 		});
 
-		//adds all letters in each string.... resulting in (ex: ~numer_string_16_value)
+		//adds all letters in each string.... resulting in (ex: ~numer_string_1_value)
 
 		~num_numerology_calc.do(y=1; {
 			26.do(x = 0; {
@@ -599,6 +560,8 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 		a = Date.getDate;
 
+		/*Document.open(Document.current.dir++"/duranduranbot_saved_random_seeds.scd").close;*/
+
 		h = File.new(Document.current.dir++"/duranduranbot_saved_random_seeds.scd", "a+");
 
 		h.write("\n\n"++a.asString++
@@ -607,10 +570,128 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 			"\nrandom seed 3 - "++~randseed_3.asString++
 			"\nbass - "++~numer_string_1.asString++
 			"\nkeyboards - "++~numer_string_2.asString++
-			"\nvocal - "++~numer_string_3.asString
+			"\nvocal - "++~numer_string_3.asString/*++
+			"\npiece title - "++~song_title.asString.quote*/
 		);
 
 		h.close;
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// MACHINE LEARNING FUNCTION
+
+	~machine_learning_func = {
+
+		~note_net_array = (1..12);
+		~net_num_array = (1..6);
+		~dna_choice_array = (1..9);
+		~net_change = 0.005;
+
+		~note_net_points.do(r = (-1); {
+			r=r+1;
+			~net_num_array.size.do(x = (-1); ~net_num_array_weights_NEW = []; {
+
+				x=x+1;
+
+				if((x+1) == ~net_num_array_choice_array.at(r), {~new_value = ~net_num_array_weights.at(x) + ~net_change});
+
+				~net_num_array_weights_NEW = ~net_num_array_weights_NEW.add(~new_value);
+			});
+
+			~net_num_array_weights = ~net_num_array_weights_NEW;
+		});
+
+
+		~note_net_points.do(r = (-1); {
+			r=r+1;
+			~dna_choice_array.size.do(x = (-1); ~dna_choice_array_weights_NEW = []; {
+
+				x=x+1;
+
+				if((x+1) == ~dna_index_choice_array.at(r), {~new_value = ~dna_choice_array_weights.at(x) + ~net_change});
+
+				~dna_choice_array_weights_NEW = ~dna_choice_array_weights_NEW.add(~new_value);
+			});
+
+			~dna_choice_array_weights = ~dna_choice_array_weights_NEW;
+		});
+
+
+		/*~note_net_array = (1..12);
+		~net_num_array = (1..6);
+		~net_weights_1 = [];
+		~net_weights_2 = [];
+		~net_weights_3 = [];
+		~net_weights_4 = [];
+		~net_weights_5 = [];
+		~net_weights_6 = [];
+		~net_num_array_weights = [];
+
+		6.do(x = 0; {("net_weights_"++(x=x+1)).asSymbol.envirPut(Array.fill(~note_net_array.size, {1/~note_net_array.size}))});
+		~net_num_array_weights = Array.fill(~net_num_array.size, {1/~net_num_array.size});
+		~dna_choice_array_weights = Array.fill(9, {1/9});
+		*/
+		/*
+		("net_weights_"++(1)).asSymbol.envirPut(~net_weights_1);
+
+		("net_weights_"++(2)).asSymbol.envirGet
+		("net_weights_"++(3)).asSymbol.envirGet
+		("net_weights_"++(4)).asSymbol.envirGet
+		("net_weights_"++(v+1)).asSymbol.envirGet
+		("net_weights_"++(v+1)).asSymbol.envirGet
+
+		*/
+
+		~note_net_points.do(r = (-1); {
+			r=r+1;
+			~net_num_array.size.do(x = 0; {
+				x=x+1;
+				if(x != ~net_num_array_choice_array.at(r), {nil}, {
+
+					~note_net_array.size.do(u = (-1);  ("net_weights_"++(x)++"NEW").asSymbol.envirPut([]); {
+
+						u=u+1;
+
+						if((u+1) == ~net_choice_array.at(r), {~new_value = ("net_weights_"++(x)).asSymbol.envirGet.at(u) + ~net_change});
+
+						/*
+						("net_weights_"++(v+1)).asSymbol.envirGet =
+						*/
+
+						("net_weights_"++(x)++"NEW").asSymbol.envirPut(("net_weights_"++(x)++"NEW").asSymbol.envirGet.add(~new_value));
+
+					});
+
+					("net_weights_"++(x)).asSymbol.envirPut(("net_weights_"++(x)++"NEW").asSymbol.envirGet);
+
+				});
+			});
+		});
+
+		AppClock.sched(0, {
+			~note_net_array = (1..12);
+			~net_num_array = (1..6);
+			~dna_choice_array = (1..9);
+
+			~net_num_array.do(x = 0; {("net_weights_"++(x=x+1)).asSymbol.envirPut(("net_weights_"++(x)).asSymbol.envirGet.normalizeSum;)});
+			~net_num_array_weights = ~net_num_array_weights.normalizeSum;
+			~dna_choice_array_weights = ~dna_choice_array_weights.normalizeSum;
+
+			g = File(Document.current.dir++"/other_program_files/ddbot_net_weights.scd", "w");
+			~net_num_array.size.do(z = 0; {
+				z=z+1;
+				(~note_net_array.size-1).do(s = (-1); {g.write((("net_weights_"++(z)).asSymbol.envirGet.at(s=s+1)).asString++" ")});
+				g.write((("net_weights_"++(z)).asSymbol.envirGet.at(s=s+1)).asString++"\n");
+			});
+			(~net_num_array.size-1).do(s = (-1); {g.write(~net_num_array_weights.at(s=s+1).asString++" ");});
+			g.write(~net_num_array_weights.at(s=s+1).asString);
+			g.close;
+			g = File(Document.current.dir++"/other_program_files/ddbot_dna_weights.scd", "w");
+			(~dna_choice_array.size-1).do(s = (-1); {g.write(~dna_choice_array_weights.at(s=s+1).asString++" ");});
+			g.write(~dna_choice_array_weights.at(s=s+1).asString);
+			g.close;
+		});
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -626,10 +707,19 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 				~freqmap = (i = ~tuning_frequency / (2 ** (69 / 12)); a = (-1); b = (-1); Array.fill(128, {i * (2 ** (((a=a+1) / 12).trunc)) * ( (2 ** (12.reciprocal)) ** ((b=b+1)  % 12));}));/*~freqmap = (i = 8.0271480262684/*-0.0000000000024*/; ~stepratio = 1.0594630943593; Array.fill(128, { i = i*~stepratio;}));*/
 				~freqmap = ~freqmap.cpsmidi;
 				/*~freqmap2 = (i = ~freqmap.at(58)/*-0.0000000000024*/; ~stepratio = 1.0594630943593; Array.fill(24, { i = i*~stepratio;}));*/
-				~freqmap2 = (n = 57; Array.fill(24, { i = ~freqmap.at(n=n+1);}));
+				~freqmap2 = (n = 54; Array.fill(36, {~freqmap.at(n=n+1);}));
 				~time_sig_array1 = [2, 1, 0.5];
 				/*~ratio_array = (x = 0; Array.fill(12, {1.0594630943593**(x=x+1)}));*/
 				~midi_ratio_array = (1..12);
+				~note_net_array = (1..12);
+				~net_num_array = (1..6);
+				h = FileReader.read(Document.current.dir++"/other_program_files/ddbot_net_weights.scd", false, true);
+				~note_net_array.size.do(z = 0; {("net_weights_"++(z=z+1)).asSymbol.envirPut(h.at(z-1));});
+				~net_num_array_weights = h.at(h.size-1);
+				~net_num_array.size.do(z = 0; {("net_weights_"++(z=z+1)).asSymbol.envirPut(("net_weights_"++(z)).asSymbol.envirGet.asFloat.normalizeSum;)});
+				~net_num_array_weights = ~net_num_array_weights.asFloat.normalizeSum;
+				h = FileReader.read(Document.current.dir++"/other_program_files/ddbot_dna_weights.scd", false, true);
+				~dna_choice_array_weights = h.flatten.asFloat.normalizeSum;
 
 
 				thisThread.randSeed = ~randseed_1;
@@ -644,17 +734,52 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 				~instrument_2 = ~instrument_array.removeAt(([0,1]).wchoose(case{~instrument_1 == "bass"}{[0.4,0.2]}{~instrument_1 == "keys"}{[0.4,0.2]}{~instrument_1 == "vocal"}{[0.4,0.4]};));
 				~instrument_3 = ~instrument_array.removeAt(0);
 
-
-				~instrument_1_array_part_1 = [];
-				~instrument_2_array_part_1 = [];
-				~instrument_3_array_part_1 = [];
-
-				/*~dna_array = (x = File.readAllString(Document.current.dir++"/duranduranbot_dna.scd"); x = x.separate;);*/
+				/*/*~dna_array = (x = File.readAllString(Document.current.dir++"/duranduranbot_dna.scd"); x = x.separate;);*/
 				~dna_array = FileReader.readInterpret(Document.current.dir++"/duranduranbot_dna.scd", true, startRow: 1);
 				~dna_array = ~dna_array.flatten.asInteger;
-				~dna_array = ~dna_array.scramble;
+				/*~dna_array = ~dna_array.scramble;*/
+				~song_dna_array_num.do(~song_dna_array = []; {~song_dna_array = ~song_dna_array.add(~dna_array.choose;);});*/
+
+				~song_dna_array_num = (1..12).choose;
+				~dna_choice_array = (1..9);
+				~dna_choice_array2 = ~dna_choice_array;
+				~song_dna_array_num.do(~song_dna_array = []; x = (-1); {
+					~song_dna_array = ~song_dna_array.add(~dna_choice_array.wrapAt(x=x+(~dna_choice_array.wchoose(~dna_choice_array_weights))));
+				});
+
+
+				//music before lyrics
+
+				// to do: mkae another data base of every word in lyric database by numerology number
+				// then... make GUI function for adding and deleting lyrics/words from ALL databases
+				// use all types of file readers for reading files
+				// use semicolons at end of line,
+				// getride of options to see raw scd file through gui - and thus now able to move _run file out of folder!
+
+
+				/*((1..9).choose).do(r = (-1); ~song_title_seperated = []; {
+					x = FileReader.read(Document.current.dir++"/other_program_files/numerology_base/numer_base_"++(~song_dna_array.at(r=r+1))++".scd", skipBlanks: true);
+					2.do({x = x.at((0..(x.size-1)).choose;)});
+					x = x++" ";
+					~song_title_seperated = ~song_title_seperated.add(x);
+				});
+
+
+				/*~song_title_num_words.do(s = (-1); {
+				~num_numerology_calc = 1;
+				~numer_string_1 = ~song_title_seperated.at(s=s+1);
+				~numer_calc_function.value;
+				~song_dna_array = ~song_dna_array.add(~numer_string_1_value;);
+
+				});*/
+
+				~song_title = ~song_title_seperated.join.asString;
+				~song_title = ~song_title.replace("  ", " ");*/
+
+
+				(~song_dna_array.size).do(~song_dna_array_SUM = 0; x = (-1); {~song_dna_array_SUM = ~song_dna_array_SUM + ~song_dna_array.at(x=x+1);});
 				~dna_x = (-1);
-				~dna_index_choice_func = {~dna_array.at(if(~dna_x < (~dna_array.size-1), {~dna_x=~dna_x+1;}, {~dna_x = 0}))};
+				~dna_index_choice_func = {~song_dna_array.at(if(~dna_x < (~song_dna_array.size-1), {~dna_x=~dna_x+1;}, {~dna_x = 0}))};
 				~dna_index_choice = ~dna_index_choice_func.value;
 				~dna_clock_y = 0;
 				~midi_ratio_x = 0;
@@ -669,12 +794,16 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 				45+65+35/3*/
 
 
+				//empties arrays after pre-generation of piece also
+				~net_choice_array = [];
+				~net_num_array_choice_array = [];
+				~dna_index_choice_array = [];
 
 				~inst_clock_func = {
 
 					//What this part does -
 
-					//*IF* a single digit in the duranduranbot DNA has iterated the number of times of that single digit during piece composition.... (Find duranduranbot DNA in this file (highlight the code in between the arrows and press "cmd/ctrl - enter": < Document.open(Document.current.dir++"/duranduranbot_dna.scd"); >) - Do not edit the DNA file manually.)
+					//*IF* a single digit in the duranduranbot DNA has iterated the number of times of that single digit during piece composition.... (Find duranduranbot DNA in this file (highlight the code in between the arrows and press "cmd/ctrl - enter": < Document.open(Document.current.dir++"/duranduranbot_dna.scd"); >) )
 
 					//To create next "bit" in compositiion for the current instrument....
 
@@ -684,48 +813,88 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 					//If it doesn't do what is stated above, it chooses to either stay on current note or makes note 0 hz.
 
+
+					/*if(~midi_ratio_x == (~midi_ratio_array.size-1), {~number_of_instruments.do(x = 0; {("instrument_"++(x=x+1)++"_freq").asSymbol.envirGet*[~midi_ratio_array.at(5), ~midi_ratio_array.at(5).reciprocal].choose;});});
+					*/
+
 					~put1 = if(~dna_clock_y == ~dna_index_choice.asInteger, {
-						([(("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
+						~put_x = ([1,2,3]).wchoose([1/3,1/3,1/3]);
+						case
+						{~put_x == 1}{
+// develop algorithm to generate piece of music by always ever-changing.... while always staying true to yourself. Think of "anger is an energy song" and
+//john taylor saying that
+							("instrument_"++(~inst_num)++"_if_zero").asSymbol.envirPut("false");
+							("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
+								~note = ~note_blend + /*(x = ~midi_ratio_array.wrapAt(~midi_ratio_x+*/[
+									("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet,
+									("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet.neg].choose; /*);
+								x = [x, x.neg].choose;);*/
+								~note = ~note + (~net_choice = ~note_net_array.wchoose(("net_weights_"++(~net_num_array_choice = ~net_num_array.wchoose(~net_num_array_weights);)).asSymbol.envirGet)); /*, ~note_net_array.choose].wchoose([3/4, 1/4])*/
+								~net_num_array_choice_array = ~net_num_array_choice_array.add(~net_num_array_choice);
+								~net_choice_array = ~net_choice_array.add(~net_choice);
+								~dna_index_choice_array = ~dna_index_choice_array.add(~dna_index_choice);
+								~note.value;
+							);
+							/*("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(
 							~number_of_instruments.do(x = 0; y = 0; {y = y + (("instrument_"++(x=x+1)++"_freq").asSymbol.envirGet)});
 							a = y;
 							a = a/(~number_of_instruments);
 							a = a.round;
-							a = a + (x = ~midi_ratio_array.wrapAt(~midi_ratio_x+[
-								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet,
-								("numer_string_"++(~inst_num)++"_value").asSymbol.envirGet.neg].choose);
-							x = [x, x.neg].choose;);
-						);
-						/*if(~midi_ratio_x == (~midi_ratio_array.size-1), {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet*[~midi_ratio_array.at(5), ~midi_ratio_array.at(5).reciprocal].choose;);});
-						*/case
-						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 89}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet-12)}
-						{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 58}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet+12)}
-						{(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet >= 58) and: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet <= 89)}{("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;)};
-						("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
-						),
+							);*/
 
-						("~instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;),
+							if(((("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 90) or: (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 55)), {
+								while({("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet > 90}, {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet-12)});
+								while({("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet < 55}, {("instrument_"++(~inst_num)++"_freq").asSymbol.envirPut(("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet+12)});
+							});
 
-						(0)
+							("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
+						}
 
-						]).wchoose([0.45,0.45,0.1]);
+						{~put_x == 2}{
+
+							("instrument_"++(~inst_num)++"_if_zero").asSymbol.envirPut("false");
+							("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;
+						}
+
+						{~put_x == 3}{
+
+							("instrument_"++(~inst_num)++"_if_zero").asSymbol.envirPut("true");
+							0;
+						}
+
 					},
-					{("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;});
+					{
+						if(("instrument_"++(~inst_num)++"_if_zero").asSymbol.envirGet == "false", {("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet;}, {0});
+
+					});
+
 					~put1.value;
 				};
 
+				~note_blend_func = {
+					~number_of_instruments.do(x = 0; y = 0; {y = y + (("instrument_"++(x=x+1)++"_freq").asSymbol.envirGet)});
+					~note_blend = y /*- (("instrument_"++(~inst_num)++"_freq").asSymbol.envirGet)*/;
+					~note_blend = ~note_blend/(~number_of_instruments/*-1*/);
+					~note_blend = ~note_blend.round;
+				};
+
+
+
+				~number_of_instruments.do(x = 0; {
+					x=x+1;
+					~number_of_parts_in_piece.do(y = 0; {("instrument_"++(x)++"_array_part_"++(y=y+1)).asSymbol.envirPut([]);});
+				});
+
+
 				~instrument_1_array_starting_func = {
 
-					("instrument_1_array_part_"++(~part_num)).asSymbol.envirPut(
-						("instrument_1_array_part_"++(~part_num)).asSymbol.envirGet.add(
+					(~number_of_instruments-1).do(x = 0; {("instrument_"++(x=x+1)++"_if_zero").asSymbol.envirPut("false");});
 
-							case
-							{~instrument_1 == "bass"}{~instrument_1_freq = ~freqmap2.choose}
-							{~instrument_1 == "keys"}{~instrument_1_freq = ~freqmap2.choose}
-							{~instrument_1 == "vocal"}{~instrument_1_freq = ~freqmap2.choose};
-						)
+					("instrument_1_array_part_"++(~part_num)).asSymbol.envirPut(
+						("instrument_1_array_part_"++(~part_num)).asSymbol.envirGet.add(~instrument_1_freq = ~freqmap2.choose)
 					);
-					if(~instrument_2_freq == nil, {~instrument_2_freq = ~instrument_1_freq;});
-					if(~instrument_3_freq == nil, {~instrument_3_freq = ~instrument_1_freq;});
+
+					(~number_of_instruments-1).do(x = 1; {("instrument_"++(x=x+1)++"_freq").asSymbol.envirPut(~instrument_1_freq);});
 				};
 
 				~instrument_1_array_func = {
@@ -763,6 +932,8 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 
 			//Piece creation in parts. Only reason to have parts is to determine length of piece.
 
+			//Piece creation is like human life. Pre-birth... then birth.... then etc...
+
 			(
 
 				~create_piece_function = {
@@ -770,17 +941,18 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 					thisThread.randSeed = ~randseed_2;
 
 					~part_bit_size = 64;
-					~bit_duration = rrand(0.05, 0.3);
-					~max_number_of_parts = 200; //max 200 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
-					~number_of_parts_in_piece = (~max_number_of_parts.linrand - ~max_number_of_parts).neg;
+					~bit_duration = rrand(0.01, 0.2); //ALWAYS keep bit_duration same throughout entire piece.
+					~max_number_of_parts = 100; //max 100 parts. random probability choice decreases linearly from "~max_number_of_parts" value to 1.
+					~number_of_parts_in_piece = (~max_number_of_parts.linrand - ~max_number_of_parts).neg;/*
+					("piece duration: \n"++(~number_of_parts_in_piece*~part_bit_size*~bit_duration/60)++" minutes").postln;*/
 					~numerology_step = (-1);
 					~create_piece_routine = Routine({
 
 						thisThread.randSeed = ~randseed_3;
 
-						//part 1
+						//pre-generation of piece
 
-						1.do({~part_num = 1;
+						1.do({~part_num = 0;
 
 							1.do({
 
@@ -788,6 +960,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 								~midi_ratio_x = ~midi_ratio_x + 1;
 
 								~instrument_1_array_starting_func.value;
+								~note_blend_func.value;
 								~instrument_2_array_func.value;
 								~instrument_3_array_func.value;
 
@@ -798,15 +971,14 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 								~instrument_2_freq.postln;
 								~instrument_3_freq.postln;*/
 
-								0.0005.wait;
-
 							});
 
-							(~part_bit_size-1).do({
+							(~song_dna_array_SUM-1).do({
 
 								~dna_clock_y = ~dna_clock_y + 1;
 								~midi_ratio_x = ~midi_ratio_x + 1;
 
+								~note_blend_func.value;
 								~instrument_1_array_func.value;
 								~instrument_2_array_func.value;
 								~instrument_3_array_func.value;
@@ -818,15 +990,24 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 								~instrument_2_freq.postln;
 								~instrument_3_freq.postln;*/
 
-								0.0005.wait;
-
 							});
 						});
 
-						//rest of parts
+						~number_of_instruments.do(x = 0; {
+							x=x+1;
+							~number_of_parts_in_piece.do(y = 0; {("instrument_"++(x)++"_array_part_"++(y=y+1)).asSymbol.envirPut([]);});
+						});
 
-						z = 1;
-						(~number_of_parts_in_piece-1).do({
+						~net_choice_array = [];
+						~net_num_array_choice_array = [];
+						~dna_index_choice_array = [];
+
+						/*~sldkjfd = [~instrument_1_freq, ~instrument_2_freq, ~instrument_3_freq].midicps;*/
+
+						//generation of piece
+
+						z = 0;
+						(~number_of_parts_in_piece).do({
 
 							1.do({~part_num = z=z+1;
 
@@ -835,6 +1016,7 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 									~dna_clock_y = ~dna_clock_y + 1;
 									~midi_ratio_x = ~midi_ratio_x + 1;
 
+									~note_blend_func.value;
 									~instrument_1_array_func.value;
 									~instrument_2_array_func.value;
 									~instrument_3_array_func.value;
@@ -842,14 +1024,11 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 									if(~dna_clock_y == ~dna_index_choice.asInteger, {~dna_clock_y = 0; ~dna_index_choice = ~dna_index_choice_func.value;});
 									if(~midi_ratio_x == (~midi_ratio_array.size-1), {~midi_ratio_x = 0});
 
-									0.0005.wait;
-
 								});
 							});
 
 						});
 
-						"Piece Creation Is Finsihed".postln;
 
 						//create pseq arrays function
 
@@ -868,21 +1047,32 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 									~number_of_parts_in_piece.do({~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.add(("instrument_1_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.flatten;
 									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.midicps;
-									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.replace(h, 0);
+									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.replace(h, 0);/*
+									~instrument_1_full_pseq_array_mirrored = ~instrument_1_full_pseq_array*1.4142135623729;*/
 
 									x = 0;
 									~number_of_parts_in_piece.do({~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.add(("instrument_2_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.flatten;
 									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.midicps;
-									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.replace(h, 0);
+									~instrument_2_full_pseq_array = ~instrument_2_full_pseq_array.replace(h, 0);/*
+									~instrument_2_full_pseq_array_mirrored = ~instrument_2_full_pseq_array*1.4142135623729;*/
 
 									x = 0;
 									~number_of_parts_in_piece.do({~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.add(("instrument_3_array_part_"++(x=x+1)).asSymbol.envirGet);});
 									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.flatten;
 									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.midicps;
-									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.replace(h, 0);
+									~instrument_3_full_pseq_array = ~instrument_3_full_pseq_array.replace(h, 0);/*
+									~instrument_3_full_pseq_array_mirrored = ~instrument_3_full_pseq_array*1.4142135623729;*/
 
-									"pseq arrays created".postln;
+									/*~instrument_1b_full_pseq_array = ~instrument_1a_full_pseq_array.reverse;
+									(~instrument_1a_full_pseq_array.size).do(s = (-1); ~instrument_1_full_pseq_array = []; {
+									a = if(((~instrument_1a_full_pseq_array.at(s=s+1) != 0) and: (~instrument_1b_full_pseq_array.at(s) != 0)), {
+									((~instrument_1a_full_pseq_array.at(s) + ~instrument_1b_full_pseq_array.at(s))/2).round}, {0});
+									~instrument_1_full_pseq_array = ~instrument_1_full_pseq_array.add(a);
+									});*/
+
+									"Piece Creation Is Finsihed".postln;
+
 									if(~piece_created == nil, {~piece_created = "true";});
 									AppClock.sched(0, {
 										~playbutton_func.value;
@@ -890,6 +1080,17 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 										AppClock.sched(3, {~piecegenerated.close});
 									});
 
+									AppClock.sched(0, {
+										/*songtitletext.string = ~song_title.asString;
+										("\npiece title: \n"++(~song_title.asString)).postln;*/
+										~fullpiecedur1 = (~number_of_parts_in_piece*~part_bit_size*~bit_duration/60);
+										~dd_secs = ((~fullpiecedur1-(~dd_mins = ~fullpiecedur1.roundUp-1))*60).roundUp;
+										~fullpiecedur = ("piece length - "++(~dd_mins.asString)++":"++(if(~dd_secs<10,{"0"},{""})++~dd_secs.asString)++" mins");
+										piecedurationstatictext.string = ~fullpiecedur;
+										("\npiece duration: \n"++((~dd_mins.asString)++":"++(if(~dd_secs<10,{"0"},{""})++~dd_secs.asString))++" minutes";).postln;
+
+
+									});
 								});
 							};
 
@@ -957,6 +1158,44 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 				Out.ar(0, sig!2);
 			}).add;
 
+
+			/*SynthDef(\bass_synth1, {arg freq = 432, freq1 = 60, amp = 0.1, detun = 1.006, ffreq = 800, rq = 1, gt = 1;
+			var sig;
+			sig = Mix(DynKlang.ar(`[ [freq]++~klangarray1+freq, nil, nil ], 1, 0) * 0.05);
+			sig = RLPF.ar(sig, ffreq, rq);
+			sig = sig * EnvGen.kr(
+			Env.adsr(0.01, 0.1, 0.6, 0.1),
+			gt
+			);
+
+			Out.ar(0, sig!2);
+			}).add;
+			SynthDef(\keys_synth2, {arg freqa = 432, freqb = 432, freq1 = 60, amp = 0.1, detun = 1.006, ffreq = 800, rq = 1, gt = 1;
+			var sig;
+			sig = Mix([DynKlang.ar(`[ [freqa]++~klangarray2+freqa, nil, nil ], 1, 0), DynKlang.ar(`[ [freqb]++~klangarray2+freqb, nil, nil ], 1, 0)]  * 0.05);
+			sig = RLPF.ar(sig, ffreq, rq);
+			sig = sig * EnvGen.kr(
+			Env.adsr(0.01, 0.1, 0.6, 0.1),
+			gt
+			);
+
+			Out.ar(0, sig!2);
+			}).add;
+
+			/*Synth(\keys_synth2, [\freqa, 432, \freqb, 300])*/
+
+			SynthDef(\vocal_synth3, {arg freq = 432, freq1 = 60, amp = 0.1, detun = 1.006, ffreq = 800, rq = 1, gt = 1;
+			var sig;
+			sig = Mix(DynKlang.ar(`[ [freq]++~klangarray3+freq, nil, nil ], 1, 0) * 0.05);
+			sig = RLPF.ar(sig, ffreq, rq);
+			sig = sig * EnvGen.kr(
+			Env.adsr(0.01, 0.1, 0.6, 0.1),
+			gt
+			);
+
+			Out.ar(0, sig!2);
+			}).add;*/
+
 			/*b = Buffer.read(s, Document.current.dir++"/samples/Alesis-Sanctuary-QCard-Promenade-C3-loop5.wav");
 
 			~synth = {
@@ -985,9 +1224,36 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 			~duranduranbotsynth1.set(\freq, 2);
 			*/
 
+			~timer_routine = Task(
+				~dd_secs = ((~fullpiecedur1-(~dd_mins = ~fullpiecedur1.roundUp-1))*60).roundUp;
+				~note_net_points = 0;
+				{
+					inf.do({
+						AppClock.sched(0, {
+							piecedurationstatictext.string = ("piece length - "++(~dd_mins.asString)++":"++(if(~dd_secs<10,{"0"},{""})++~dd_secs.asString)++" mins");
+							~dd_secs = ~dd_secs-1;
+							if(~dd_secs == (-1), {~dd_mins = ~dd_mins-1; ~dd_secs = 59;});
+						});
+
+						~note_net_points = ~note_net_points + 1;
+
+						1.wait;
+					});
+			});
+
+			s = Server.default;
+
 			~duranduranbot_routine = Task({i = 0;
 
-				1.do({ "piece currently running".postln;
+				1.do({
+
+					if(~will_record == 1, {
+						thisProcess.platform.recordingsDir = (Document.current.dir++"/other_stuff_(recordings_etc)/duranduranbot_recordings");
+						s.record;
+						1.wait;
+					});
+
+					"piece currently running".postln;
 
 					s.makeBundle(s.latency, {
 
@@ -1015,6 +1281,31 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 								{~instrument_3 == "vocal"}{\synth3};
 						), [freq: ~instrument_3_full_pseq_array.at(i)]);
 
+
+
+						/*~duranduranbotsynth1_m = Synth(
+						(
+						case
+						{~instrument_1 == "bass"}{\synth1}
+						{~instrument_1 == "keys"}{\synth2}
+						{~instrument_1 == "vocal"}{\synth3};
+						), [freq: ~instrument_1_full_pseq_array_mirrored.at(i)]);
+						~duranduranbotsynth2_m = Synth(
+						(
+						case
+						{~instrument_2 == "bass"}{\synth1}
+						{~instrument_2 == "keys"}{\synth2}
+						{~instrument_2 == "vocal"}{\synth3};
+						), [freq: ~instrument_2_full_pseq_array_mirrored.at(i)]);
+						~duranduranbotsynth3_m = Synth(
+						(
+						case
+						{~instrument_3 == "bass"}{\synth1}
+						{~instrument_3 == "keys"}{\synth2}
+						{~instrument_3 == "vocal"}{\synth3};
+						), [freq: ~instrument_3_full_pseq_array_mirrored.at(i)]);*/
+
+
 						/*~duranduranbotsynth1 = ~synth.value;
 						~duranduranbotsynth2 = ~synth.value;
 						~duranduranbotsynth3 = ~synth.value;
@@ -1034,6 +1325,11 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 						~duranduranbotsynth2.set(\freq, ~instrument_2_full_pseq_array.at(i));
 						~duranduranbotsynth3.set(\freq, ~instrument_3_full_pseq_array.at(i));
 
+
+						/*~duranduranbotsynth1_m.set(\freq, ~instrument_1_full_pseq_array_mirrored.at(i));
+						~duranduranbotsynth2_m.set(\freq, ~instrument_2_full_pseq_array_mirrored.at(i));
+						~duranduranbotsynth3_m.set(\freq, ~instrument_3_full_pseq_array_mirrored.at(i));
+						*/
 					});
 
 					~bit_duration.wait;
@@ -1043,14 +1339,24 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 				~duranduranbotsynth1.free;
 				~duranduranbotsynth2.free;
 				~duranduranbotsynth3.free;
+				~timer_routine.stop;
 				~duranduranbot_routine.stop;
 				"piece finished".postln;
+				if(~will_record == 1, {s.stopRecording;});
+				q = FileReader.read(Document.current.dir++"/other_program_files/ddbot_machine_learning_on_off.scd");
+				2.do({q = q.at(0)});
+				q = q.asInteger;
+				if(q == 1, {~machine_learning_func.value;});
 				Server.freeAll;
 
 			});
 
 
-			~duranduranbot_routine.start;
+			s.makeBundle(s.latency, {
+				~timer_routine.start;
+				~duranduranbot_routine.start;
+			});
+
 		);
 	};
 
@@ -1065,6 +1371,8 @@ if(~number_of_instruments == nil, {~number_of_instruments = 3;});
 };
 
 if(Server.default.serverRunning == false, {s.boot; s.waitForBoot({~duranduranbot_GUI_func.value;});}, {~duranduranbot_GUI_func.value;});
+
+/*~duranduranbot_GUI_func.value;*/
 
 
 
